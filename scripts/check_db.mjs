@@ -1,0 +1,12 @@
+import mysql from 'mysql2/promise';
+const url = process.env.DATABASE_URL;
+const conn = await mysql.createConnection(url);
+const [v] = await conn.query("SELECT VERSION() AS v");
+console.log('version:', v[0].v);
+const [loc] = await conn.query("SELECT id, city, country, displayName FROM locations LIMIT 8");
+console.log(loc);
+const [t] = await conn.query("SHOW INDEX FROM jobs WHERE Key_name='title_fts' OR Key_name='jobs_fulltext'");
+console.log('fulltext indexes:', t.length ? JSON.stringify(t.map(i=>i.Key_name)) : 'none');
+const [idx] = await conn.query("SHOW INDEX FROM jobs");
+console.log(idx.map(i=>`${i.Key_name}|${i.Column_name}`).join(', '));
+await conn.end();

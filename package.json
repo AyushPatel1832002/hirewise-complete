@@ -6,7 +6,7 @@
   "scripts": {
     "postinstall": "prisma generate",
     "dev": "cross-env NODE_ENV=development tsx watch server/_core/index.ts",
-    "build": "prisma generate && vite build && esbuild server/_core/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist && esbuild api/index.ts --platform=node --packages=external --bundle --format=esm --outfile=dist/api/index.js",
+    "build": "prisma generate && vite build && esbuild api/index.ts --platform=node --packages=external --bundle --format=cjs --outfile=api/index.js --external:@prisma/engines",
     "start": "cross-env NODE_ENV=production node dist/index.js",
     "check": "tsc --noEmit",
     "format": "prettier --write .",

@@ -249,6 +249,27 @@ export default function ProfileBuilder() {
     reader.readAsDataURL(resumeFile);
   }
 
+  const isStepDone = (stepId: number): boolean => {
+    if (!scoreSections.length) return false;
+    const byKey = new Map(scoreSections.map((s) => [s.key, s.done]));
+    switch (stepId) {
+      case 0:
+        return Boolean(byKey.get("basics") && byKey.get("title"));
+      case 1:
+        return Boolean(byKey.get("location") && byKey.get("salary"));
+      case 2:
+        return Boolean(byKey.get("skills"));
+      case 3:
+        return Boolean(byKey.get("work"));
+      case 4:
+        return Boolean(byKey.get("education"));
+      case 5:
+        return score === 100;
+      default:
+        return false;
+    }
+  };
+
   return (
     <SiteLayout>
       <div className="container py-10 max-w-6xl">
@@ -265,22 +286,25 @@ export default function ProfileBuilder() {
 
             {/* Step tabs */}
             <div className="flex flex-wrap gap-1.5 mb-6">
-              {STEPS.map((s, i) => (
-                <button
-                  key={s.id}
-                  onClick={() => setStep(s.id)}
-                  className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-colors border ${
-                    step === s.id
-                      ? "bg-primary text-primary-foreground border-primary"
-                      : scoreSections[i]?.done
-                        ? "bg-emerald-50 border-emerald-200 text-emerald-800 hover:bg-emerald-100"
-                        : "bg-card border-border text-muted-foreground hover:bg-secondary"
-                  }`}
-                >
-                  {i + 1}. {s.label}
-                  {scoreSections[i]?.done && step !== s.id && <Check className="inline h-3.5 w-3.5 ml-1" />}
-                </button>
-              ))}
+              {STEPS.map((s, i) => {
+                const done = isStepDone(s.id);
+                return (
+                  <button
+                    key={s.id}
+                    onClick={() => setStep(s.id)}
+                    className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-colors border ${
+                      step === s.id
+                        ? "bg-primary text-primary-foreground border-primary"
+                        : done
+                          ? "bg-emerald-50 border-emerald-200 text-emerald-800 hover:bg-emerald-100"
+                          : "bg-card border-border text-muted-foreground hover:bg-secondary"
+                    }`}
+                  >
+                    {i + 1}. {s.label}
+                    {done && step !== s.id && <Check className="inline h-3.5 w-3.5 ml-1" />}
+                  </button>
+                );
+              })}
             </div>
 
             <Card>

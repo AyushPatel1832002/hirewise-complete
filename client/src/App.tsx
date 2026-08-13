@@ -1,5 +1,6 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { AuthModal } from "@/components/AuthModal";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -24,6 +25,7 @@ function Router() {
       <Route path={"/jobs/:id"} component={JobDetail} />
       <Route path={"/candidate"} component={CandidateDashboard} />
       <Route path={"/candidate/profile"} component={ProfileBuilder} />
+      <Route path={"/profile-builder"} component={ProfileBuilder} />
       <Route path={"/employer"} component={EmployerDashboard} />
       <Route path={"/employer/job/:id/applications"} component={JobApplications} />
       <Route path={"/admin"} component={AdminPage} />
@@ -43,6 +45,7 @@ function App() {
       <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <Toaster />
+          <AuthModal />
           <Router />
         </TooltipProvider>
       </ThemeProvider>

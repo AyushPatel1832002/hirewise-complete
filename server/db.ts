@@ -829,7 +829,7 @@ export async function getUnreadNotificationCount(userId: number) {
 // ---------------------------------------------------------------------------
 // Queue worker
 // ---------------------------------------------------------------------------
-async function claimQueueBatch(batchSize = 20) {
+export async function claimQueueBatch(batchSize = 20) {
   const rows = await prisma.notificationQueue.findMany({
     where: {
       status: { in: ["pending", "failed"] },
@@ -845,12 +845,12 @@ async function claimQueueBatch(batchSize = 20) {
   return rows;
 }
 
-async function markQueueSent(queueId: number, emailLog: any) {
+export async function markQueueSent(queueId: number, emailLog: any) {
   await prisma.notificationQueue.update({ where: { id: queueId }, data: { status: "sent" } });
   await prisma.emailSendLog.create({ data: emailLog });
 }
 
-async function markQueueFailed(queueId: number, error: string, retryCount: number) {
+export async function markQueueFailed(queueId: number, error: string, retryCount: number) {
   const MAX_RETRIES = 5;
   const dead = retryCount >= MAX_RETRIES;
   const backoffMs = Math.min(1000 * Math.pow(2, retryCount), 3_600_000);
@@ -980,7 +980,7 @@ export async function getReportableProfiles(limit = 200) {
 // ---------------------------------------------------------------------------
 // Digests
 // ---------------------------------------------------------------------------
-function logEvent(event: string, payload: Record<string, unknown>, level = "info") {
+export function logEvent(event: string, payload: Record<string, unknown>, level = "info") {
   if (level === "error") console.error(`[digest] ${event}`, payload);
   else console.log(`[digest] ${event}`, payload);
 }

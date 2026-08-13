@@ -16,7 +16,7 @@ registerStorageProxy(app);
 registerOAuthRoutes(app);
 
 // Health check route for testing DB connection & environment variables on Vercel
-app.get("/api/health", async (_req, res) => {
+app.get(["/api/health", "/health"], async (_req, res) => {
   try {
     const hasDbUrl = Boolean(process.env.DATABASE_URL);
     const database = await db.getDb();
@@ -34,16 +34,23 @@ app.get("/api/health", async (_req, res) => {
   }
 });
 
-// tRPC API middleware (supports both /api/trpc and /trpc rewrites)
-app.use(
-  ["/api/trpc", "/trpc"],
-  createExpressMiddleware({
-    router: appRouter,
-    createContext,
-  })
-);
+const trpcHandler = createExpressMiddleware({
+  router: appRouter,
+  createContext,
+});
 
-app.post("/api/scheduled/processQueue", async (_req, res) => {
+// tRPC API middleware: Handles /api/trpc/*, /trpc/*, or any tRPC request
+app.use((req, res, next) => {
+  const path = req.originalUrl || req.url;
+  if (path.includes("/trpc")) {
+    const idx = path.indexOf("/trpc");
+    req.url = path.substring(idx + 5) || "/";
+    return trpcHandler(req, res, next);
+  }
+  return trpcHandler(req, res, next);
+});
+
+app.post(["/api/scheduled/processQueue", "/scheduled/processQueue"], async (_req, res) => {
   try {
     const result = await db.runQueueWorker();
     res.json({ ok: true, result, timestamp: new Date().toISOString() });
@@ -52,7 +59,7 @@ app.post("/api/scheduled/processQueue", async (_req, res) => {
   }
 });
 
-app.post("/api/scheduled/digests", async (_req, res) => {
+app.post(["/api/scheduled/digests", "/scheduled/digests"], async (_req, res) => {
   try {
     const result = await db.runAllScheduledDigests();
     res.json({ ok: true, result, timestamp: new Date().toISOString() });

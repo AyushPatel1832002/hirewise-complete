@@ -45,4 +45,5 @@ app.post("/api/scheduled/digests", async (_req, res) => {
   catch (e: any) { res.status(500).json({ error: String(e?.message ?? e) }); }
 });
 
-export default function handler(req: Request, res: Response) { app(req, res); }
+function handler(req: Request, res: Response) { app(req, res); }
+export default handler;

@@ -1,0 +1,564 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  user
+  admin
+}
+
+enum UserType {
+  candidate
+  employer
+  both
+}
+
+enum RemotePolicy {
+  onsite
+  hybrid
+  remote
+  flexible
+}
+
+enum Seniority {
+  junior
+  mid
+  senior
+  lead
+  staff
+}
+
+enum EmploymentType {
+  full_time  @map("full-time")
+  part_time  @map("part-time")
+  contract
+  internship
+}
+
+enum CompanySize {
+  size_1_10    @map("1-10")
+  size_11_50   @map("11-50")
+  size_51_200  @map("51-200")
+  size_201_1000 @map("201-1000")
+  size_1000_plus @map("1000+")
+}
+
+enum CompanyMemberRole {
+  owner
+  member
+}
+
+enum Proficiency {
+  beginner
+  intermediate
+  advanced
+  expert
+}
+
+enum ResumeSuggestionKind {
+  workExperience
+  education
+  skill
+}
+
+enum ResumeSuggestionStatus {
+  pending
+  confirmed
+  rejected
+}
+
+enum ApplicationStatus {
+  applied
+  screening
+  interview
+  offered
+  accepted
+  rejected
+  withdrawn
+}
+
+enum ApplicationFromStatus {
+  none
+  applied
+  screening
+  interview
+  offered
+  accepted
+  rejected
+  withdrawn
+}
+
+enum SkillWeight {
+  required
+  preferred
+}
+
+enum NotificationChannel {
+  in_app
+  email
+}
+
+enum QueueStatus {
+  pending
+  processing
+  sent
+  failed
+  dead
+}
+
+enum EmailOutcome {
+  sent
+  skipped_no_email
+  transport_error
+  logged_only
+}
+
+enum DigestFrequency {
+  daily
+  weekly
+}
+
+enum DigestStatus {
+  running
+  completed
+  failed
+}
+
+enum ReportTargetType {
+  job
+  profile
+}
+
+enum ReportStatus {
+  pending
+  resolved
+  dismissed
+}
+
+model User {
+  id          Int       @id @default(autoincrement())
+  openId      String    @unique @db.VarChar(64)
+  name        String?
+  email       String?   @db.VarChar(320)
+  loginMethod String?   @db.VarChar(64)
+  role        UserRole  @default(user)
+  userType    UserType  @default(candidate)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  lastSignedIn DateTime @default(now())
+
+  candidateProfile    CandidateProfile?
+  profileDraft        ProfileDraft?
+  companyMemberships  CompanyMember[]
+  savedSearches       SavedSearch[]
+  notificationPrefs   NotificationPreference[]
+  unsubscribeTokens   UnsubscribeToken[]
+  notifications       Notification[]
+  queueItems          NotificationQueue[]
+  digestRuns          DigestRun[]
+  sentReports         Report[]
+  profileViews        ProfileView[]
+  sentMessages        Message[]
+  stageEvents         ApplicationStageEvent[]
+
+  @@map("users")
+}
+
+model CandidateProfile {
+  id                Int          @id @default(autoincrement())
+  userId            Int          @unique
+  headline          String?      @db.VarChar(160)
+  summary           String?
+  currentTitle      String?      @db.VarChar(120)
+  yearsOfExperience Int?
+  locationId        Int?
+  remotePolicy      RemotePolicy?
+  desiredSalaryMin  Decimal?     @db.Decimal(12, 2)
+  desiredSalaryMax  Decimal?     @db.Decimal(12, 2)
+  resumeUrl         String?      @db.VarChar(512)
+  resumeFileName    String?      @db.VarChar(255)
+  active            Boolean      @default(true)
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+
+  user              User         @relation(fields: [userId], references: [id])
+  location          Location?    @relation(fields: [locationId], references: [id])
+  skills            CandidateSkill[]
+  workExperiences   WorkExperience[]
+  education         Education[]
+  resumeSuggestions ResumeSuggestion[]
+  applications      Application[]
+  profileViews      ProfileView[]
+
+  @@map("candidateProfiles")
+}
+
+model Location {
+  id          Int      @id @default(autoincrement())
+  city        String?  @db.VarChar(100)
+  region      String?  @db.VarChar(100)
+  country     String   @db.VarChar(80)
+  displayName String   @db.VarChar(200)
+  latitude    Decimal? @db.Decimal(10, 7)
+  longitude   Decimal? @db.Decimal(10, 7)
+
+  candidateProfiles CandidateProfile[]
+  jobs              Job[]
+  companies         Company[]
+
+  @@map("locations")
+}
+
+model Skill {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique @db.VarChar(100)
+  slug      String   @unique @db.VarChar(120)
+  category  String   @db.VarChar(80)
+  createdAt DateTime @default(now())
+
+  aliases          SkillAlias[]
+  candidateSkills  CandidateSkill[]
+  jobSkills        JobSkill[]
+
+  @@map("skills")
+}
+
+model SkillAlias {
+  id      Int    @id @default(autoincrement())
+  alias   String @unique @db.VarChar(100)
+  skillId Int
+
+  skill   Skill  @relation(fields: [skillId], references: [id])
+
+  @@map("skillAliases")
+}
+
+model CandidateSkill {
+  id          Int         @id @default(autoincrement())
+  profileId   Int
+  skillId     Int
+  proficiency Proficiency
+  years       Int         @default(0)
+  createdAt   DateTime    @default(now())
+
+  profile CandidateProfile @relation(fields: [profileId], references: [id])
+  skill   Skill            @relation(fields: [skillId], references: [id])
+
+  @@map("candidateSkills")
+}
+
+model WorkExperience {
+  id          Int       @id @default(autoincrement())
+  profileId   Int
+  title       String    @db.VarChar(160)
+  company     String    @db.VarChar(160)
+  startDate   DateTime? @db.Date
+  endDate     DateTime? @db.Date
+  current     Boolean   @default(false)
+  description String?
+
+  profile CandidateProfile @relation(fields: [profileId], references: [id])
+
+  @@map("workExperiences")
+}
+
+model Education {
+  id           Int    @id @default(autoincrement())
+  profileId    Int
+  institution  String @db.VarChar(200)
+  degree       String @db.VarChar(160)
+  fieldOfStudy String? @db.VarChar(160)
+  startYear    Int?
+  endYear      Int?
+
+  profile CandidateProfile @relation(fields: [profileId], references: [id])
+
+  @@map("education")
+}
+
+model ResumeSuggestion {
+  id        Int                    @id @default(autoincrement())
+  profileId Int
+  kind      ResumeSuggestionKind
+  status    ResumeSuggestionStatus @default(pending)
+  data      Json
+  createdAt DateTime               @default(now())
+
+  profile CandidateProfile @relation(fields: [profileId], references: [id])
+
+  @@map("resumeSuggestions")
+}
+
+model ProfileDraft {
+  id          Int      @id @default(autoincrement())
+  userId      Int      @unique
+  currentStep Int      @default(0)
+  stepData    Json
+  updatedAt   DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("profileDrafts")
+}
+
+model Company {
+  id          Int          @id @default(autoincrement())
+  name        String       @unique @db.VarChar(160)
+  description String?
+  industry    String?      @db.VarChar(100)
+  website     String?      @db.VarChar(320)
+  size        CompanySize?
+  locationId  Int?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  location Location?      @relation(fields: [locationId], references: [id])
+  members  CompanyMember[]
+  jobs     Job[]
+
+  @@map("companies")
+}
+
+model CompanyMember {
+  id        Int               @id @default(autoincrement())
+  userId    Int
+  companyId Int
+  role      CompanyMemberRole @default(member)
+  createdAt DateTime          @default(now())
+
+  user    User    @relation(fields: [userId], references: [id])
+  company Company @relation(fields: [companyId], references: [id])
+
+  @@map("companyMembers")
+}
+
+model Job {
+  id               Int            @id @default(autoincrement())
+  companyId        Int
+  title            String         @db.VarChar(160)
+  description      String
+  seniority        Seniority
+  employmentType   EmploymentType @default(full_time)
+  salaryMin        Decimal?       @db.Decimal(12, 2)
+  salaryMax        Decimal?       @db.Decimal(12, 2)
+  locationId       Int?
+  remotePolicy     RemotePolicy
+  published        Boolean        @default(false)
+  applicationCount Int            @default(0)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  company      Company       @relation(fields: [companyId], references: [id])
+  location     Location?     @relation(fields: [locationId], references: [id])
+  skills       JobSkill[]
+  applications Application[]
+  digestSent   DigestSent[]
+
+  @@map("jobs")
+}
+
+model JobSkill {
+  id      Int         @id @default(autoincrement())
+  jobId   Int
+  skillId Int
+  weight  SkillWeight
+
+  job   Job   @relation(fields: [jobId], references: [id])
+  skill Skill @relation(fields: [skillId], references: [id])
+
+  @@map("jobSkills")
+}
+
+model Application {
+  id        Int               @id @default(autoincrement())
+  jobId     Int
+  profileId Int
+  status    ApplicationStatus @default(applied)
+  coverNote String?
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+
+  job          Job              @relation(fields: [jobId], references: [id])
+  profile      CandidateProfile @relation(fields: [profileId], references: [id])
+  stageEvents  ApplicationStageEvent[]
+  messages     Message[]
+
+  @@unique([jobId, profileId])
+  @@map("applications")
+}
+
+model ApplicationStageEvent {
+  id            Int                   @id @default(autoincrement())
+  applicationId Int
+  fromStatus    ApplicationFromStatus @default(none)
+  toStatus      ApplicationStatus
+  note          String?
+  actorUserId   Int
+  createdAt     DateTime              @default(now())
+
+  application Application @relation(fields: [applicationId], references: [id])
+  actor       User        @relation(fields: [actorUserId], references: [id])
+
+  @@map("applicationStageEvents")
+}
+
+model ProfileView {
+  id             Int      @id @default(autoincrement())
+  employerUserId Int
+  profileId      Int
+  createdAt      DateTime @default(now())
+
+  employer User             @relation(fields: [employerUserId], references: [id])
+  profile  CandidateProfile @relation(fields: [profileId], references: [id])
+
+  @@map("profileViews")
+}
+
+model Message {
+  id            Int      @id @default(autoincrement())
+  applicationId Int
+  senderUserId  Int
+  text          String
+  readAt        DateTime?
+  createdAt     DateTime @default(now())
+
+  application Application @relation(fields: [applicationId], references: [id])
+  sender      User        @relation(fields: [senderUserId], references: [id])
+
+  @@map("messages")
+}
+
+model Report {
+  id             Int              @id @default(autoincrement())
+  targetType     ReportTargetType
+  targetId       Int
+  reporterUserId Int
+  reason         String           @db.VarChar(500)
+  status         ReportStatus     @default(pending)
+  createdAt      DateTime         @default(now())
+
+  reporter User @relation(fields: [reporterUserId], references: [id])
+
+  @@map("reports")
+}
+
+model SavedSearch {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  name      String   @db.VarChar(120)
+  query     Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user       User        @relation(fields: [userId], references: [id])
+  digestRuns DigestRun[]
+
+  @@map("savedSearches")
+}
+
+model NotificationPreference {
+  id        Int                 @id @default(autoincrement())
+  userId    Int
+  channel   NotificationChannel
+  eventType String              @db.VarChar(60)
+  enabled   Boolean             @default(true)
+  updatedAt DateTime            @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("notificationPreferences")
+}
+
+model UnsubscribeToken {
+  id        Int                 @id @default(autoincrement())
+  userId    Int
+  channel   NotificationChannel
+  token     String              @unique @db.VarChar(128)
+  usedAt    DateTime?
+  createdAt DateTime            @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("unsubscribeTokens")
+}
+
+model Notification {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  type      String    @db.VarChar(60)
+  payload   Json?
+  readAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("notifications")
+}
+
+model NotificationQueue {
+  id              Int                 @id @default(autoincrement())
+  jobKey          String              @unique @db.VarChar(255)
+  channel         NotificationChannel
+  recipientUserId Int
+  eventType       String              @db.VarChar(60)
+  subject         String?             @db.VarChar(255)
+  payload         Json
+  status          QueueStatus         @default(pending)
+  retryCount      Int                 @default(0)
+  backoffUntil    DateTime?
+  lastError       String?
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+
+  recipient User @relation(fields: [recipientUserId], references: [id])
+
+  @@map("notificationQueue")
+}
+
+model EmailSendLog {
+  id               Int          @id @default(autoincrement())
+  queueId          Int?
+  recipientUserId  Int?
+  recipientEmail   String?      @db.VarChar(320)
+  subject          String?      @db.VarChar(255)
+  outcome          EmailOutcome
+  providerResponse String?
+  createdAt        DateTime     @default(now())
+
+  @@map("emailSendLog")
+}
+
+model DigestRun {
+  id            Int             @id @default(autoincrement())
+  savedSearchId Int
+  userId        Int
+  frequency     DigestFrequency
+  windowStart   DateTime
+  windowEnd     DateTime
+  status        DigestStatus    @default(running)
+  jobsSent      Int             @default(0)
+  createdAt     DateTime        @default(now())
+
+  savedSearch SavedSearch @relation(fields: [savedSearchId], references: [id])
+  user        User        @relation(fields: [userId], references: [id])
+  digestSent  DigestSent[]
+
+  @@map("digestRuns")
+}
+
+model DigestSent {
+  id          Int      @id @default(autoincrement())
+  digestRunId Int
+  jobId       Int
+  createdAt   DateTime @default(now())
+
+  digestRun DigestRun @relation(fields: [digestRunId], references: [id])
+  job       Job       @relation(fields: [jobId], references: [id])
+
+  @@map("digestSent")
+}

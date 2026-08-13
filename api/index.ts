@@ -15,8 +15,28 @@ app.use(express.urlencoded({ limit: "50mb", extended: true }));
 registerStorageProxy(app);
 registerOAuthRoutes(app);
 
+// Health check route for testing DB connection & environment variables on Vercel
+app.get("/api/health", async (_req, res) => {
+  try {
+    const hasDbUrl = Boolean(process.env.DATABASE_URL);
+    const database = await db.getDb();
+    res.json({
+      status: "ok",
+      hasDbUrl,
+      dbConnected: Boolean(database),
+      timestamp: new Date().toISOString(),
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      status: "error",
+      message: String(err?.message ?? err),
+    });
+  }
+});
+
+// tRPC API middleware (supports both /api/trpc and /trpc rewrites)
 app.use(
-  "/api/trpc",
+  ["/api/trpc", "/trpc"],
   createExpressMiddleware({
     router: appRouter,
     createContext,

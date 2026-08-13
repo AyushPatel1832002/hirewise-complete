@@ -1,4 +1,5 @@
 import { COOKIE_NAME, ONE_YEAR_MS } from "@shared/const";
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import * as db from "./db";
 import { sdk } from "./_core/sdk";
@@ -28,30 +29,38 @@ export const appRouter = router({
         }).optional()
       )
       .mutation(async ({ input, ctx }) => {
-        const email = input?.email?.trim() || "ayush.patel@gmail.com";
-        const name = input?.name?.trim() || "Ayush Patel";
-        const userType = input?.userType || "candidate";
-        const openId = `google_${Buffer.from(email).toString("hex").slice(0, 16)}`;
+        try {
+          const email = input?.email?.trim() || "ayush.patel@gmail.com";
+          const name = input?.name?.trim() || "Ayush Patel";
+          const userType = input?.userType || "candidate";
+          const openId = `google_${Buffer.from(email).toString("hex").slice(0, 16)}`;
 
-        await db.upsertUser({
-          openId,
-          name,
-          email,
-          loginMethod: "google",
-          userType,
-          lastSignedIn: new Date(),
-        });
+          await db.upsertUser({
+            openId,
+            name,
+            email,
+            loginMethod: "google",
+            userType,
+            lastSignedIn: new Date(),
+          });
 
-        const sessionToken = await sdk.createSessionToken(openId, {
-          name,
-          expiresInMs: ONE_YEAR_MS,
-        });
+          const sessionToken = await sdk.createSessionToken(openId, {
+            name,
+            expiresInMs: ONE_YEAR_MS,
+          });
 
-        const cookieOptions = getSessionCookieOptions(ctx.req);
-        ctx.res.cookie(COOKIE_NAME, sessionToken, { ...cookieOptions, maxAge: ONE_YEAR_MS });
+          const cookieOptions = getSessionCookieOptions(ctx.req);
+          ctx.res.cookie(COOKIE_NAME, sessionToken, { ...cookieOptions, maxAge: ONE_YEAR_MS });
 
-        const user = await db.getUserByOpenId(openId);
-        return { success: true, user };
+          const user = await db.getUserByOpenId(openId);
+          return { success: true, user };
+        } catch (error: any) {
+          console.error("[Auth] loginWithGoogle failed:", error);
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: error?.message || "Failed to sign in with Google",
+          });
+        }
       }),
     logout: publicProcedure.mutation(({ ctx }) => {
       const cookieOptions = getSessionCookieOptions(ctx.req);

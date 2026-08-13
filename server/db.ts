@@ -53,6 +53,7 @@ export async function upsertUser(user: any) {
     name: user.name,
     email: user.email,
     loginMethod: user.loginMethod,
+    userType: user.userType ?? "candidate",
     lastSignedIn: new Date(),
   }).onDuplicateKeyUpdate({
     set: {

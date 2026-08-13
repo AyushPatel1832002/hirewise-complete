@@ -13,6 +13,8 @@ const REQUIRED_SERVER_VARS = ["DATABASE_URL", "JWT_SECRET", "OAUTH_SERVER_URL"];
 const missing = REQUIRED_SERVER_VARS.filter((k) => !process.env[k]);
 if (missing.length > 0) {
   console.error("[startup] Missing required environment variables:", missing.join(", "));
+} else {
+  console.log("[startup] All required environment variables present.");
 }
 
 const app = express();

@@ -73987,12 +73987,12 @@ var init_pdf = __esm({
   }
 });
 
-// api/index.ts
-var index_exports = {};
-__export(index_exports, {
+// server/_core/vercel-handler.ts
+var vercel_handler_exports = {};
+__export(vercel_handler_exports, {
   default: () => handler
 });
-module.exports = __toCommonJS(index_exports);
+module.exports = __toCommonJS(vercel_handler_exports);
 
 // node_modules/.pnpm/dotenv@17.2.3/node_modules/dotenv/config.js
 (function() {
@@ -74005,7 +74005,7 @@ module.exports = __toCommonJS(index_exports);
   );
 })();
 
-// api/index.ts
+// server/_core/vercel-handler.ts
 var import_express = __toESM(require_express2(), 1);
 
 // node_modules/.pnpm/@trpc+server@11.6.0_typescript@5.9.3/node_modules/@trpc/server/dist/utils-CLZnJdb_.mjs
@@ -95839,15 +95839,12 @@ async function createContext(opts) {
   };
 }
 
-// api/index.ts
+// server/_core/vercel-handler.ts
 init_db();
-var REQUIRED_SERVER_VARS = ["DATABASE_URL", "JWT_SECRET", "OAUTH_SERVER_URL"];
-var missing = REQUIRED_SERVER_VARS.filter((k2) => !process.env[k2]);
-if (missing.length > 0) {
-  console.error("[startup] Missing required environment variables:", missing.join(", "));
-} else {
-  console.log("[startup] All required environment variables present.");
-}
+var REQUIRED = ["DATABASE_URL", "JWT_SECRET", "OAUTH_SERVER_URL"];
+var missing = REQUIRED.filter((k2) => !process.env[k2]);
+if (missing.length) console.error("[startup] Missing env vars:", missing.join(", "));
+else console.log("[startup] All env vars present.");
 var app = (0, import_express.default)();
 app.use(import_express.default.json({ limit: "50mb" }));
 app.use(import_express.default.urlencoded({ limit: "50mb", extended: true }));
@@ -95856,37 +95853,28 @@ registerOAuthRoutes(app);
 app.get("/api/health", async (_req, res) => {
   try {
     const database = await getDb();
-    res.json({
-      status: "ok",
-      dbConnected: Boolean(database),
-      timestamp: (/* @__PURE__ */ new Date()).toISOString()
-    });
+    res.json({ status: "ok", dbConnected: Boolean(database), timestamp: (/* @__PURE__ */ new Date()).toISOString() });
   } catch (err2) {
     res.status(500).json({ status: "error", message: String(err2?.message ?? err2) });
   }
 });
-app.use(
-  "/api/trpc",
-  createExpressMiddleware({
-    router: appRouter,
-    createContext,
-    onError({ path, error: error46 }) {
-      console.error(`[tRPC] /${path}:`, error46.message);
-    }
-  })
-);
+app.use("/api/trpc", createExpressMiddleware({
+  router: appRouter,
+  createContext,
+  onError({ path, error: error46 }) {
+    console.error(`[tRPC] /${path}:`, error46.message);
+  }
+}));
 app.post("/api/scheduled/processQueue", async (_req, res) => {
   try {
-    const result = await runQueueWorker();
-    res.json({ ok: true, result, timestamp: (/* @__PURE__ */ new Date()).toISOString() });
+    res.json({ ok: true, result: await runQueueWorker(), timestamp: (/* @__PURE__ */ new Date()).toISOString() });
   } catch (e) {
     res.status(500).json({ error: String(e?.message ?? e) });
   }
 });
 app.post("/api/scheduled/digests", async (_req, res) => {
   try {
-    const result = await runAllScheduledDigests();
-    res.json({ ok: true, result, timestamp: (/* @__PURE__ */ new Date()).toISOString() });
+    res.json({ ok: true, result: await runAllScheduledDigests(), timestamp: (/* @__PURE__ */ new Date()).toISOString() });
   } catch (e) {
     res.status(500).json({ error: String(e?.message ?? e) });
   }

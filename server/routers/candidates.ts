@@ -1,8 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import * as db from "../db";
-import { getDb } from "../db";
-import type { CandidateProfile } from "../../drizzle/schema";
+import prisma from "../lib/prisma";
 import { storagePut } from "../storage";
 import { protectedProcedure, router } from "../_core/trpc";
 
@@ -10,7 +9,7 @@ import { protectedProcedure, router } from "../_core/trpc";
 // Completeness model
 // ---------------------------------------------------------------------------
 export type ProfileSnapshot = {
-  profile: CandidateProfile | null;
+  profile: Awaited<ReturnType<typeof db.getCandidateProfileByUserId>>;
   skills: any[];
   workHistory: any[];
   education: any[];
@@ -228,24 +227,19 @@ export const candidateRouter = router({
     .mutation(async ({ ctx, input }) => {
       const profile = await db.getCandidateProfileByUserId(ctx.user.id);
       if (!profile) throw new TRPCError({ code: "NOT_FOUND", message: "Create your profile first (save basics)." });
-      const dbi = await getDb();
-      if (!dbi) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
-      const { and, eq } = await import("drizzle-orm");
-      const { candidateSkills } = await import("../../drizzle/schema");
-      const existing = await dbi.select().from(candidateSkills)
-        .where(and(eq(candidateSkills.profileId, profile.id), eq(candidateSkills.skillId, input.skillId)))
-        .limit(1);
-      if (existing.length > 0) {
-        await dbi.update(candidateSkills)
-          .set({ proficiency: input.proficiency, years: input.years })
-          .where(eq(candidateSkills.id, existing[0].id));
+      const { prisma } = await import("../lib/prisma");
+      const existing = await prisma.candidateSkill.findFirst({
+        where: { profileId: profile.id, skillId: input.skillId },
+      });
+      if (existing) {
+        await prisma.candidateSkill.update({
+          where: { id: existing.id },
+          data: { proficiency: input.proficiency, years: input.years },
+        });
       } else {
-        await dbi.insert(candidateSkills).values([{
-          profileId: profile.id,
-          skillId: input.skillId,
-          proficiency: input.proficiency,
-          years: input.years,
-        }]);
+        await prisma.candidateSkill.create({
+          data: { profileId: profile.id, skillId: input.skillId, proficiency: input.proficiency, years: input.years },
+        });
       }
       return { ok: true };
     }),
@@ -255,11 +249,13 @@ export const candidateRouter = router({
     .mutation(async ({ ctx, input }) => {
       const profile = await db.getCandidateProfileByUserId(ctx.user.id);
       if (!profile) throw new TRPCError({ code: "NOT_FOUND", message: "No profile" });
-      const dbi = await getDb();
-      if (!dbi) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
-      const { and, eq } = await import("drizzle-orm");
-      const { candidateSkills } = await import("../../drizzle/schema");
-      await dbi.delete(candidateSkills).where(and(eq(candidateSkills.profileId, profile.id), eq(candidateSkills.skillId, input.skillId)));
+      const { prisma } = await import("../lib/prisma");
+      await prisma.candidateSkill.deleteMany({
+        where: { 
+          profileId: profile.id,
+          skillId: input.skillId
+        }
+      });
       return { ok: true };
     }),
 
@@ -282,18 +278,18 @@ export const candidateRouter = router({
     .mutation(async ({ ctx, input }) => {
       const profile = await db.getCandidateProfileByUserId(ctx.user.id);
       if (!profile) throw new TRPCError({ code: "NOT_FOUND", message: "Create your profile first." });
-      const dbi = await getDb();
-      if (!dbi) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
-      const { workExperiences } = await import("../../drizzle/schema");
-      await dbi.insert(workExperiences).values([{
-        profileId: profile.id,
-        title: input.title,
-        company: input.company,
-        startDate: input.startDate ? new Date(input.startDate + "T00:00:00Z") : null,
-        endDate: input.endDate ? new Date(input.endDate + "T00:00:00Z") : null,
-        current: input.current,
-        description: input.description ?? null,
-      }]);
+      const { prisma } = await import("../lib/prisma");
+      await prisma.workExperience.create({
+        data: {
+          profileId: profile.id,
+          title: input.title,
+          company: input.company,
+          startDate: input.startDate ? new Date(input.startDate + "T00:00:00Z") : null,
+          endDate: input.endDate ? new Date(input.endDate + "T00:00:00Z") : null,
+          current: input.current,
+          description: input.description ?? null,
+        }
+      });
       return { ok: true };
     }),
 
@@ -302,11 +298,13 @@ export const candidateRouter = router({
     .mutation(async ({ ctx, input }) => {
       const profile = await db.getCandidateProfileByUserId(ctx.user.id);
       if (!profile) throw new TRPCError({ code: "NOT_FOUND", message: "No profile" });
-      const dbi = await getDb();
-      if (!dbi) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
-      const { and, eq } = await import("drizzle-orm");
-      const { workExperiences } = await import("../../drizzle/schema");
-      await dbi.delete(workExperiences).where(and(eq(workExperiences.profileId, profile.id), eq(workExperiences.id, input.id)));
+      const { prisma } = await import("../lib/prisma");
+      await prisma.workExperience.deleteMany({
+        where: {
+          profileId: profile.id,
+          id: input.id
+        }
+      });
       return { ok: true };
     }),
 
@@ -328,17 +326,17 @@ export const candidateRouter = router({
     .mutation(async ({ ctx, input }) => {
       const profile = await db.getCandidateProfileByUserId(ctx.user.id);
       if (!profile) throw new TRPCError({ code: "NOT_FOUND", message: "Create your profile first." });
-      const dbi = await getDb();
-      if (!dbi) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
-      const { education } = await import("../../drizzle/schema");
-      await dbi.insert(education).values([{
-        profileId: profile.id,
-        institution: input.institution,
-        degree: input.degree,
-        fieldOfStudy: input.fieldOfStudy ?? null,
-        startYear: input.startYear ?? null,
-        endYear: input.endYear ?? null,
-      }]);
+      const { prisma } = await import("../lib/prisma");
+      await prisma.education.create({
+        data: {
+          profileId: profile.id,
+          institution: input.institution,
+          degree: input.degree,
+          fieldOfStudy: input.fieldOfStudy ?? null,
+          startYear: input.startYear ?? null,
+          endYear: input.endYear ?? null,
+        }
+      });
       return { ok: true };
     }),
 
@@ -347,11 +345,13 @@ export const candidateRouter = router({
     .mutation(async ({ ctx, input }) => {
       const profile = await db.getCandidateProfileByUserId(ctx.user.id);
       if (!profile) throw new TRPCError({ code: "NOT_FOUND", message: "No profile" });
-      const dbi = await getDb();
-      if (!dbi) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
-      const { and, eq } = await import("drizzle-orm");
-      const { education } = await import("../../drizzle/schema");
-      await dbi.delete(education).where(and(eq(education.profileId, profile.id), eq(education.id, input.id)));
+      const { prisma } = await import("../lib/prisma");
+      await prisma.education.deleteMany({
+        where: {
+          profileId: profile.id,
+          id: input.id
+        }
+      });
       return { ok: true };
     }),
 
@@ -467,15 +467,16 @@ export const candidateRouter = router({
   discardSuggestions: protectedProcedure.mutation(async ({ ctx }) => {
     const profile = await db.getCandidateProfileByUserId(ctx.user.id);
     if (!profile) return { discarded: 0 };
-    const dbi = await getDb();
-    if (!dbi) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
-    const { resumeSuggestions, eq } = { ...(await import("../../drizzle/schema")), eq: (await import("drizzle-orm")).eq };
-    const pending = await dbi.select().from(resumeSuggestions).where(eq(resumeSuggestions.profileId, profile.id));
-    for (const s of pending) {
-      if (s.status === "pending") {
-        await dbi.update(resumeSuggestions).set({ status: "rejected" }).where(eq(resumeSuggestions.id, s.id));
+    const { prisma } = await import("../lib/prisma");
+    const result = await prisma.resumeSuggestion.updateMany({
+      where: {
+        profileId: profile.id,
+        status: "pending"
+      },
+      data: {
+        status: "rejected"
       }
-    }
-    return { discarded: pending.length };
+    });
+    return { discarded: result.count };
   }),
 });

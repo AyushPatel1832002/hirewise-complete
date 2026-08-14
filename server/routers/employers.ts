@@ -78,10 +78,8 @@ export const employerRouter = router({
       if (membership.companyId !== input.companyId) {
         throw new TRPCError({ code: "FORBIDDEN", message: "Not authorized for this company." });
       }
-      const dbi = await (await import("../db")).getDb();
-      if (!dbi) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
-      const { companies, eq } = { ...(await import("../../drizzle/schema")), eq: (await import("drizzle-orm")).eq };
-      await dbi.update(companies).set(input).where(eq(companies.id, input.companyId));
+      const { prisma } = await import("../lib/prisma");
+      await prisma.company.update({ where: { id: input.companyId }, data: input });
       return { ok: true };
     }),
 

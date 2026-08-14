@@ -17,14 +17,14 @@ var __commonJS = (cb, mod) => function __require2() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
 var __export = (target, all3) => {
-  for (var name2 in all3)
-    __defProp(target, name2, { get: all3[name2], enumerable: true });
+  for (var name in all3)
+    __defProp(target, name, { get: all3[name], enumerable: true });
 };
-var __copyProps = (to2, from, except2, desc2) => {
+var __copyProps = (to2, from, except, desc) => {
   if (from && typeof from === "object" || typeof from === "function") {
     for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to2, key) && key !== except2)
-        __defProp(to2, key, { get: () => from[key], enumerable: !(desc2 = __getOwnPropDesc(from, key)) || desc2.enumerable });
+      if (!__hasOwnProp.call(to2, key) && key !== except)
+        __defProp(to2, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
   }
   return to2;
 };
@@ -113,7 +113,7 @@ var require_main = __commonJS({
     var os2 = __require("os");
     var crypto4 = __require("crypto");
     var packageJson = require_package();
-    var version4 = packageJson.version;
+    var version3 = packageJson.version;
     var TIPS = [
       "\u{1F510} encrypt with Dotenvx: https://dotenvx.com",
       "\u{1F510} prevent committing .env to code: https://dotenvx.com/precommit",
@@ -144,8 +144,8 @@ var require_main = __commonJS({
     function supportsAnsi() {
       return process.stdout.isTTY;
     }
-    function dim(text2) {
-      return supportsAnsi() ? `\x1B[2m${text2}\x1B[0m` : text2;
+    function dim(text) {
+      return supportsAnsi() ? `\x1B[2m${text}\x1B[0m` : text;
     }
     var LINE = /(?:^|^)\s*(?:export\s+)?([\w.-]+)(?:\s*=\s*?|:\s+?)(\s*'(?:\\'|[^'])*'|\s*"(?:\\"|[^"])*"|\s*`(?:\\`|[^`])*`|[^#\r\n]+)?\s*(?:#.*)?(?:$|$)/mg;
     function parse3(src) {
@@ -195,13 +195,13 @@ var require_main = __commonJS({
       return DotenvModule.parse(decrypted);
     }
     function _warn(message2) {
-      console.error(`[dotenv@${version4}][WARN] ${message2}`);
+      console.error(`[dotenv@${version3}][WARN] ${message2}`);
     }
     function _debug(message2) {
-      console.log(`[dotenv@${version4}][DEBUG] ${message2}`);
+      console.log(`[dotenv@${version3}][DEBUG] ${message2}`);
     }
     function _log(message2) {
-      console.log(`[dotenv@${version4}] ${message2}`);
+      console.log(`[dotenv@${version3}] ${message2}`);
     }
     function _dotenvKey(options) {
       if (options && options.DOTENV_KEY && options.DOTENV_KEY.length > 0) {
@@ -550,8 +550,8 @@ var require_depd = __commonJS({
       return deprecate;
     }
     function eehaslisteners(emitter, type) {
-      var count2 = typeof emitter.listenerCount !== "function" ? emitter.listeners(type).length : emitter.listenerCount(type);
-      return count2 > 0;
+      var count = typeof emitter.listenerCount !== "function" ? emitter.listeners(type).length : emitter.listenerCount(type);
+      return count > 0;
     }
     function isignored(namespace) {
       if (process.noDeprecation) {
@@ -648,8 +648,8 @@ var require_depd = __commonJS({
       return typeName && callSite.getMethodName() ? typeName + "." + funcName : funcName;
     }
     function formatPlain(msg, caller, stack) {
-      var timestamp2 = (/* @__PURE__ */ new Date()).toUTCString();
-      var formatted = timestamp2 + " " + this._namespace + " deprecated " + msg;
+      var timestamp = (/* @__PURE__ */ new Date()).toUTCString();
+      var formatted = timestamp + " " + this._namespace + " deprecated " + msg;
       if (this._traced) {
         for (var i = 0; i < stack.length; i++) {
           formatted += "\n    at " + stack[i].toString();
@@ -898,14 +898,14 @@ var require_content_type = __commonJS({
       }
       var string4 = type;
       if (parameters && typeof parameters === "object") {
-        var param2;
+        var param;
         var params = Object.keys(parameters).sort();
         for (var i = 0; i < params.length; i++) {
-          param2 = params[i];
-          if (!TOKEN_REGEXP.test(param2)) {
+          param = params[i];
+          if (!TOKEN_REGEXP.test(param)) {
             throw new TypeError("invalid parameter name");
           }
-          string4 += "; " + param2 + "=" + qstring(parameters[param2]);
+          string4 += "; " + param + "=" + qstring(parameters[param]);
         }
       }
       return string4;
@@ -1266,8 +1266,8 @@ var require_http_errors = __commonJS({
       inherits2(HttpError2, Error);
       return HttpError2;
     }
-    function createClientErrorConstructor(HttpError2, name2, code) {
-      var className = toClassName(name2);
+    function createClientErrorConstructor(HttpError2, name, code) {
+      var className = toClassName(name);
       function ClientError(message2) {
         var msg = message2 != null ? message2 : statuses.message[code];
         var err = new Error(msg);
@@ -1305,8 +1305,8 @@ var require_http_errors = __commonJS({
         return val instanceof Error && typeof val.expose === "boolean" && typeof val.statusCode === "number" && val.status === val.statusCode;
       };
     }
-    function createServerErrorConstructor(HttpError2, name2, code) {
-      var className = toClassName(name2);
+    function createServerErrorConstructor(HttpError2, name, code) {
+      var className = toClassName(name);
       function ServerError(message2) {
         var msg = message2 != null ? message2 : statuses.message[code];
         var err = new Error(msg);
@@ -1333,33 +1333,33 @@ var require_http_errors = __commonJS({
       ServerError.prototype.expose = false;
       return ServerError;
     }
-    function nameFunc(func, name2) {
-      var desc2 = Object.getOwnPropertyDescriptor(func, "name");
-      if (desc2 && desc2.configurable) {
-        desc2.value = name2;
-        Object.defineProperty(func, "name", desc2);
+    function nameFunc(func, name) {
+      var desc = Object.getOwnPropertyDescriptor(func, "name");
+      if (desc && desc.configurable) {
+        desc.value = name;
+        Object.defineProperty(func, "name", desc);
       }
     }
     function populateConstructorExports(exports3, codes, HttpError2) {
       codes.forEach(function forEachCode(code) {
         var CodeError;
-        var name2 = toIdentifier(statuses.message[code]);
+        var name = toIdentifier(statuses.message[code]);
         switch (codeClass(code)) {
           case 400:
-            CodeError = createClientErrorConstructor(HttpError2, name2, code);
+            CodeError = createClientErrorConstructor(HttpError2, name, code);
             break;
           case 500:
-            CodeError = createServerErrorConstructor(HttpError2, name2, code);
+            CodeError = createServerErrorConstructor(HttpError2, name, code);
             break;
         }
         if (CodeError) {
           exports3[code] = CodeError;
-          exports3[name2] = CodeError;
+          exports3[name] = CodeError;
         }
       });
     }
-    function toClassName(name2) {
-      return name2.substr(-5) !== "Error" ? name2 + "Error" : name2;
+    function toClassName(name) {
+      return name.substr(-5) !== "Error" ? name + "Error" : name;
     }
   }
 });
@@ -1454,14 +1454,14 @@ var require_ms = __commonJS({
     function fmtLong(ms) {
       return plural(ms, d, "day") || plural(ms, h, "hour") || plural(ms, m2, "minute") || plural(ms, s, "second") || ms + " ms";
     }
-    function plural(ms, n, name2) {
+    function plural(ms, n, name) {
       if (ms < n) {
         return;
       }
       if (ms < n * 1.5) {
-        return Math.floor(ms / n) + " " + name2;
+        return Math.floor(ms / n) + " " + name;
       }
-      return Math.ceil(ms / n) + " " + name2 + "s";
+      return Math.ceil(ms / n) + " " + name + "s";
     }
   }
 });
@@ -1550,15 +1550,15 @@ var require_debug = __commonJS({
     function disable() {
       exports2.enable("");
     }
-    function enabled(name2) {
+    function enabled(name) {
       var i, len;
       for (i = 0, len = exports2.skips.length; i < len; i++) {
-        if (exports2.skips[i].test(name2)) {
+        if (exports2.skips[i].test(name)) {
           return false;
         }
       }
       for (i = 0, len = exports2.names.length; i < len; i++) {
-        if (exports2.names[i].test(name2)) {
+        if (exports2.names[i].test(name)) {
           return true;
         }
       }
@@ -1704,15 +1704,15 @@ var require_node = __commonJS({
       return util3.inspect(v, this.inspectOpts);
     };
     function formatArgs(args) {
-      var name2 = this.namespace;
+      var name = this.namespace;
       var useColors2 = this.useColors;
       if (useColors2) {
         var c = this.color;
-        var prefix = "  \x1B[3" + c + ";1m" + name2 + " \x1B[0m";
+        var prefix = "  \x1B[3" + c + ";1m" + name + " \x1B[0m";
         args[0] = prefix + args[0].split("\n").join("\n" + prefix);
         args.push("\x1B[3" + c + "m+" + exports2.humanize(this.diff) + "\x1B[0m");
       } else {
-        args[0] = (/* @__PURE__ */ new Date()).toUTCString() + " " + name2 + " " + args[0];
+        args[0] = (/* @__PURE__ */ new Date()).toUTCString() + " " + name + " " + args[0];
       }
     }
     function log() {
@@ -5852,14 +5852,14 @@ var require_media_typer = __commonJS({
         string4 += "+" + suffix;
       }
       if (parameters && typeof parameters === "object") {
-        var param2;
+        var param;
         var params = Object.keys(parameters).sort();
         for (var i = 0; i < params.length; i++) {
-          param2 = params[i];
-          if (!tokenRegExp.test(param2)) {
+          param = params[i];
+          if (!tokenRegExp.test(param)) {
             throw new TypeError("invalid parameter name");
           }
-          string4 += "; " + param2 + "=" + qstring(parameters[param2]);
+          string4 += "; " + param + "=" + qstring(parameters[param]);
         }
       }
       return string4;
@@ -14678,11 +14678,11 @@ var require_json = __commonJS({
     var debug = require_src()("body-parser:json");
     var read = require_read();
     var typeis = require_type_is();
-    module2.exports = json3;
+    module2.exports = json2;
     var FIRST_CHAR_REGEXP = /^[\x20\x09\x0a\x0d]*([^\x20\x09\x0a\x0d])/;
     var JSON_SYNTAX_CHAR = "#";
     var JSON_SYNTAX_REGEXP = /#+/g;
-    function json3(options) {
+    function json2(options) {
       var opts = options || {};
       var limit = typeof opts.limit !== "number" ? bytes.parse(opts.limit || "100kb") : opts.limit;
       var inflate = opts.inflate !== false;
@@ -14750,8 +14750,8 @@ var require_json = __commonJS({
         });
       };
     }
-    function createStrictSyntaxError(str, char2) {
-      var index = str.indexOf(char2);
+    function createStrictSyntaxError(str, char) {
+      var index = str.indexOf(char);
       var partial2 = "";
       if (index !== -1) {
         partial2 = str.substring(0, index) + JSON_SYNTAX_CHAR;
@@ -14764,8 +14764,8 @@ var require_json = __commonJS({
         throw new SyntaxError("strict violation");
       } catch (e) {
         return normalizeJsonSyntaxError(e, {
-          message: e.message.replace(JSON_SYNTAX_REGEXP, function(placeholder2) {
-            return str.substring(index, index + placeholder2.length);
+          message: e.message.replace(JSON_SYNTAX_REGEXP, function(placeholder) {
+            return str.substring(index, index + placeholder.length);
           }),
           stack: e.stack
         });
@@ -14867,8 +14867,8 @@ var require_text = __commonJS({
     var debug = require_src()("body-parser:text");
     var read = require_read();
     var typeis = require_type_is();
-    module2.exports = text2;
-    function text2(options) {
+    module2.exports = text;
+    function text(options) {
       var opts = options || {};
       var defaultCharset = opts.defaultCharset || "utf-8";
       var inflate = opts.inflate !== false;
@@ -14984,9 +14984,9 @@ var require_object_inspect = __commonJS({
       }
       var sepRegex = /[0-9](?=(?:[0-9]{3})+(?![0-9]))/g;
       if (typeof num === "number") {
-        var int3 = num < 0 ? -$floor(-num) : $floor(num);
-        if (int3 !== num) {
-          var intStr = String(int3);
+        var int2 = num < 0 ? -$floor(-num) : $floor(num);
+        if (int2 !== num) {
+          var intStr = String(int2);
           var dec = $slice.call(str, intStr.length + 1);
           return $replace.call(intStr, sepRegex, "$&_") + "." + $replace.call($replace.call(dec, /([0-9]{3})/g, "$&_"), /_$/, "");
         }
@@ -15078,9 +15078,9 @@ var require_object_inspect = __commonJS({
         return inspect_(value, opts, depth + 1, seen);
       }
       if (typeof obj === "function" && !isRegExp2(obj)) {
-        var name2 = nameOf(obj);
+        var name = nameOf(obj);
         var keys = arrObjKeys(obj, inspect);
-        return "[Function" + (name2 ? ": " + name2 : " (anonymous)") + "]" + (keys.length > 0 ? " { " + $join.call(keys, ", ") + " }" : "");
+        return "[Function" + (name ? ": " + name : " (anonymous)") + "]" + (keys.length > 0 ? " { " + $join.call(keys, ", ") + " }" : "");
       }
       if (isSymbol(obj)) {
         var symString = hasShammedSymbols ? $replace.call(String(obj), /^(Symbol\(.*\))_[^)]*$/, "$1") : symToString.call(obj);
@@ -15834,7 +15834,7 @@ var require_implementation = __commonJS({
     "use strict";
     var ERROR_MESSAGE = "Function.prototype.bind called on incompatible ";
     var toStr = Object.prototype.toString;
-    var max2 = Math.max;
+    var max = Math.max;
     var funcType = "[object Function]";
     var concatty = function concatty2(a, b2) {
       var arr = [];
@@ -15886,7 +15886,7 @@ var require_implementation = __commonJS({
           concatty(args, arguments)
         );
       };
-      var boundLength = max2(0, target.length - args.length);
+      var boundLength = max(0, target.length - args.length);
       var boundArgs = [];
       for (var i = 0; i < boundLength; i++) {
         boundArgs[i] = "$" + i;
@@ -15981,14 +15981,14 @@ var require_get = __commonJS({
         throw e;
       }
     }
-    var desc2 = !!hasProtoAccessor && gOPD && gOPD(
+    var desc = !!hasProtoAccessor && gOPD && gOPD(
       Object.prototype,
       /** @type {keyof typeof Object.prototype} */
       "__proto__"
     );
     var $Object = Object;
     var $getPrototypeOf = $Object.getPrototypeOf;
-    module2.exports = desc2 && typeof desc2.get === "function" ? callBind([desc2.get]) : typeof $getPrototypeOf === "function" ? (
+    module2.exports = desc && typeof desc.get === "function" ? callBind([desc.get]) : typeof $getPrototypeOf === "function" ? (
       /** @type {import('./get')} */
       function getDunder(value) {
         return $getPrototypeOf(value == null ? value : $Object(value));
@@ -16043,8 +16043,8 @@ var require_get_intrinsic = __commonJS({
     var $URIError = require_uri();
     var abs = require_abs();
     var floor = require_floor();
-    var max2 = require_max();
-    var min2 = require_min();
+    var max = require_max();
+    var min = require_min();
     var pow = require_pow();
     var round = require_round();
     var sign = require_sign();
@@ -16157,8 +16157,8 @@ var require_get_intrinsic = __commonJS({
       "%Object.getPrototypeOf%": $ObjectGPO,
       "%Math.abs%": abs,
       "%Math.floor%": floor,
-      "%Math.max%": max2,
-      "%Math.min%": min2,
+      "%Math.max%": max,
+      "%Math.min%": min,
       "%Math.pow%": pow,
       "%Math.round%": round,
       "%Math.sign%": sign,
@@ -16173,26 +16173,26 @@ var require_get_intrinsic = __commonJS({
       }
     }
     var errorProto;
-    var doEval = function doEval2(name2) {
+    var doEval = function doEval2(name) {
       var value;
-      if (name2 === "%AsyncFunction%") {
+      if (name === "%AsyncFunction%") {
         value = getEvalledConstructor("async function () {}");
-      } else if (name2 === "%GeneratorFunction%") {
+      } else if (name === "%GeneratorFunction%") {
         value = getEvalledConstructor("function* () {}");
-      } else if (name2 === "%AsyncGeneratorFunction%") {
+      } else if (name === "%AsyncGeneratorFunction%") {
         value = getEvalledConstructor("async function* () {}");
-      } else if (name2 === "%AsyncGenerator%") {
+      } else if (name === "%AsyncGenerator%") {
         var fn2 = doEval2("%AsyncGeneratorFunction%");
         if (fn2) {
           value = fn2.prototype;
         }
-      } else if (name2 === "%AsyncIteratorPrototype%") {
+      } else if (name === "%AsyncIteratorPrototype%") {
         var gen = doEval2("%AsyncGenerator%");
         if (gen && getProto) {
           value = getProto(gen.prototype);
         }
       }
-      INTRINSICS[name2] = value;
+      INTRINSICS[name] = value;
       return value;
     };
     var LEGACY_ALIASES = {
@@ -16272,8 +16272,8 @@ var require_get_intrinsic = __commonJS({
       });
       return result;
     };
-    var getBaseIntrinsic = function getBaseIntrinsic2(name2, allowMissing) {
-      var intrinsicName = name2;
+    var getBaseIntrinsic = function getBaseIntrinsic2(name, allowMissing) {
+      var intrinsicName = name;
       var alias;
       if (hasOwn(LEGACY_ALIASES, intrinsicName)) {
         alias = LEGACY_ALIASES[intrinsicName];
@@ -16285,7 +16285,7 @@ var require_get_intrinsic = __commonJS({
           value = doEval(intrinsicName);
         }
         if (typeof value === "undefined" && !allowMissing) {
-          throw new $TypeError("intrinsic " + name2 + " exists, but is not available. Please file an issue!");
+          throw new $TypeError("intrinsic " + name + " exists, but is not available. Please file an issue!");
         }
         return {
           alias,
@@ -16293,19 +16293,19 @@ var require_get_intrinsic = __commonJS({
           value
         };
       }
-      throw new $SyntaxError("intrinsic " + name2 + " does not exist!");
+      throw new $SyntaxError("intrinsic " + name + " does not exist!");
     };
-    module2.exports = function GetIntrinsic(name2, allowMissing) {
-      if (typeof name2 !== "string" || name2.length === 0) {
+    module2.exports = function GetIntrinsic(name, allowMissing) {
+      if (typeof name !== "string" || name.length === 0) {
         throw new $TypeError("intrinsic name must be a non-empty string");
       }
       if (arguments.length > 1 && typeof allowMissing !== "boolean") {
         throw new $TypeError('"allowMissing" argument must be a boolean');
       }
-      if ($exec(/^%?[^%]*%?$/, name2) === null) {
+      if ($exec(/^%?[^%]*%?$/, name) === null) {
         throw new $SyntaxError("`%` may not be present anywhere but at the beginning and end of the intrinsic name");
       }
-      var parts = stringToPath(name2);
+      var parts = stringToPath(name);
       var intrinsicBaseName = parts.length > 0 ? parts[0] : "";
       var intrinsic = getBaseIntrinsic("%" + intrinsicBaseName + "%", allowMissing);
       var intrinsicRealName = intrinsic.name;
@@ -16333,15 +16333,15 @@ var require_get_intrinsic = __commonJS({
         } else if (value != null) {
           if (!(part in value)) {
             if (!allowMissing) {
-              throw new $TypeError("base intrinsic for " + name2 + " exists, but the property is not available.");
+              throw new $TypeError("base intrinsic for " + name + " exists, but the property is not available.");
             }
             return void undefined2;
           }
           if ($gOPD && i + 1 >= parts.length) {
-            var desc2 = $gOPD(value, part);
-            isOwn = !!desc2;
-            if (isOwn && "get" in desc2 && !("originalValue" in desc2.get)) {
-              value = desc2.get;
+            var desc = $gOPD(value, part);
+            isOwn = !!desc;
+            if (isOwn && "get" in desc && !("originalValue" in desc.get)) {
+              value = desc.get;
             } else {
               value = value[part];
             }
@@ -16366,12 +16366,12 @@ var require_call_bound = __commonJS({
     var GetIntrinsic = require_get_intrinsic();
     var callBindBasic = require_call_bind_apply_helpers();
     var $indexOf = callBindBasic([GetIntrinsic("%String.prototype.indexOf%")]);
-    module2.exports = function callBoundIntrinsic(name2, allowMissing) {
+    module2.exports = function callBoundIntrinsic(name, allowMissing) {
       var intrinsic = (
         /** @type {(this: unknown, ...args: unknown[]) => unknown} */
-        GetIntrinsic(name2, !!allowMissing)
+        GetIntrinsic(name, !!allowMissing)
       );
-      if (typeof intrinsic === "function" && $indexOf(name2, ".prototype.") > -1) {
+      if (typeof intrinsic === "function" && $indexOf(name, ".prototype.") > -1) {
         return callBindBasic(
           /** @type {const} */
           [intrinsic]
@@ -16824,8 +16824,8 @@ var require_stringify = __commonJS({
       formatter: formats.formatters[defaultFormat],
       // deprecated
       indices: false,
-      serializeDate: function serializeDate(date6) {
-        return toISO.call(date6);
+      serializeDate: function serializeDate(date5) {
+        return toISO.call(date5);
       },
       skipNulls: false,
       strictNullHandling: false
@@ -17422,23 +17422,23 @@ var require_urlencoded = __commonJS({
       }
     }
     function parameterCount(body, limit) {
-      var count2 = 0;
+      var count = 0;
       var index = 0;
       while ((index = body.indexOf("&", index)) !== -1) {
-        count2++;
+        count++;
         index++;
-        if (count2 === limit) {
+        if (count === limit) {
           return void 0;
         }
       }
-      return count2;
+      return count;
     }
-    function parser(name2) {
-      var mod = parsers[name2];
+    function parser(name) {
+      var mod = parsers[name];
       if (mod !== void 0) {
         return mod.parse;
       }
-      switch (name2) {
+      switch (name) {
         case "qs":
           mod = require_lib2();
           break;
@@ -17446,7 +17446,7 @@ var require_urlencoded = __commonJS({
           mod = __require("querystring");
           break;
       }
-      parsers[name2] = mod;
+      parsers[name] = mod;
       return mod.parse;
     }
     function simpleparser(options) {
@@ -17526,9 +17526,9 @@ var require_body_parser = __commonJS({
         });
       };
     }
-    function createParserGetter(name2) {
+    function createParserGetter(name) {
       return function get() {
-        return loadParser(name2);
+        return loadParser(name);
       };
     }
     function loadParser(parserName) {
@@ -17571,12 +17571,12 @@ var require_merge_descriptors = __commonJS({
       if (redefine === void 0) {
         redefine = true;
       }
-      Object.getOwnPropertyNames(src).forEach(function forEachOwnPropertyName(name2) {
-        if (!redefine && hasOwnProperty2.call(dest, name2)) {
+      Object.getOwnPropertyNames(src).forEach(function forEachOwnPropertyName(name) {
+        if (!redefine && hasOwnProperty2.call(dest, name)) {
           return;
         }
-        var descriptor = Object.getOwnPropertyDescriptor(src, name2);
-        Object.defineProperty(dest, name2, descriptor);
+        var descriptor = Object.getOwnPropertyDescriptor(src, name);
+        Object.defineProperty(dest, name, descriptor);
       });
       return dest;
     }
@@ -17929,7 +17929,7 @@ var require_path_to_regexp = __commonJS({
       var extraOffset = 0;
       var keysOffset = keys.length;
       var i = 0;
-      var name2 = 0;
+      var name = 0;
       var pos = 0;
       var backtrack = "";
       var m2;
@@ -17937,7 +17937,7 @@ var require_path_to_regexp = __commonJS({
         while (m2 = MATCHING_GROUP_REGEXP.exec(path.source)) {
           if (m2[0][0] === "\\") continue;
           keys.push({
-            name: m2[1] || name2++,
+            name: m2[1] || name++,
             optional: false,
             offset: m2.index
           });
@@ -18002,7 +18002,7 @@ var require_path_to_regexp = __commonJS({
         if (m2[0][0] === "\\") continue;
         if (keysOffset + i === keys.length || keys[keysOffset + i].offset > m2.index) {
           keys.splice(keysOffset + i, 0, {
-            name: name2++,
+            name: name++,
             // Unnamed matching groups must be consistently linear.
             optional: false,
             offset: m2.index
@@ -18181,11 +18181,11 @@ var require_route = __commonJS({
       if (this.methods._all) {
         return true;
       }
-      var name2 = typeof method === "string" ? method.toLowerCase() : method;
-      if (name2 === "head" && !this.methods["head"]) {
-        name2 = "get";
+      var name = typeof method === "string" ? method.toLowerCase() : method;
+      if (name === "head" && !this.methods["head"]) {
+        name = "get";
       }
-      return Boolean(this.methods[name2]);
+      return Boolean(this.methods[name]);
     };
     Route.prototype._options = function _options() {
       var methods2 = Object.keys(this.methods);
@@ -18316,28 +18316,28 @@ var require_router = __commonJS({
       router2.stack = [];
       return router2;
     };
-    proto.param = function param2(name2, fn2) {
-      if (typeof name2 === "function") {
+    proto.param = function param(name, fn2) {
+      if (typeof name === "function") {
         deprecate("router.param(fn): Refactor to use path params");
-        this._params.push(name2);
+        this._params.push(name);
         return;
       }
       var params = this._params;
       var len = params.length;
       var ret;
-      if (name2[0] === ":") {
-        deprecate("router.param(" + JSON.stringify(name2) + ", fn): Use router.param(" + JSON.stringify(name2.slice(1)) + ", fn) instead");
-        name2 = name2.slice(1);
+      if (name[0] === ":") {
+        deprecate("router.param(" + JSON.stringify(name) + ", fn): Use router.param(" + JSON.stringify(name.slice(1)) + ", fn) instead");
+        name = name.slice(1);
       }
       for (var i = 0; i < len; ++i) {
-        if (ret = params[i](name2, fn2)) {
+        if (ret = params[i](name, fn2)) {
           fn2 = ret;
         }
       }
       if ("function" !== typeof fn2) {
-        throw new Error("invalid param() call for " + name2 + ", got " + fn2);
+        throw new Error("invalid param() call for " + name + ", got " + fn2);
       }
-      (this.params[name2] = this.params[name2] || []).push(fn2);
+      (this.params[name] = this.params[name] || []).push(fn2);
       return this;
     };
     proto.handle = function handle(req, res, out) {
@@ -18470,13 +18470,13 @@ var require_router = __commonJS({
         return done();
       }
       var i = 0;
-      var name2;
+      var name;
       var paramIndex = 0;
       var key;
       var paramVal;
       var paramCallbacks;
       var paramCalled;
-      function param2(err) {
+      function param(err) {
         if (err) {
           return done(err);
         }
@@ -18485,18 +18485,18 @@ var require_router = __commonJS({
         }
         paramIndex = 0;
         key = keys[i++];
-        name2 = key.name;
-        paramVal = req.params[name2];
-        paramCallbacks = params[name2];
-        paramCalled = called[name2];
+        name = key.name;
+        paramVal = req.params[name];
+        paramCallbacks = params[name];
+        paramCalled = called[name];
         if (paramVal === void 0 || !paramCallbacks) {
-          return param2();
+          return param();
         }
         if (paramCalled && (paramCalled.match === paramVal || paramCalled.error && paramCalled.error !== "route")) {
-          req.params[name2] = paramCalled.value;
-          return param2(paramCalled.error);
+          req.params[name] = paramCalled.value;
+          return param(paramCalled.error);
         }
-        called[name2] = paramCalled = {
+        called[name] = paramCalled = {
           error: null,
           match: paramVal,
           value: paramVal
@@ -18508,17 +18508,17 @@ var require_router = __commonJS({
         paramCalled.value = req.params[key.name];
         if (err) {
           paramCalled.error = err;
-          param2(err);
+          param(err);
           return;
         }
-        if (!fn2) return param2();
+        if (!fn2) return param();
         try {
           fn2(req, res, paramCallback, paramVal, key.name);
         } catch (e) {
           paramCallback(e);
         }
       }
-      param2();
+      param();
     };
     proto.use = function use(fn2) {
       var offset = 0;
@@ -18729,17 +18729,17 @@ var require_view = __commonJS({
     var extname = path.extname;
     var join2 = path.join;
     var resolve = path.resolve;
-    module2.exports = View2;
-    function View2(name2, options) {
+    module2.exports = View;
+    function View(name, options) {
       var opts = options || {};
       this.defaultEngine = opts.defaultEngine;
-      this.ext = extname(name2);
-      this.name = name2;
+      this.ext = extname(name);
+      this.name = name;
       this.root = opts.root;
       if (!this.ext && !this.defaultEngine) {
         throw new Error("No default engine was specified and no extension was provided.");
       }
-      var fileName = name2;
+      var fileName = name;
       if (!this.ext) {
         this.ext = this.defaultEngine[0] !== "." ? "." + this.defaultEngine : this.defaultEngine;
         fileName += this.ext;
@@ -18756,24 +18756,24 @@ var require_view = __commonJS({
       this.engine = opts.engines[this.ext];
       this.path = this.lookup(fileName);
     }
-    View2.prototype.lookup = function lookup(name2) {
+    View.prototype.lookup = function lookup(name) {
       var path2;
       var roots = [].concat(this.root);
-      debug('lookup "%s"', name2);
+      debug('lookup "%s"', name);
       for (var i = 0; i < roots.length && !path2; i++) {
         var root = roots[i];
-        var loc = resolve(root, name2);
+        var loc = resolve(root, name);
         var dir = dirname2(loc);
         var file2 = basename(loc);
         path2 = this.resolve(dir, file2);
       }
       return path2;
     };
-    View2.prototype.render = function render(options, callback) {
+    View.prototype.render = function render(options, callback) {
       debug('render "%s"', this.path);
       this.engine(this.path, options, callback);
     };
-    View2.prototype.resolve = function resolve2(dir, file2) {
+    View.prototype.resolve = function resolve2(dir, file2) {
       var ext = this.ext;
       var path2 = join2(dir, file2);
       var stat = tryStat(path2);
@@ -18897,15 +18897,15 @@ var require_content_disposition = __commonJS({
       if (typeof fallback === "string" && NON_LATIN1_REGEXP.test(fallback)) {
         throw new TypeError("fallback must be ISO-8859-1 string");
       }
-      var name2 = basename(filename);
-      var isQuotedString = TEXT_REGEXP.test(name2);
-      var fallbackName = typeof fallback !== "string" ? fallback && getlatin1(name2) : basename(fallback);
-      var hasFallback = typeof fallbackName === "string" && fallbackName !== name2;
-      if (hasFallback || !isQuotedString || HEX_ESCAPE_REGEXP.test(name2)) {
-        params["filename*"] = name2;
+      var name = basename(filename);
+      var isQuotedString = TEXT_REGEXP.test(name);
+      var fallbackName = typeof fallback !== "string" ? fallback && getlatin1(name) : basename(fallback);
+      var hasFallback = typeof fallbackName === "string" && fallbackName !== name;
+      if (hasFallback || !isQuotedString || HEX_ESCAPE_REGEXP.test(name)) {
+        params["filename*"] = name;
       }
       if (isQuotedString || hasFallback) {
-        params.filename = hasFallback ? fallbackName : name2;
+        params.filename = hasFallback ? fallbackName : name;
       }
       return params;
     }
@@ -18917,12 +18917,12 @@ var require_content_disposition = __commonJS({
       }
       var string4 = String(type).toLowerCase();
       if (parameters && typeof parameters === "object") {
-        var param2;
+        var param;
         var params = Object.keys(parameters).sort();
         for (var i = 0; i < params.length; i++) {
-          param2 = params[i];
-          var val = param2.substr(-1) === "*" ? ustring(parameters[param2]) : qstring(parameters[param2]);
-          string4 += "; " + param2 + "=" + val;
+          param = params[i];
+          var val = param.substr(-1) === "*" ? ustring(parameters[param]) : qstring(parameters[param]);
+          string4 += "; " + param + "=" + val;
         }
       }
       return string4;
@@ -18935,13 +18935,13 @@ var require_content_disposition = __commonJS({
       var charset = match[1].toLowerCase();
       var encoded = match[2];
       var value;
-      var binary2 = encoded.replace(HEX_ESCAPE_REPLACE_REGEXP, pdecode);
+      var binary = encoded.replace(HEX_ESCAPE_REPLACE_REGEXP, pdecode);
       switch (charset) {
         case "iso-8859-1":
-          value = getlatin1(binary2);
+          value = getlatin1(binary);
           break;
         case "utf-8":
-          value = Buffer2.from(binary2, "binary").toString("utf8");
+          value = Buffer2.from(binary, "binary").toString("utf8");
           break;
         default:
           throw new TypeError("unsupported charset in extended field");
@@ -18999,8 +18999,8 @@ var require_content_disposition = __commonJS({
     function pdecode(str, hex3) {
       return String.fromCharCode(parseInt(hex3, 16));
     }
-    function pencode(char2) {
-      return "%" + String(char2).charCodeAt(0).toString(16).toUpperCase();
+    function pencode(char) {
+      return "%" + String(char).charCodeAt(0).toString(16).toUpperCase();
     }
     function qstring(val) {
       var str = String(val);
@@ -19117,9 +19117,9 @@ var require_fresh = __commonJS({
       }
       return true;
     }
-    function parseHttpDate(date6) {
-      var timestamp2 = date6 && Date.parse(date6);
-      return typeof timestamp2 === "number" ? timestamp2 : NaN;
+    function parseHttpDate(date5) {
+      var timestamp = date5 && Date.parse(date5);
+      return typeof timestamp === "number" ? timestamp : NaN;
     }
     function parseTokenList(str) {
       var end = 0;
@@ -19317,9 +19317,9 @@ var require_ms2 = __commonJS({
       }
       return ms + " ms";
     }
-    function plural(ms, msAbs, n, name2) {
+    function plural(ms, msAbs, n, name) {
       var isPlural = msAbs >= n * 1.5;
-      return Math.round(ms / n) + " " + name2 + (isPlural ? "s" : "");
+      return Math.round(ms / n) + " " + name + (isPlural ? "s" : "");
     }
   }
 });
@@ -19894,24 +19894,24 @@ var require_send = __commonJS({
       return typeof res.getHeaderNames !== "function" ? Object.keys(res._headers || {}) : res.getHeaderNames();
     }
     function hasListeners(emitter, type) {
-      var count2 = typeof emitter.listenerCount !== "function" ? emitter.listeners(type).length : emitter.listenerCount(type);
-      return count2 > 0;
+      var count = typeof emitter.listenerCount !== "function" ? emitter.listeners(type).length : emitter.listenerCount(type);
+      return count > 0;
     }
     function headersSent(res) {
       return typeof res.headersSent !== "boolean" ? Boolean(res._header) : res.headersSent;
     }
-    function normalizeList(val, name2) {
+    function normalizeList(val, name) {
       var list = [].concat(val || []);
       for (var i = 0; i < list.length; i++) {
         if (typeof list[i] !== "string") {
-          throw new TypeError(name2 + " must be array of strings or false");
+          throw new TypeError(name + " must be array of strings or false");
         }
       }
       return list;
     }
-    function parseHttpDate(date6) {
-      var timestamp2 = date6 && Date.parse(date6);
-      return typeof timestamp2 === "number" ? timestamp2 : NaN;
+    function parseHttpDate(date5) {
+      var timestamp = date5 && Date.parse(date5);
+      return typeof timestamp === "number" ? timestamp : NaN;
     }
     function parseTokenList(str) {
       var end = 0;
@@ -20694,10 +20694,10 @@ var require_proxy_addr = __commonJS({
       if (pos === -1 && ip2.kind() === "ipv6" && ip2.isIPv4MappedAddress()) {
         ip2 = ip2.toIPv4Address();
       }
-      var max2 = ip2.kind() === "ipv6" ? 128 : 32;
+      var max = ip2.kind() === "ipv6" ? 128 : 32;
       var range = pos !== -1 ? note.substring(pos + 1, note.length) : null;
       if (range === null) {
-        range = max2;
+        range = max;
       } else if (DIGIT_REGEXP.test(range)) {
         range = parseInt(range, 10);
       } else if (ip2.kind() === "ipv4" && isip(range)) {
@@ -20705,7 +20705,7 @@ var require_proxy_addr = __commonJS({
       } else {
         range = null;
       }
-      if (range <= 0 || range > max2) {
+      if (range <= 0 || range > max) {
         throw new TypeError("invalid range on address: " + note);
       }
       return [ip2, range];
@@ -20925,7 +20925,7 @@ var require_application = __commonJS({
     var middleware = require_init();
     var query = require_query();
     var debug = require_src()("express:application");
-    var View2 = require_view();
+    var View = require_view();
     var http2 = __require("http");
     var compileETag = require_utils2().compileETag;
     var compileQueryParser = require_utils2().compileQueryParser;
@@ -20971,7 +20971,7 @@ var require_application = __commonJS({
       this.locals = /* @__PURE__ */ Object.create(null);
       this.mountpath = "/";
       this.locals.settings = this.settings;
-      this.set("view", View2);
+      this.set("view", View);
       this.set("views", resolve("views"));
       this.set("jsonp callback name", "callback");
       if (env === "production") {
@@ -21056,15 +21056,15 @@ var require_application = __commonJS({
       this.engines[extension] = fn2;
       return this;
     };
-    app2.param = function param2(name2, fn2) {
+    app2.param = function param(name, fn2) {
       this.lazyrouter();
-      if (Array.isArray(name2)) {
-        for (var i = 0; i < name2.length; i++) {
-          this.param(name2[i], fn2);
+      if (Array.isArray(name)) {
+        for (var i = 0; i < name.length; i++) {
+          this.param(name[i], fn2);
         }
         return this;
       }
-      this._router.param(name2, fn2);
+      this._router.param(name, fn2);
       return this;
     };
     app2.set = function set2(setting, val) {
@@ -21133,7 +21133,7 @@ var require_application = __commonJS({
       return this;
     };
     app2.del = deprecate.function(app2.delete, "app.del: Use app.delete instead");
-    app2.render = function render(name2, options, callback) {
+    app2.render = function render(name, options, callback) {
       var cache2 = this.cache;
       var done = callback;
       var engines = this.engines;
@@ -21153,23 +21153,23 @@ var require_application = __commonJS({
         renderOptions.cache = this.enabled("view cache");
       }
       if (renderOptions.cache) {
-        view = cache2[name2];
+        view = cache2[name];
       }
       if (!view) {
-        var View3 = this.get("view");
-        view = new View3(name2, {
+        var View2 = this.get("view");
+        view = new View2(name, {
           defaultEngine: this.get("view engine"),
           root: this.get("views"),
           engines
         });
         if (!view.path) {
           var dirs = Array.isArray(view.root) && view.root.length > 1 ? 'directories "' + view.root.slice(0, -1).join('", "') + '" or "' + view.root[view.root.length - 1] + '"' : 'directory "' + view.root + '"';
-          var err = new Error('Failed to lookup view "' + name2 + '" in views ' + dirs);
+          var err = new Error('Failed to lookup view "' + name + '" in views ' + dirs);
           err.view = view;
           return done(err);
         }
         if (renderOptions.cache) {
-          cache2[name2] = view;
+          cache2[name] = view;
         }
       }
       tryRender(view, renderOptions, done);
@@ -21583,13 +21583,13 @@ var require_mediaType = __commonJS({
       return spec.q > 0;
     }
     function quoteCount(string4) {
-      var count2 = 0;
+      var count = 0;
       var index = 0;
       while ((index = string4.indexOf('"', index)) !== -1) {
-        count2++;
+        count++;
         index++;
       }
-      return count2;
+      return count;
     }
     function splitKeyValuePair(str) {
       var index = str.indexOf("=");
@@ -21784,14 +21784,14 @@ var require_request = __commonJS({
     var proxyaddr = require_proxy_addr();
     var req = Object.create(http2.IncomingMessage.prototype);
     module2.exports = req;
-    req.get = req.header = function header(name2) {
-      if (!name2) {
+    req.get = req.header = function header(name) {
+      if (!name) {
         throw new TypeError("name argument is required to req.get");
       }
-      if (typeof name2 !== "string") {
+      if (typeof name !== "string") {
         throw new TypeError("name must be a string to req.get");
       }
-      var lc2 = name2.toLowerCase();
+      var lc2 = name.toLowerCase();
       switch (lc2) {
         case "referer":
         case "referrer":
@@ -21833,18 +21833,18 @@ var require_request = __commonJS({
       if (!range2) return;
       return parseRange(size, range2, options);
     };
-    req.param = function param2(name2, defaultValue) {
+    req.param = function param(name, defaultValue) {
       var params = this.params || {};
       var body = this.body || {};
       var query = this.query || {};
       var args = arguments.length === 1 ? "name" : "name, default";
       deprecate("req.param(" + args + "): Use req.params, req.body, or req.query instead");
-      if (null != params[name2] && params.hasOwnProperty(name2)) return params[name2];
-      if (null != body[name2]) return body[name2];
-      if (null != query[name2]) return query[name2];
+      if (null != params[name] && params.hasOwnProperty(name)) return params[name];
+      if (null != body[name]) return body[name];
+      if (null != query[name]) return query[name];
       return defaultValue;
     };
-    req.is = function is3(types) {
+    req.is = function is2(types) {
       var arr = types;
       if (!Array.isArray(types)) {
         arr = new Array(arguments.length);
@@ -21923,8 +21923,8 @@ var require_request = __commonJS({
       var val = this.get("X-Requested-With") || "";
       return val.toLowerCase() === "xmlhttprequest";
     });
-    function defineGetter(obj, name2, getter) {
-      Object.defineProperty(obj, name2, {
+    function defineGetter(obj, name, getter) {
+      Object.defineProperty(obj, name, {
         configurable: true,
         enumerable: true,
         get: getter
@@ -22003,33 +22003,33 @@ var require_cookie = __commonJS({
       } while (index < len);
       return obj;
     }
-    function startIndex(str, index, max2) {
+    function startIndex(str, index, max) {
       do {
         var code = str.charCodeAt(index);
         if (code !== 32 && code !== 9) return index;
-      } while (++index < max2);
-      return max2;
+      } while (++index < max);
+      return max;
     }
-    function endIndex(str, index, min2) {
-      while (index > min2) {
+    function endIndex(str, index, min) {
+      while (index > min) {
         var code = str.charCodeAt(--index);
         if (code !== 32 && code !== 9) return index + 1;
       }
-      return min2;
+      return min;
     }
-    function serialize(name2, val, opt) {
+    function serialize(name, val, opt) {
       var enc = opt && opt.encode || encodeURIComponent;
       if (typeof enc !== "function") {
         throw new TypeError("option encode is invalid");
       }
-      if (!cookieNameRegExp.test(name2)) {
+      if (!cookieNameRegExp.test(name)) {
         throw new TypeError("argument name is invalid");
       }
       var value = enc(val);
       if (!cookieValueRegExp.test(value)) {
         throw new TypeError("argument val is invalid");
       }
-      var str = name2 + "=" + value;
+      var str = name + "=" + value;
       if (!opt) return str;
       if (null != opt.maxAge) {
         var maxAge = Math.floor(opt.maxAge);
@@ -22327,7 +22327,7 @@ var require_response = __commonJS({
       }
       return this;
     };
-    res.json = function json3(obj) {
+    res.json = function json2(obj) {
       var val = obj;
       if (arguments.length === 2) {
         if (typeof arguments[1] === "number") {
@@ -22447,22 +22447,22 @@ var require_response = __commonJS({
     );
     res.download = function download(path2, filename, options, callback) {
       var done = callback;
-      var name2 = filename;
+      var name = filename;
       var opts = options || null;
       if (typeof filename === "function") {
         done = filename;
-        name2 = null;
+        name = null;
         opts = null;
       } else if (typeof options === "function") {
         done = options;
         opts = null;
       }
       if (typeof filename === "object" && (typeof options === "function" || options === void 0)) {
-        name2 = null;
+        name = null;
         opts = filename;
       }
       var headers = {
-        "Content-Disposition": contentDisposition(name2 || path2)
+        "Content-Disposition": contentDisposition(name || path2)
       };
       if (opts && opts.headers) {
         var keys = Object.keys(opts.headers);
@@ -22542,7 +22542,7 @@ var require_response = __commonJS({
     res.get = function(field) {
       return this.getHeader(field);
     };
-    res.clearCookie = function clearCookie(name2, options) {
+    res.clearCookie = function clearCookie(name, options) {
       if (options) {
         if (options.maxAge) {
           deprecate('res.clearCookie: Passing "options.maxAge" is deprecated. In v5.0.0 of Express, this option will be ignored, as res.clearCookie will automatically set cookies to expire immediately. Please update your code to omit this option.');
@@ -22552,9 +22552,9 @@ var require_response = __commonJS({
         }
       }
       var opts = merge3({ expires: /* @__PURE__ */ new Date(1), path: "/" }, options);
-      return this.cookie(name2, "", opts);
+      return this.cookie(name, "", opts);
     };
-    res.cookie = function(name2, value, options) {
+    res.cookie = function(name, value, options) {
       var opts = merge3({}, options);
       var secret = this.req.secret;
       var signed = opts.signed;
@@ -22575,7 +22575,7 @@ var require_response = __commonJS({
       if (opts.path == null) {
         opts.path = "/";
       }
-      this.append("Set-Cookie", cookie.serialize(name2, String(val), opts));
+      this.append("Set-Cookie", cookie.serialize(name, String(val), opts));
       return this;
     };
     res.location = function location(url3) {
@@ -22713,9 +22713,9 @@ var require_response = __commonJS({
       file2.pipe(res2);
     }
     function stringify(value, replacer, spaces, escape2) {
-      var json3 = replacer || spaces ? JSON.stringify(value, replacer, spaces) : JSON.stringify(value);
-      if (escape2 && typeof json3 === "string") {
-        json3 = json3.replace(/[<>&]/g, function(c) {
+      var json2 = replacer || spaces ? JSON.stringify(value, replacer, spaces) : JSON.stringify(value);
+      if (escape2 && typeof json2 === "string") {
+        json2 = json2.replace(/[<>&]/g, function(c) {
           switch (c.charCodeAt(0)) {
             case 60:
               return "\\u003c";
@@ -22729,7 +22729,7 @@ var require_response = __commonJS({
           }
         });
       }
-      return json3;
+      return json2;
     }
   }
 });
@@ -22897,10 +22897,10 @@ var require_express = __commonJS({
       "multipart",
       "staticCache"
     ];
-    removedMiddlewares.forEach(function(name2) {
-      Object.defineProperty(exports2, name2, {
+    removedMiddlewares.forEach(function(name) {
+      Object.defineProperty(exports2, name, {
         get: function() {
-          throw new Error("Most middleware (like " + name2 + ") is no longer bundled with Express and must be installed separately. Please see https://github.com/senchalabs/connect#middleware.");
+          throw new Error("Most middleware (like " + name + ") is no longer bundled with Express and must be installed separately. Please see https://github.com/senchalabs/connect#middleware.");
         },
         configurable: true
       });
@@ -23030,8 +23030,8 @@ function getStatusCodeFromKey(code) {
   var _JSONRPC2_TO_HTTP_COD;
   return (_JSONRPC2_TO_HTTP_COD = JSONRPC2_TO_HTTP_CODE[code]) !== null && _JSONRPC2_TO_HTTP_COD !== void 0 ? _JSONRPC2_TO_HTTP_COD : 500;
 }
-function getHTTPStatusCode(json3) {
-  const arr = Array.isArray(json3) ? json3 : [json3];
+function getHTTPStatusCode(json2) {
+  const arr = Array.isArray(json2) ? json2 : [json2];
   const httpStatuses = new Set(arr.map((res) => {
     if ("error" in res && isObject(res.error.data)) {
       var _res$error$data;
@@ -23076,12 +23076,12 @@ var init_getErrorShape_BH60iMC2 = __esm({
     __commonJS2 = (cb, mod) => function() {
       return mod || (0, cb[__getOwnPropNames2(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
     };
-    __copyProps2 = (to2, from, except2, desc2) => {
+    __copyProps2 = (to2, from, except, desc) => {
       if (from && typeof from === "object" || typeof from === "function") for (var keys = __getOwnPropNames2(from), i = 0, n = keys.length, key; i < n; i++) {
         key = keys[i];
-        if (!__hasOwnProp2.call(to2, key) && key !== except2) __defProp2(to2, key, {
+        if (!__hasOwnProp2.call(to2, key) && key !== except) __defProp2(to2, key, {
           get: ((k2) => from[k2]).bind(null, key),
-          enumerable: !(desc2 = __getOwnPropDesc2(from, key)) || desc2.enumerable
+          enumerable: !(desc = __getOwnPropDesc2(from, key)) || desc.enumerable
         });
       }
       return to2;
@@ -23710,7 +23710,7 @@ function _takeWithGrace() {
       const iterator2 = _usingCtx3.a(iteratorResource(iterable));
       let result;
       const timer = _usingCtx3.u(timerResource(opts.gracePeriodMs));
-      let count2 = opts.count;
+      let count = opts.count;
       let timerPromise = new Promise(() => {
       });
       while (true) {
@@ -23718,7 +23718,7 @@ function _takeWithGrace() {
         if (result === disposablePromiseTimerResult) throwAbortError();
         if (result.done) return result.value;
         yield result.value;
-        if (--count2 === 0) timerPromise = timer.start();
+        if (--count === 0) timerPromise = timer.start();
         result = null;
       }
     } catch (_) {
@@ -23934,7 +23934,7 @@ function _createBatchStreamProducer() {
   _createBatchStreamProducer = (0, import_wrapAsyncGenerator$2.default)(function* (opts) {
     const { data } = opts;
     let counter = 0;
-    const placeholder2 = 0;
+    const placeholder = 0;
     const mergedIterables = mergeAsyncIterables();
     function registerAsync(callback) {
       const idx = counter++;
@@ -24050,7 +24050,7 @@ function _createBatchStreamProducer() {
     function encode6(value, path) {
       if (value === void 0) return [[]];
       const reg = encodeAsync3(value, path);
-      if (reg) return [[placeholder2], [null, ...reg]];
+      if (reg) return [[placeholder], [null, ...reg]];
       if (!isPlainObject(value)) return [[value]];
       const newObj = {};
       const asyncValues = [];
@@ -24060,7 +24060,7 @@ function _createBatchStreamProducer() {
           newObj[key] = item;
           continue;
         }
-        newObj[key] = placeholder2;
+        newObj[key] = placeholder;
         asyncValues.push([key, ...transformed]);
       }
       return [[newObj], ...asyncValues];
@@ -25786,32 +25786,32 @@ var require_dist = __commonJS({
       } while (index < len);
       return obj;
     }
-    function startIndex(str, index, max2) {
+    function startIndex(str, index, max) {
       do {
         const code = str.charCodeAt(index);
         if (code !== 32 && code !== 9)
           return index;
-      } while (++index < max2);
-      return max2;
+      } while (++index < max);
+      return max;
     }
-    function endIndex(str, index, min2) {
-      while (index > min2) {
+    function endIndex(str, index, min) {
+      while (index > min) {
         const code = str.charCodeAt(--index);
         if (code !== 32 && code !== 9)
           return index + 1;
       }
-      return min2;
+      return min;
     }
-    function serialize(name2, val, options) {
+    function serialize(name, val, options) {
       const enc = options?.encode || encodeURIComponent;
-      if (!cookieNameRegExp.test(name2)) {
-        throw new TypeError(`argument name is invalid: ${name2}`);
+      if (!cookieNameRegExp.test(name)) {
+        throw new TypeError(`argument name is invalid: ${name}`);
       }
       const value = enc(val);
       if (!cookieValueRegExp.test(value)) {
         throw new TypeError(`argument val is invalid: ${val}`);
       }
-      let str = name2 + "=" + value;
+      let str = name + "=" + value;
       if (!options)
         return str;
       if (options.maxAge !== void 0) {
@@ -26018,7 +26018,7 @@ var require_library = __commonJS({
     });
     var Wo = Z((ff, Jo) => {
       "use strict";
-      var Ju = Go(), gt2 = Xn();
+      var Ju = Go(), gt = Xn();
       function Qo(e) {
         if (/^\d{3,4}$/.test(e)) {
           let r = /(\d{1,2})(\d{2})/.exec(e);
@@ -26030,8 +26030,8 @@ var require_library = __commonJS({
       function ri(e) {
         let { env: t2 } = process;
         if ("FORCE_HYPERLINK" in t2) return !(t2.FORCE_HYPERLINK.length > 0 && parseInt(t2.FORCE_HYPERLINK, 10) === 0);
-        if (gt2("no-hyperlink") || gt2("no-hyperlinks") || gt2("hyperlink=false") || gt2("hyperlink=never")) return false;
-        if (gt2("hyperlink=true") || gt2("hyperlink=always") || "NETLIFY" in t2) return true;
+        if (gt("no-hyperlink") || gt("no-hyperlinks") || gt("hyperlink=false") || gt("hyperlink=never")) return false;
+        if (gt("hyperlink=true") || gt("hyperlink=always") || "NETLIFY" in t2) return true;
         if (!Ju.supportsColor(e) || e && !e.isTTY || process.platform === "win32" || "CI" in t2 || "TEAMCITY_VERSION" in t2) return false;
         if ("TERM_PROGRAM" in t2) {
           let r = Qo(t2.TERM_PROGRAM_VERSION);
@@ -27345,20 +27345,20 @@ ${(0, ps.default)(pc(n), 2)}
         for (; !n[0] && n.length > 1; ) n.shift();
       }
       return function(n, i, o, s, a, l) {
-        var u, c, p, d, f, g, h, O, T, S, C, E, me, ae, Bt, U, ne2, Ie, z, dt, Lr = n.constructor, qn = n.s == i.s ? 1 : -1, Y = n.d, _ = i.d;
+        var u, c, p, d, f, g, h, O, T, S, C, E, me, ae, Bt, U, ne, Ie, z, dt, Lr = n.constructor, qn = n.s == i.s ? 1 : -1, Y = n.d, _ = i.d;
         if (!Y || !Y[0] || !_ || !_[0]) return new Lr(!n.s || !i.s || (Y ? _ && Y[0] == _[0] : !_) ? NaN : Y && Y[0] == 0 || !_ ? qn * 0 : qn / 0);
-        for (l ? (f = 1, c = n.e - i.e) : (l = ge, f = b, c = ee(n.e / f) - ee(i.e / f)), z = _.length, ne2 = Y.length, T = new Lr(qn), S = T.d = [], p = 0; _[p] == (Y[p] || 0); p++) ;
+        for (l ? (f = 1, c = n.e - i.e) : (l = ge, f = b, c = ee(n.e / f) - ee(i.e / f)), z = _.length, ne = Y.length, T = new Lr(qn), S = T.d = [], p = 0; _[p] == (Y[p] || 0); p++) ;
         if (_[p] > (Y[p] || 0) && c--, o == null ? (ae = o = Lr.precision, s = Lr.rounding) : a ? ae = o + (n.e - i.e) + 1 : ae = o, ae < 0) S.push(1), g = true;
         else {
           if (ae = ae / f + 2 | 0, p = 0, z == 1) {
-            for (d = 0, _ = _[0], ae++; (p < ne2 || d) && ae--; p++) Bt = d * l + (Y[p] || 0), S[p] = Bt / _ | 0, d = Bt % _ | 0;
-            g = d || p < ne2;
+            for (d = 0, _ = _[0], ae++; (p < ne || d) && ae--; p++) Bt = d * l + (Y[p] || 0), S[p] = Bt / _ | 0, d = Bt % _ | 0;
+            g = d || p < ne;
           } else {
-            for (d = l / (_[0] + 1) | 0, d > 1 && (_ = e(_, d, l), Y = e(Y, d, l), z = _.length, ne2 = Y.length), U = z, C = Y.slice(0, z), E = C.length; E < z; ) C[E++] = 0;
+            for (d = l / (_[0] + 1) | 0, d > 1 && (_ = e(_, d, l), Y = e(Y, d, l), z = _.length, ne = Y.length), U = z, C = Y.slice(0, z), E = C.length; E < z; ) C[E++] = 0;
             dt = _.slice(), dt.unshift(0), Ie = _[0], _[1] >= l / 2 && ++Ie;
             do
               d = 0, u = t2(_, C, z, E), u < 0 ? (me = C[0], z != E && (me = me * l + (C[1] || 0)), d = me / Ie | 0, d > 1 ? (d >= l && (d = l - 1), h = e(_, d, l), O = h.length, E = C.length, u = t2(h, C, O, E), u == 1 && (d--, r(h, z < O ? dt : _, O, l))) : (d == 0 && (u = d = 1), h = _.slice()), O = h.length, O < E && h.unshift(0), r(C, h, E, l), u == -1 && (E = C.length, u = t2(_, C, z, E), u < 1 && (d++, r(C, z < E ? dt : _, E, l))), E = C.length) : u === 0 && (d++, C = [0]), S[p++] = d, u && C[0] ? C[E++] = Y[U] || 0 : (C = [Y[U]], E = 1);
-            while ((U++ < ne2 || C[0] !== void 0) && ae--);
+            while ((U++ < ne || C[0] !== void 0) && ae--);
             g = C[0] !== void 0;
           }
           S[0] || S.shift();
@@ -27860,18 +27860,18 @@ ${(0, ps.default)(pc(n), 2)}
             S.pattern = RegExp(S.pattern.source, U + "g");
           }
           S = S.pattern || S;
-          for (let U = n, ne2 = i; U < t2.length; ne2 += t2[U].length, ++U) {
+          for (let U = n, ne = i; U < t2.length; ne += t2[U].length, ++U) {
             let Ie = t2[U];
             if (t2.length > e.length) return;
             if (Ie instanceof he) continue;
             if (me && U != t2.length - 1) {
-              S.lastIndex = ne2;
+              S.lastIndex = ne;
               var p = S.exec(e);
               if (!p) break;
-              var c = p.index + (E ? p[1].length : 0), d = p.index + p[0].length, a = U, l = ne2;
-              for (let _ = t2.length; a < _ && (l < d || !t2[a].type && !t2[a - 1].greedy); ++a) l += t2[a].length, c >= l && (++U, ne2 = l);
+              var c = p.index + (E ? p[1].length : 0), d = p.index + p[0].length, a = U, l = ne;
+              for (let _ = t2.length; a < _ && (l < d || !t2[a].type && !t2[a - 1].greedy); ++a) l += t2[a].length, c >= l && (++U, ne = l);
               if (t2[U] instanceof he) continue;
-              u = a - U, Ie = e.slice(ne2, l), p.index -= ne2;
+              u = a - U, Ie = e.slice(ne, l), p.index -= ne;
             } else {
               S.lastIndex = 0;
               var p = S.exec(Ie), u = 1;
@@ -27883,9 +27883,9 @@ ${(0, ps.default)(pc(n), 2)}
             E && (ae = p[1] ? p[1].length : 0);
             var c = p.index + ae, p = p[0].slice(ae), d = c + p.length, f = Ie.slice(0, c), g = Ie.slice(d);
             let z = [U, u];
-            f && (++U, ne2 += f.length, z.push(f));
+            f && (++U, ne += f.length, z.push(f));
             let dt = new he(h, C ? P.tokenize(p, C) : p, Bt, p, me);
-            if (z.push(dt), g && z.push(g), Array.prototype.splice.apply(t2, z), u != 1 && P.matchGrammar(e, t2, r, U, ne2, true, h), o) break;
+            if (z.push(dt), g && z.push(g), Array.prototype.splice.apply(t2, z), u != 1 && P.matchGrammar(e, t2, r, U, ne, true, h), o) break;
           }
         }
       }
@@ -31781,6 +31781,10 @@ var require_client = __commonJS({
             "fromEnvVar": null,
             "value": "windows",
             "native": true
+          },
+          {
+            "fromEnvVar": null,
+            "value": "rhel-openssl-3.0.x"
           }
         ],
         "previewFeatures": [],
@@ -31806,8 +31810,8 @@ var require_client = __commonJS({
           }
         }
       },
-      "inlineSchema": 'generator client {\n  provider = "prisma-client-js"\n}\n\ndatasource db {\n  provider = "postgresql"\n  url      = env("DATABASE_URL")\n}\n\nenum UserRole {\n  user\n  admin\n}\n\nenum UserType {\n  candidate\n  employer\n  both\n}\n\nenum RemotePolicy {\n  onsite\n  hybrid\n  remote\n  flexible\n}\n\nenum Seniority {\n  junior\n  mid\n  senior\n  lead\n  staff\n}\n\nenum EmploymentType {\n  full_time  @map("full-time")\n  part_time  @map("part-time")\n  contract\n  internship\n}\n\nenum CompanySize {\n  size_1_10      @map("1-10")\n  size_11_50     @map("11-50")\n  size_51_200    @map("51-200")\n  size_201_1000  @map("201-1000")\n  size_1000_plus @map("1000+")\n}\n\nenum CompanyMemberRole {\n  owner\n  member\n}\n\nenum Proficiency {\n  beginner\n  intermediate\n  advanced\n  expert\n}\n\nenum ResumeSuggestionKind {\n  workExperience\n  education\n  skill\n}\n\nenum ResumeSuggestionStatus {\n  pending\n  confirmed\n  rejected\n}\n\nenum ApplicationStatus {\n  applied\n  screening\n  interview\n  offered\n  accepted\n  rejected\n  withdrawn\n}\n\nenum ApplicationFromStatus {\n  none\n  applied\n  screening\n  interview\n  offered\n  accepted\n  rejected\n  withdrawn\n}\n\nenum SkillWeight {\n  required\n  preferred\n}\n\nenum NotificationChannel {\n  in_app\n  email\n}\n\nenum QueueStatus {\n  pending\n  processing\n  sent\n  failed\n  dead\n}\n\nenum EmailOutcome {\n  sent\n  skipped_no_email\n  transport_error\n  logged_only\n}\n\nenum DigestFrequency {\n  daily\n  weekly\n}\n\nenum DigestStatus {\n  running\n  completed\n  failed\n}\n\nenum ReportTargetType {\n  job\n  profile\n}\n\nenum ReportStatus {\n  pending\n  resolved\n  dismissed\n}\n\nmodel User {\n  id           Int      @id @default(autoincrement())\n  openId       String   @unique @db.VarChar(64)\n  name         String?\n  email        String?  @db.VarChar(320)\n  loginMethod  String?  @db.VarChar(64)\n  role         UserRole @default(user)\n  userType     UserType @default(candidate)\n  createdAt    DateTime @default(now())\n  updatedAt    DateTime @updatedAt\n  lastSignedIn DateTime @default(now())\n\n  candidateProfile   CandidateProfile?\n  profileDraft       ProfileDraft?\n  companyMemberships CompanyMember[]\n  savedSearches      SavedSearch[]\n  notificationPrefs  NotificationPreference[]\n  unsubscribeTokens  UnsubscribeToken[]\n  notifications      Notification[]\n  queueItems         NotificationQueue[]\n  digestRuns         DigestRun[]\n  sentReports        Report[]\n  profileViews       ProfileView[]\n  sentMessages       Message[]\n  stageEvents        ApplicationStageEvent[]\n\n  @@map("users")\n}\n\nmodel CandidateProfile {\n  id                Int           @id @default(autoincrement())\n  userId            Int           @unique\n  headline          String?       @db.VarChar(160)\n  summary           String?\n  currentTitle      String?       @db.VarChar(120)\n  yearsOfExperience Int?\n  locationId        Int?\n  remotePolicy      RemotePolicy?\n  desiredSalaryMin  Decimal?      @db.Decimal(12, 2)\n  desiredSalaryMax  Decimal?      @db.Decimal(12, 2)\n  resumeUrl         String?       @db.VarChar(512)\n  resumeFileName    String?       @db.VarChar(255)\n  active            Boolean       @default(true)\n  createdAt         DateTime      @default(now())\n  updatedAt         DateTime      @updatedAt\n\n  user              User               @relation(fields: [userId], references: [id])\n  location          Location?          @relation(fields: [locationId], references: [id])\n  skills            CandidateSkill[]\n  workExperiences   WorkExperience[]\n  education         Education[]\n  resumeSuggestions ResumeSuggestion[]\n  applications      Application[]\n  profileViews      ProfileView[]\n\n  @@map("candidateProfiles")\n}\n\nmodel Location {\n  id          Int      @id @default(autoincrement())\n  city        String?  @db.VarChar(100)\n  region      String?  @db.VarChar(100)\n  country     String   @db.VarChar(80)\n  displayName String   @db.VarChar(200)\n  latitude    Decimal? @db.Decimal(10, 7)\n  longitude   Decimal? @db.Decimal(10, 7)\n\n  candidateProfiles CandidateProfile[]\n  jobs              Job[]\n  companies         Company[]\n\n  @@map("locations")\n}\n\nmodel Skill {\n  id        Int      @id @default(autoincrement())\n  name      String   @unique @db.VarChar(100)\n  slug      String   @unique @db.VarChar(120)\n  category  String   @db.VarChar(80)\n  createdAt DateTime @default(now())\n\n  aliases         SkillAlias[]\n  candidateSkills CandidateSkill[]\n  jobSkills       JobSkill[]\n\n  @@map("skills")\n}\n\nmodel SkillAlias {\n  id      Int    @id @default(autoincrement())\n  alias   String @unique @db.VarChar(100)\n  skillId Int\n\n  skill Skill @relation(fields: [skillId], references: [id])\n\n  @@map("skillAliases")\n}\n\nmodel CandidateSkill {\n  id          Int         @id @default(autoincrement())\n  profileId   Int\n  skillId     Int\n  proficiency Proficiency\n  years       Int         @default(0)\n  createdAt   DateTime    @default(now())\n\n  profile CandidateProfile @relation(fields: [profileId], references: [id])\n  skill   Skill            @relation(fields: [skillId], references: [id])\n\n  @@map("candidateSkills")\n}\n\nmodel WorkExperience {\n  id          Int       @id @default(autoincrement())\n  profileId   Int\n  title       String    @db.VarChar(160)\n  company     String    @db.VarChar(160)\n  startDate   DateTime? @db.Date\n  endDate     DateTime? @db.Date\n  current     Boolean   @default(false)\n  description String?\n\n  profile CandidateProfile @relation(fields: [profileId], references: [id])\n\n  @@map("workExperiences")\n}\n\nmodel Education {\n  id           Int     @id @default(autoincrement())\n  profileId    Int\n  institution  String  @db.VarChar(200)\n  degree       String  @db.VarChar(160)\n  fieldOfStudy String? @db.VarChar(160)\n  startYear    Int?\n  endYear      Int?\n\n  profile CandidateProfile @relation(fields: [profileId], references: [id])\n\n  @@map("education")\n}\n\nmodel ResumeSuggestion {\n  id        Int                    @id @default(autoincrement())\n  profileId Int\n  kind      ResumeSuggestionKind\n  status    ResumeSuggestionStatus @default(pending)\n  data      Json\n  createdAt DateTime               @default(now())\n\n  profile CandidateProfile @relation(fields: [profileId], references: [id])\n\n  @@map("resumeSuggestions")\n}\n\nmodel ProfileDraft {\n  id          Int      @id @default(autoincrement())\n  userId      Int      @unique\n  currentStep Int      @default(0)\n  stepData    Json\n  updatedAt   DateTime @updatedAt\n\n  user User @relation(fields: [userId], references: [id])\n\n  @@map("profileDrafts")\n}\n\nmodel Company {\n  id          Int          @id @default(autoincrement())\n  name        String       @unique @db.VarChar(160)\n  description String?\n  industry    String?      @db.VarChar(100)\n  website     String?      @db.VarChar(320)\n  size        CompanySize?\n  locationId  Int?\n  createdAt   DateTime     @default(now())\n  updatedAt   DateTime     @updatedAt\n\n  location Location?       @relation(fields: [locationId], references: [id])\n  members  CompanyMember[]\n  jobs     Job[]\n\n  @@map("companies")\n}\n\nmodel CompanyMember {\n  id        Int               @id @default(autoincrement())\n  userId    Int\n  companyId Int\n  role      CompanyMemberRole @default(member)\n  createdAt DateTime          @default(now())\n\n  user    User    @relation(fields: [userId], references: [id])\n  company Company @relation(fields: [companyId], references: [id])\n\n  @@map("companyMembers")\n}\n\nmodel Job {\n  id               Int            @id @default(autoincrement())\n  companyId        Int\n  title            String         @db.VarChar(160)\n  description      String\n  seniority        Seniority\n  employmentType   EmploymentType @default(full_time)\n  salaryMin        Decimal?       @db.Decimal(12, 2)\n  salaryMax        Decimal?       @db.Decimal(12, 2)\n  locationId       Int?\n  remotePolicy     RemotePolicy\n  published        Boolean        @default(false)\n  applicationCount Int            @default(0)\n  createdAt        DateTime       @default(now())\n  updatedAt        DateTime       @updatedAt\n\n  company      Company       @relation(fields: [companyId], references: [id])\n  location     Location?     @relation(fields: [locationId], references: [id])\n  skills       JobSkill[]\n  applications Application[]\n  digestSent   DigestSent[]\n\n  @@map("jobs")\n}\n\nmodel JobSkill {\n  id      Int         @id @default(autoincrement())\n  jobId   Int\n  skillId Int\n  weight  SkillWeight\n\n  job   Job   @relation(fields: [jobId], references: [id])\n  skill Skill @relation(fields: [skillId], references: [id])\n\n  @@map("jobSkills")\n}\n\nmodel Application {\n  id        Int               @id @default(autoincrement())\n  jobId     Int\n  profileId Int\n  status    ApplicationStatus @default(applied)\n  coverNote String?\n  createdAt DateTime          @default(now())\n  updatedAt DateTime          @updatedAt\n\n  job         Job                     @relation(fields: [jobId], references: [id])\n  profile     CandidateProfile        @relation(fields: [profileId], references: [id])\n  stageEvents ApplicationStageEvent[]\n  messages    Message[]\n\n  @@unique([jobId, profileId])\n  @@map("applications")\n}\n\nmodel ApplicationStageEvent {\n  id            Int                   @id @default(autoincrement())\n  applicationId Int\n  fromStatus    ApplicationFromStatus @default(none)\n  toStatus      ApplicationStatus\n  note          String?\n  actorUserId   Int\n  createdAt     DateTime              @default(now())\n\n  application Application @relation(fields: [applicationId], references: [id])\n  actor       User        @relation(fields: [actorUserId], references: [id])\n\n  @@map("applicationStageEvents")\n}\n\nmodel ProfileView {\n  id             Int      @id @default(autoincrement())\n  employerUserId Int\n  profileId      Int\n  createdAt      DateTime @default(now())\n\n  employer User             @relation(fields: [employerUserId], references: [id])\n  profile  CandidateProfile @relation(fields: [profileId], references: [id])\n\n  @@map("profileViews")\n}\n\nmodel Message {\n  id            Int       @id @default(autoincrement())\n  applicationId Int\n  senderUserId  Int\n  text          String\n  readAt        DateTime?\n  createdAt     DateTime  @default(now())\n\n  application Application @relation(fields: [applicationId], references: [id])\n  sender      User        @relation(fields: [senderUserId], references: [id])\n\n  @@map("messages")\n}\n\nmodel Report {\n  id             Int              @id @default(autoincrement())\n  targetType     ReportTargetType\n  targetId       Int\n  reporterUserId Int\n  reason         String           @db.VarChar(500)\n  status         ReportStatus     @default(pending)\n  createdAt      DateTime         @default(now())\n\n  reporter User @relation(fields: [reporterUserId], references: [id])\n\n  @@map("reports")\n}\n\nmodel SavedSearch {\n  id        Int      @id @default(autoincrement())\n  userId    Int\n  name      String   @db.VarChar(120)\n  query     Json\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  user       User        @relation(fields: [userId], references: [id])\n  digestRuns DigestRun[]\n\n  @@map("savedSearches")\n}\n\nmodel NotificationPreference {\n  id        Int                 @id @default(autoincrement())\n  userId    Int\n  channel   NotificationChannel\n  eventType String              @db.VarChar(60)\n  enabled   Boolean             @default(true)\n  updatedAt DateTime            @updatedAt\n\n  user User @relation(fields: [userId], references: [id])\n\n  @@map("notificationPreferences")\n}\n\nmodel UnsubscribeToken {\n  id        Int                 @id @default(autoincrement())\n  userId    Int\n  channel   NotificationChannel\n  token     String              @unique @db.VarChar(128)\n  usedAt    DateTime?\n  createdAt DateTime            @default(now())\n\n  user User @relation(fields: [userId], references: [id])\n\n  @@map("unsubscribeTokens")\n}\n\nmodel Notification {\n  id        Int       @id @default(autoincrement())\n  userId    Int\n  type      String    @db.VarChar(60)\n  payload   Json?\n  readAt    DateTime?\n  createdAt DateTime  @default(now())\n\n  user User @relation(fields: [userId], references: [id])\n\n  @@map("notifications")\n}\n\nmodel NotificationQueue {\n  id              Int                 @id @default(autoincrement())\n  jobKey          String              @unique @db.VarChar(255)\n  channel         NotificationChannel\n  recipientUserId Int\n  eventType       String              @db.VarChar(60)\n  subject         String?             @db.VarChar(255)\n  payload         Json\n  status          QueueStatus         @default(pending)\n  retryCount      Int                 @default(0)\n  backoffUntil    DateTime?\n  lastError       String?\n  createdAt       DateTime            @default(now())\n  updatedAt       DateTime            @updatedAt\n\n  recipient User @relation(fields: [recipientUserId], references: [id])\n\n  @@map("notificationQueue")\n}\n\nmodel EmailSendLog {\n  id               Int          @id @default(autoincrement())\n  queueId          Int?\n  recipientUserId  Int?\n  recipientEmail   String?      @db.VarChar(320)\n  subject          String?      @db.VarChar(255)\n  outcome          EmailOutcome\n  providerResponse String?\n  createdAt        DateTime     @default(now())\n\n  @@map("emailSendLog")\n}\n\nmodel DigestRun {\n  id            Int             @id @default(autoincrement())\n  savedSearchId Int\n  userId        Int\n  frequency     DigestFrequency\n  windowStart   DateTime\n  windowEnd     DateTime\n  status        DigestStatus    @default(running)\n  jobsSent      Int             @default(0)\n  createdAt     DateTime        @default(now())\n\n  savedSearch SavedSearch  @relation(fields: [savedSearchId], references: [id])\n  user        User         @relation(fields: [userId], references: [id])\n  digestSent  DigestSent[]\n\n  @@map("digestRuns")\n}\n\nmodel DigestSent {\n  id          Int      @id @default(autoincrement())\n  digestRunId Int\n  jobId       Int\n  createdAt   DateTime @default(now())\n\n  digestRun DigestRun @relation(fields: [digestRunId], references: [id])\n  job       Job       @relation(fields: [jobId], references: [id])\n\n  @@map("digestSent")\n}\n',
-      "inlineSchemaHash": "e8bb327c35320ad4e185ba84273510d31d14418a6e99de7f11e5830ac2eb5ef1",
+      "inlineSchema": 'generator client {\n  provider      = "prisma-client-js"\n  binaryTargets = ["native", "rhel-openssl-3.0.x"]\n}\n\ndatasource db {\n  provider = "postgresql"\n  url      = env("DATABASE_URL")\n}\n\nenum UserRole {\n  user\n  admin\n}\n\nenum UserType {\n  candidate\n  employer\n  both\n}\n\nenum RemotePolicy {\n  onsite\n  hybrid\n  remote\n  flexible\n}\n\nenum Seniority {\n  junior\n  mid\n  senior\n  lead\n  staff\n}\n\nenum EmploymentType {\n  full_time  @map("full-time")\n  part_time  @map("part-time")\n  contract\n  internship\n}\n\nenum CompanySize {\n  size_1_10      @map("1-10")\n  size_11_50     @map("11-50")\n  size_51_200    @map("51-200")\n  size_201_1000  @map("201-1000")\n  size_1000_plus @map("1000+")\n}\n\nenum CompanyMemberRole {\n  owner\n  member\n}\n\nenum Proficiency {\n  beginner\n  intermediate\n  advanced\n  expert\n}\n\nenum ResumeSuggestionKind {\n  workExperience\n  education\n  skill\n}\n\nenum ResumeSuggestionStatus {\n  pending\n  confirmed\n  rejected\n}\n\nenum ApplicationStatus {\n  applied\n  screening\n  interview\n  offered\n  accepted\n  rejected\n  withdrawn\n}\n\nenum ApplicationFromStatus {\n  none\n  applied\n  screening\n  interview\n  offered\n  accepted\n  rejected\n  withdrawn\n}\n\nenum SkillWeight {\n  required\n  preferred\n}\n\nenum NotificationChannel {\n  in_app\n  email\n}\n\nenum QueueStatus {\n  pending\n  processing\n  sent\n  failed\n  dead\n}\n\nenum EmailOutcome {\n  sent\n  skipped_no_email\n  transport_error\n  logged_only\n}\n\nenum DigestFrequency {\n  daily\n  weekly\n}\n\nenum DigestStatus {\n  running\n  completed\n  failed\n}\n\nenum ReportTargetType {\n  job\n  profile\n}\n\nenum ReportStatus {\n  pending\n  resolved\n  dismissed\n}\n\nmodel User {\n  id           Int      @id @default(autoincrement())\n  openId       String   @unique @db.VarChar(64)\n  name         String?\n  email        String?  @db.VarChar(320)\n  loginMethod  String?  @db.VarChar(64)\n  role         UserRole @default(user)\n  userType     UserType @default(candidate)\n  createdAt    DateTime @default(now())\n  updatedAt    DateTime @updatedAt\n  lastSignedIn DateTime @default(now())\n\n  candidateProfile   CandidateProfile?\n  profileDraft       ProfileDraft?\n  companyMemberships CompanyMember[]\n  savedSearches      SavedSearch[]\n  notificationPrefs  NotificationPreference[]\n  unsubscribeTokens  UnsubscribeToken[]\n  notifications      Notification[]\n  queueItems         NotificationQueue[]\n  digestRuns         DigestRun[]\n  sentReports        Report[]\n  profileViews       ProfileView[]\n  sentMessages       Message[]\n  stageEvents        ApplicationStageEvent[]\n\n  @@map("users")\n}\n\nmodel CandidateProfile {\n  id                Int           @id @default(autoincrement())\n  userId            Int           @unique\n  headline          String?       @db.VarChar(160)\n  summary           String?\n  currentTitle      String?       @db.VarChar(120)\n  yearsOfExperience Int?\n  locationId        Int?\n  remotePolicy      RemotePolicy?\n  desiredSalaryMin  Decimal?      @db.Decimal(12, 2)\n  desiredSalaryMax  Decimal?      @db.Decimal(12, 2)\n  resumeUrl         String?       @db.VarChar(512)\n  resumeFileName    String?       @db.VarChar(255)\n  active            Boolean       @default(true)\n  createdAt         DateTime      @default(now())\n  updatedAt         DateTime      @updatedAt\n\n  user              User               @relation(fields: [userId], references: [id])\n  location          Location?          @relation(fields: [locationId], references: [id])\n  skills            CandidateSkill[]\n  workExperiences   WorkExperience[]\n  education         Education[]\n  resumeSuggestions ResumeSuggestion[]\n  applications      Application[]\n  profileViews      ProfileView[]\n\n  @@map("candidateProfiles")\n}\n\nmodel Location {\n  id          Int      @id @default(autoincrement())\n  city        String?  @db.VarChar(100)\n  region      String?  @db.VarChar(100)\n  country     String   @db.VarChar(80)\n  displayName String   @db.VarChar(200)\n  latitude    Decimal? @db.Decimal(10, 7)\n  longitude   Decimal? @db.Decimal(10, 7)\n\n  candidateProfiles CandidateProfile[]\n  jobs              Job[]\n  companies         Company[]\n\n  @@map("locations")\n}\n\nmodel Skill {\n  id        Int      @id @default(autoincrement())\n  name      String   @unique @db.VarChar(100)\n  slug      String   @unique @db.VarChar(120)\n  category  String   @db.VarChar(80)\n  createdAt DateTime @default(now())\n\n  aliases         SkillAlias[]\n  candidateSkills CandidateSkill[]\n  jobSkills       JobSkill[]\n\n  @@map("skills")\n}\n\nmodel SkillAlias {\n  id      Int    @id @default(autoincrement())\n  alias   String @unique @db.VarChar(100)\n  skillId Int\n\n  skill Skill @relation(fields: [skillId], references: [id])\n\n  @@map("skillAliases")\n}\n\nmodel CandidateSkill {\n  id          Int         @id @default(autoincrement())\n  profileId   Int\n  skillId     Int\n  proficiency Proficiency\n  years       Int         @default(0)\n  createdAt   DateTime    @default(now())\n\n  profile CandidateProfile @relation(fields: [profileId], references: [id])\n  skill   Skill            @relation(fields: [skillId], references: [id])\n\n  @@map("candidateSkills")\n}\n\nmodel WorkExperience {\n  id          Int       @id @default(autoincrement())\n  profileId   Int\n  title       String    @db.VarChar(160)\n  company     String    @db.VarChar(160)\n  startDate   DateTime? @db.Date\n  endDate     DateTime? @db.Date\n  current     Boolean   @default(false)\n  description String?\n\n  profile CandidateProfile @relation(fields: [profileId], references: [id])\n\n  @@map("workExperiences")\n}\n\nmodel Education {\n  id           Int     @id @default(autoincrement())\n  profileId    Int\n  institution  String  @db.VarChar(200)\n  degree       String  @db.VarChar(160)\n  fieldOfStudy String? @db.VarChar(160)\n  startYear    Int?\n  endYear      Int?\n\n  profile CandidateProfile @relation(fields: [profileId], references: [id])\n\n  @@map("education")\n}\n\nmodel ResumeSuggestion {\n  id        Int                    @id @default(autoincrement())\n  profileId Int\n  kind      ResumeSuggestionKind\n  status    ResumeSuggestionStatus @default(pending)\n  data      Json\n  createdAt DateTime               @default(now())\n\n  profile CandidateProfile @relation(fields: [profileId], references: [id])\n\n  @@map("resumeSuggestions")\n}\n\nmodel ProfileDraft {\n  id          Int      @id @default(autoincrement())\n  userId      Int      @unique\n  currentStep Int      @default(0)\n  stepData    Json\n  updatedAt   DateTime @updatedAt\n\n  user User @relation(fields: [userId], references: [id])\n\n  @@map("profileDrafts")\n}\n\nmodel Company {\n  id          Int          @id @default(autoincrement())\n  name        String       @unique @db.VarChar(160)\n  description String?\n  industry    String?      @db.VarChar(100)\n  website     String?      @db.VarChar(320)\n  size        CompanySize?\n  locationId  Int?\n  createdAt   DateTime     @default(now())\n  updatedAt   DateTime     @updatedAt\n\n  location Location?       @relation(fields: [locationId], references: [id])\n  members  CompanyMember[]\n  jobs     Job[]\n\n  @@map("companies")\n}\n\nmodel CompanyMember {\n  id        Int               @id @default(autoincrement())\n  userId    Int\n  companyId Int\n  role      CompanyMemberRole @default(member)\n  createdAt DateTime          @default(now())\n\n  user    User    @relation(fields: [userId], references: [id])\n  company Company @relation(fields: [companyId], references: [id])\n\n  @@map("companyMembers")\n}\n\nmodel Job {\n  id               Int            @id @default(autoincrement())\n  companyId        Int\n  title            String         @db.VarChar(160)\n  description      String\n  seniority        Seniority\n  employmentType   EmploymentType @default(full_time)\n  salaryMin        Decimal?       @db.Decimal(12, 2)\n  salaryMax        Decimal?       @db.Decimal(12, 2)\n  locationId       Int?\n  remotePolicy     RemotePolicy\n  published        Boolean        @default(false)\n  applicationCount Int            @default(0)\n  createdAt        DateTime       @default(now())\n  updatedAt        DateTime       @updatedAt\n\n  company      Company       @relation(fields: [companyId], references: [id])\n  location     Location?     @relation(fields: [locationId], references: [id])\n  skills       JobSkill[]\n  applications Application[]\n  digestSent   DigestSent[]\n\n  @@map("jobs")\n}\n\nmodel JobSkill {\n  id      Int         @id @default(autoincrement())\n  jobId   Int\n  skillId Int\n  weight  SkillWeight\n\n  job   Job   @relation(fields: [jobId], references: [id])\n  skill Skill @relation(fields: [skillId], references: [id])\n\n  @@map("jobSkills")\n}\n\nmodel Application {\n  id        Int               @id @default(autoincrement())\n  jobId     Int\n  profileId Int\n  status    ApplicationStatus @default(applied)\n  coverNote String?\n  createdAt DateTime          @default(now())\n  updatedAt DateTime          @updatedAt\n\n  job         Job                     @relation(fields: [jobId], references: [id])\n  profile     CandidateProfile        @relation(fields: [profileId], references: [id])\n  stageEvents ApplicationStageEvent[]\n  messages    Message[]\n\n  @@unique([jobId, profileId])\n  @@map("applications")\n}\n\nmodel ApplicationStageEvent {\n  id            Int                   @id @default(autoincrement())\n  applicationId Int\n  fromStatus    ApplicationFromStatus @default(none)\n  toStatus      ApplicationStatus\n  note          String?\n  actorUserId   Int\n  createdAt     DateTime              @default(now())\n\n  application Application @relation(fields: [applicationId], references: [id])\n  actor       User        @relation(fields: [actorUserId], references: [id])\n\n  @@map("applicationStageEvents")\n}\n\nmodel ProfileView {\n  id             Int      @id @default(autoincrement())\n  employerUserId Int\n  profileId      Int\n  createdAt      DateTime @default(now())\n\n  employer User             @relation(fields: [employerUserId], references: [id])\n  profile  CandidateProfile @relation(fields: [profileId], references: [id])\n\n  @@map("profileViews")\n}\n\nmodel Message {\n  id            Int       @id @default(autoincrement())\n  applicationId Int\n  senderUserId  Int\n  text          String\n  readAt        DateTime?\n  createdAt     DateTime  @default(now())\n\n  application Application @relation(fields: [applicationId], references: [id])\n  sender      User        @relation(fields: [senderUserId], references: [id])\n\n  @@map("messages")\n}\n\nmodel Report {\n  id             Int              @id @default(autoincrement())\n  targetType     ReportTargetType\n  targetId       Int\n  reporterUserId Int\n  reason         String           @db.VarChar(500)\n  status         ReportStatus     @default(pending)\n  createdAt      DateTime         @default(now())\n\n  reporter User @relation(fields: [reporterUserId], references: [id])\n\n  @@map("reports")\n}\n\nmodel SavedSearch {\n  id        Int      @id @default(autoincrement())\n  userId    Int\n  name      String   @db.VarChar(120)\n  query     Json\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  user       User        @relation(fields: [userId], references: [id])\n  digestRuns DigestRun[]\n\n  @@map("savedSearches")\n}\n\nmodel NotificationPreference {\n  id        Int                 @id @default(autoincrement())\n  userId    Int\n  channel   NotificationChannel\n  eventType String              @db.VarChar(60)\n  enabled   Boolean             @default(true)\n  updatedAt DateTime            @updatedAt\n\n  user User @relation(fields: [userId], references: [id])\n\n  @@map("notificationPreferences")\n}\n\nmodel UnsubscribeToken {\n  id        Int                 @id @default(autoincrement())\n  userId    Int\n  channel   NotificationChannel\n  token     String              @unique @db.VarChar(128)\n  usedAt    DateTime?\n  createdAt DateTime            @default(now())\n\n  user User @relation(fields: [userId], references: [id])\n\n  @@map("unsubscribeTokens")\n}\n\nmodel Notification {\n  id        Int       @id @default(autoincrement())\n  userId    Int\n  type      String    @db.VarChar(60)\n  payload   Json?\n  readAt    DateTime?\n  createdAt DateTime  @default(now())\n\n  user User @relation(fields: [userId], references: [id])\n\n  @@map("notifications")\n}\n\nmodel NotificationQueue {\n  id              Int                 @id @default(autoincrement())\n  jobKey          String              @unique @db.VarChar(255)\n  channel         NotificationChannel\n  recipientUserId Int\n  eventType       String              @db.VarChar(60)\n  subject         String?             @db.VarChar(255)\n  payload         Json\n  status          QueueStatus         @default(pending)\n  retryCount      Int                 @default(0)\n  backoffUntil    DateTime?\n  lastError       String?\n  createdAt       DateTime            @default(now())\n  updatedAt       DateTime            @updatedAt\n\n  recipient User @relation(fields: [recipientUserId], references: [id])\n\n  @@map("notificationQueue")\n}\n\nmodel EmailSendLog {\n  id               Int          @id @default(autoincrement())\n  queueId          Int?\n  recipientUserId  Int?\n  recipientEmail   String?      @db.VarChar(320)\n  subject          String?      @db.VarChar(255)\n  outcome          EmailOutcome\n  providerResponse String?\n  createdAt        DateTime     @default(now())\n\n  @@map("emailSendLog")\n}\n\nmodel DigestRun {\n  id            Int             @id @default(autoincrement())\n  savedSearchId Int\n  userId        Int\n  frequency     DigestFrequency\n  windowStart   DateTime\n  windowEnd     DateTime\n  status        DigestStatus    @default(running)\n  jobsSent      Int             @default(0)\n  createdAt     DateTime        @default(now())\n\n  savedSearch SavedSearch  @relation(fields: [savedSearchId], references: [id])\n  user        User         @relation(fields: [userId], references: [id])\n  digestSent  DigestSent[]\n\n  @@map("digestRuns")\n}\n\nmodel DigestSent {\n  id          Int      @id @default(autoincrement())\n  digestRunId Int\n  jobId       Int\n  createdAt   DateTime @default(now())\n\n  digestRun DigestRun @relation(fields: [digestRunId], references: [id])\n  job       Job       @relation(fields: [jobId], references: [id])\n\n  @@map("digestSent")\n}\n',
+      "inlineSchemaHash": "db32a170500a24225e5cf1e70761a7122d6f6bb5108afb29f4050b504265921c",
       "copyEngine": true
     };
     var fs2 = __require("fs");
@@ -31836,6 +31840,8 @@ var require_client = __commonJS({
     Object.assign(exports2, Prisma);
     path.join(__dirname, "query_engine-windows.dll.node");
     path.join(process.cwd(), "node_modules/.pnpm/@prisma+client@5.22.0_prisma@5.22.0/node_modules/.prisma/client/query_engine-windows.dll.node");
+    path.join(__dirname, "libquery_engine-rhel-openssl-3.0.x.so.node");
+    path.join(process.cwd(), "node_modules/.pnpm/@prisma+client@5.22.0_prisma@5.22.0/node_modules/.prisma/client/libquery_engine-rhel-openssl-3.0.x.so.node");
     path.join(__dirname, "schema.prisma");
     path.join(process.cwd(), "node_modules/.pnpm/@prisma+client@5.22.0_prisma@5.22.0/node_modules/.prisma/client/schema.prisma");
   }
@@ -31858,6 +31864,11 @@ var require_default2 = __commonJS({
 });
 
 // server/lib/prisma.ts
+var prisma_exports = {};
+__export(prisma_exports, {
+  default: () => prisma_default,
+  prisma: () => prisma
+});
 var import_client, globalForPrisma, prisma, prisma_default;
 var init_prisma = __esm({
   "server/lib/prisma.ts"() {
@@ -31971,7 +31982,7 @@ __export(db_exports, {
   getCompanyJobs: () => getCompanyJobs,
   getCompanyOwner: () => getCompanyOwner,
   getCompanyPublishedJobs: () => getCompanyPublishedJobs,
-  getDb: () => getDb,
+  getDb: () => getDb2,
   getJobApplications: () => getJobApplications,
   getJobById: () => getJobById,
   getJobSkills: () => getJobSkills,
@@ -32034,7 +32045,7 @@ __export(db_exports, {
   upsertCandidateProfile: () => upsertCandidateProfile,
   upsertUser: () => upsertUser
 });
-async function getDb() {
+async function getDb2() {
   try {
     await prisma_default.$queryRaw`SELECT 1`;
     return prisma_default;
@@ -32148,7 +32159,7 @@ async function getCandidateProfileById(profileId) {
   return prisma_default.candidateProfile.findUnique({ where: { id: profileId } });
 }
 async function upsertCandidateProfile(userId, data) {
-  const { skills: skills2, ...rest } = data;
+  const { skills, ...rest } = data;
   const existing = await getCandidateProfileByUserId(userId);
   if (existing) {
     await prisma_default.candidateProfile.update({ where: { id: existing.id }, data: rest });
@@ -32321,7 +32332,7 @@ async function rankedSearchJobs(opts) {
       { description: { contains: q2, mode: "insensitive" } }
     ];
   }
-  const jobs2 = await prisma_default.job.findMany({
+  const jobs = await prisma_default.job.findMany({
     where,
     take: 500,
     orderBy: { createdAt: "desc" },
@@ -32331,7 +32342,7 @@ async function rankedSearchJobs(opts) {
       skills: { select: { skillId: true, weight: true } }
     }
   });
-  const scored = jobs2.map((job) => {
+  const scored = jobs.map((job) => {
     const jobSkillIds = job.skills.map((s) => s.skillId);
     const required2 = job.skills.filter((s) => s.weight === "required");
     const preferred = job.skills.filter((s) => s.weight === "preferred");
@@ -32398,9 +32409,9 @@ async function facetCountsForJobs(opts) {
   for (const r of rows) {
     if (r.remotePolicy) remote[r.remotePolicy] = (remote[r.remotePolicy] ?? 0) + 1;
     if (r.seniority) seniority[r.seniority] = (seniority[r.seniority] ?? 0) + 1;
-    const max2 = r.salaryMax ? Number(r.salaryMax) : null;
-    if (max2 !== null) {
-      const bucket = max2 < 5e4 ? "under-50k" : max2 < 1e5 ? "50k-100k" : max2 < 15e4 ? "100k-150k" : "over-150k";
+    const max = r.salaryMax ? Number(r.salaryMax) : null;
+    if (max !== null) {
+      const bucket = max < 5e4 ? "under-50k" : max < 1e5 ? "50k-100k" : max < 15e4 ? "100k-150k" : "over-150k";
       salaryBucket[bucket] = (salaryBucket[bucket] ?? 0) + 1;
     }
   }
@@ -32423,10 +32434,10 @@ async function getMyCompanyMembership(userId) {
 async function getUserCompanies(userId) {
   const memberships = await prisma_default.companyMember.findMany({ where: { userId } });
   if (!memberships.length) return [];
-  const companies2 = await prisma_default.company.findMany({
+  const companies = await prisma_default.company.findMany({
     where: { id: { in: memberships.map((m2) => m2.companyId) } }
   });
-  return companies2.map((c) => ({ ...c, membership: memberships.find((m2) => m2.companyId === c.id) }));
+  return companies.map((c) => ({ ...c, membership: memberships.find((m2) => m2.companyId === c.id) }));
 }
 async function getCompanyOwner(companyId) {
   const row = await prisma_default.companyMember.findFirst({
@@ -32454,23 +32465,23 @@ async function getCompanyJobs(companyId) {
   });
 }
 async function createJob(data) {
-  const { skills: skills2, ...rest } = data;
+  const { skills, ...rest } = data;
   const job = await prisma_default.job.create({ data: rest });
-  if (skills2?.length) {
+  if (skills?.length) {
     await prisma_default.jobSkill.createMany({
-      data: skills2.map((s) => ({ jobId: job.id, skillId: s.skillId, weight: s.weight }))
+      data: skills.map((s) => ({ jobId: job.id, skillId: s.skillId, weight: s.weight }))
     });
   }
   return job.id;
 }
 async function updateJob(jobId, data) {
-  const { skills: skills2, ...rest } = data;
+  const { skills, ...rest } = data;
   await prisma_default.job.update({ where: { id: jobId }, data: rest });
-  if (skills2) {
+  if (skills) {
     await prisma_default.jobSkill.deleteMany({ where: { jobId } });
-    if (skills2.length) {
+    if (skills.length) {
       await prisma_default.jobSkill.createMany({
-        data: skills2.map((s) => ({ jobId, skillId: s.skillId, weight: s.weight }))
+        data: skills.map((s) => ({ jobId, skillId: s.skillId, weight: s.weight }))
       });
     }
   }
@@ -32551,8 +32562,8 @@ async function recordProfileView(employerUserId2, profileId) {
 async function getProfileViewCount(profileId) {
   return prisma_default.profileView.count({ where: { profileId } });
 }
-async function sendMessage(applicationId, senderUserId, text2) {
-  return prisma_default.message.create({ data: { applicationId, senderUserId, text: text2 } });
+async function sendMessage(applicationId, senderUserId, text) {
+  return prisma_default.message.create({ data: { applicationId, senderUserId, text } });
 }
 async function getThread(applicationId) {
   return prisma_default.message.findMany({
@@ -32713,8 +32724,8 @@ async function runQueueWorker(batchSize = 20) {
   const results = [];
   for (const row of batch) {
     const payload = typeof row.payload === "object" ? row.payload : JSON.parse(row.payload);
-    const users2 = await getUsersByIds([row.recipientUserId]);
-    const recipientEmail = users2[0]?.email ?? null;
+    const users = await getUsersByIds([row.recipientUserId]);
+    const recipientEmail = users[0]?.email ?? null;
     let outcome = "logged_only";
     let providerResponse = null;
     try {
@@ -32766,8 +32777,8 @@ async function listDeadQueueRows(limit = 50) {
 async function listSavedSearches(userId) {
   return prisma_default.savedSearch.findMany({ where: { userId }, orderBy: { createdAt: "desc" } });
 }
-async function createSavedSearch(userId, name2, query) {
-  const row = await prisma_default.savedSearch.create({ data: { userId, name: name2, query } });
+async function createSavedSearch(userId, name, query) {
+  const row = await prisma_default.savedSearch.create({ data: { userId, name, query } });
   return row.id;
 }
 async function deleteSavedSearch(id2, userId) {
@@ -32830,8 +32841,8 @@ async function runAllScheduledDigests() {
     try {
       const windowStart = new Date(now.getTime() - 24 * 3600 * 1e3);
       const run2 = await createDigestRun(ss.id, ss.userId, "daily", windowStart, now);
-      const jobs2 = await findMatchingJobsForDigest(ss.query, ss.id, windowStart, now);
-      for (const job of jobs2) {
+      const jobs = await findMatchingJobsForDigest(ss.query, ss.id, windowStart, now);
+      for (const job of jobs) {
         await enqueueNotification({
           jobKey: `digest:${ss.id}:${job.id}:${run2.id}`,
           channel: "email",
@@ -32842,8 +32853,8 @@ async function runAllScheduledDigests() {
         });
         await recordDigestSent(run2.id, job.id);
       }
-      await completeDigestRun(run2.id, jobs2.length);
-      results.push({ savedSearchId: ss.id, jobsSent: jobs2.length });
+      await completeDigestRun(run2.id, jobs.length);
+      results.push({ savedSearchId: ss.id, jobsSent: jobs.length });
     } catch (e) {
       logEvent("digest_error", { savedSearchId: ss.id, error: e?.message }, "error");
     }
@@ -33168,20 +33179,20 @@ var init_utils = __esm({
     reduceDescriptors = (obj, reducer) => {
       const descriptors2 = Object.getOwnPropertyDescriptors(obj);
       const reducedDescriptors = {};
-      forEach(descriptors2, (descriptor, name2) => {
+      forEach(descriptors2, (descriptor, name) => {
         let ret;
-        if ((ret = reducer(descriptor, name2, obj)) !== false) {
-          reducedDescriptors[name2] = ret || descriptor;
+        if ((ret = reducer(descriptor, name, obj)) !== false) {
+          reducedDescriptors[name] = ret || descriptor;
         }
       });
       Object.defineProperties(obj, reducedDescriptors);
     };
     freezeMethods = (obj) => {
-      reduceDescriptors(obj, (descriptor, name2) => {
-        if (isFunction2(obj) && ["arguments", "caller", "callee"].indexOf(name2) !== -1) {
+      reduceDescriptors(obj, (descriptor, name) => {
+        if (isFunction2(obj) && ["arguments", "caller", "callee"].indexOf(name) !== -1) {
           return false;
         }
-        const value = obj[name2];
+        const value = obj[name];
         if (!isFunction2(value)) return;
         descriptor.enumerable = false;
         if ("writable" in descriptor) {
@@ -33190,7 +33201,7 @@ var init_utils = __esm({
         }
         if (!descriptor.set) {
           descriptor.set = () => {
-            throw Error("Can not rewrite read-only method '" + name2 + "'");
+            throw Error("Can not rewrite read-only method '" + name + "'");
           };
         }
       });
@@ -33858,8 +33869,8 @@ var require_serialOrdered = __commonJS({
 var require_serial = __commonJS({
   "node_modules/.pnpm/asynckit@0.4.0/node_modules/asynckit/serial.js"(exports2, module2) {
     var serialOrdered = require_serialOrdered();
-    module2.exports = serial2;
-    function serial2(list, iterator2, callback) {
+    module2.exports = serial;
+    function serial(list, iterator2, callback) {
       return serialOrdered(list, iterator2, null, callback);
     }
   }
@@ -34409,8 +34420,8 @@ var init_AxiosURLSearchParams = __esm({
     "use strict";
     init_toFormData();
     prototype2 = AxiosURLSearchParams.prototype;
-    prototype2.append = function append(name2, value) {
-      this._pairs.push([name2, value]);
+    prototype2.append = function append(name, value) {
+      this._pairs.push([name, value]);
     };
     prototype2.toString = function toString2(encoder2) {
       const _encode2 = encoder2 ? function(value) {
@@ -34653,8 +34664,8 @@ var init_toURLEncodedForm = __esm({
 });
 
 // node_modules/.pnpm/axios@1.12.2/node_modules/axios/lib/helpers/formDataToJSON.js
-function parsePropPath(name2) {
-  return utils_default.matchAll(/\w+|\[(\w*)]/g, name2).map((match) => {
+function parsePropPath(name) {
+  return utils_default.matchAll(/\w+|\[(\w*)]/g, name).map((match) => {
     return match[0] === "[]" ? "" : match[1] || match[0];
   });
 }
@@ -34672,32 +34683,32 @@ function arrayToObject(arr) {
 }
 function formDataToJSON(formData) {
   function buildPath2(path, value, target, index) {
-    let name2 = path[index++];
-    if (name2 === "__proto__") return true;
-    const isNumericKey = Number.isFinite(+name2);
+    let name = path[index++];
+    if (name === "__proto__") return true;
+    const isNumericKey = Number.isFinite(+name);
     const isLast = index >= path.length;
-    name2 = !name2 && utils_default.isArray(target) ? target.length : name2;
+    name = !name && utils_default.isArray(target) ? target.length : name;
     if (isLast) {
-      if (utils_default.hasOwnProp(target, name2)) {
-        target[name2] = [target[name2], value];
+      if (utils_default.hasOwnProp(target, name)) {
+        target[name] = [target[name], value];
       } else {
-        target[name2] = value;
+        target[name] = value;
       }
       return !isNumericKey;
     }
-    if (!target[name2] || !utils_default.isObject(target[name2])) {
-      target[name2] = [];
+    if (!target[name] || !utils_default.isObject(target[name])) {
+      target[name] = [];
     }
-    const result = buildPath2(path, value, target[name2], index);
-    if (result && utils_default.isArray(target[name2])) {
-      target[name2] = arrayToObject(target[name2]);
+    const result = buildPath2(path, value, target[name], index);
+    if (result && utils_default.isArray(target[name])) {
+      target[name] = arrayToObject(target[name]);
     }
     return !isNumericKey;
   }
   if (utils_default.isFormData(formData) && utils_default.isFunction(formData.entries)) {
     const obj = {};
-    utils_default.forEachEntry(formData, (name2, value) => {
-      buildPath2(parsePropPath(name2), value, obj, 0);
+    utils_default.forEachEntry(formData, (name, value) => {
+      buildPath2(parsePropPath(name), value, obj, 0);
     });
     return obj;
   }
@@ -34921,8 +34932,8 @@ function matchHeaderValue(context, value, header, filter2, isHeaderNameFilter) {
   }
 }
 function formatHeader(header) {
-  return header.trim().toLowerCase().replace(/([a-z\d])(\w*)/g, (w2, char2, str) => {
-    return char2.toUpperCase() + str;
+  return header.trim().toLowerCase().replace(/([a-z\d])(\w*)/g, (w2, char, str) => {
+    return char.toUpperCase() + str;
   });
 }
 function buildAccessors(obj, header) {
@@ -35468,13 +35479,13 @@ var require_follow_redirects = __commonJS({
         this._ending = true;
       }
     };
-    RedirectableRequest.prototype.setHeader = function(name2, value) {
-      this._options.headers[name2] = value;
-      this._currentRequest.setHeader(name2, value);
+    RedirectableRequest.prototype.setHeader = function(name, value) {
+      this._options.headers[name] = value;
+      this._currentRequest.setHeader(name, value);
     };
-    RedirectableRequest.prototype.removeHeader = function(name2) {
-      delete this._options.headers[name2];
-      this._currentRequest.removeHeader(name2);
+    RedirectableRequest.prototype.removeHeader = function(name) {
+      delete this._options.headers[name];
+      this._currentRequest.removeHeader(name);
     };
     RedirectableRequest.prototype.setTimeout = function(msecs, callback) {
       var self2 = this;
@@ -36030,10 +36041,10 @@ var init_formDataToStream = __esm({
     CRLF_BYTES = textEncoder.encode(CRLF);
     CRLF_BYTES_COUNT = 2;
     FormDataPart = class {
-      constructor(name2, value) {
+      constructor(name, value) {
         const { escapeName } = this.constructor;
         const isStringValue = utils_default.isString(value);
-        let headers = `Content-Disposition: form-data; name="${escapeName(name2)}"${!isStringValue && value.name ? `; filename="${escapeName(value.name)}"` : ""}${CRLF}`;
+        let headers = `Content-Disposition: form-data; name="${escapeName(name)}"${!isStringValue && value.name ? `; filename="${escapeName(value.name)}"` : ""}${CRLF}`;
         if (isStringValue) {
           value = textEncoder.encode(String(value).replace(/\r?\n|\r\n?/g, CRLF));
         } else {
@@ -36042,7 +36053,7 @@ var init_formDataToStream = __esm({
         this.headers = textEncoder.encode(headers + CRLF);
         this.contentLength = isStringValue ? value.byteLength : value.size;
         this.size = this.headers.byteLength + this.contentLength + CRLF_BYTES_COUNT;
-        this.name = name2;
+        this.name = name;
         this.value = value;
       }
       async *encode() {
@@ -36055,8 +36066,8 @@ var init_formDataToStream = __esm({
         }
         yield CRLF_BYTES;
       }
-      static escapeName(name2) {
-        return String(name2).replace(/[\r\n"]/g, (match) => ({
+      static escapeName(name) {
+        return String(name).replace(/[\r\n"]/g, (match) => ({
           "\r": "%0D",
           "\n": "%0A",
           '"': "%22"
@@ -36078,8 +36089,8 @@ var init_formDataToStream = __esm({
       const boundaryBytes = textEncoder.encode("--" + boundary + CRLF);
       const footerBytes = textEncoder.encode("--" + boundary + "--" + CRLF);
       let contentLength = footerBytes.byteLength;
-      const parts = Array.from(form.entries()).map(([name2, value]) => {
-        const part = new FormDataPart(name2, value);
+      const parts = Array.from(form.entries()).map(([name, value]) => {
+        const part = new FormDataPart(name, value);
         contentLength += part.size;
         return part;
       });
@@ -36154,14 +36165,14 @@ var init_callbackify = __esm({
 });
 
 // node_modules/.pnpm/axios@1.12.2/node_modules/axios/lib/helpers/speedometer.js
-function speedometer(samplesCount, min2) {
+function speedometer(samplesCount, min) {
   samplesCount = samplesCount || 10;
   const bytes = new Array(samplesCount);
   const timestamps = new Array(samplesCount);
   let head = 0;
   let tail = 0;
   let firstSampleTS;
-  min2 = min2 !== void 0 ? min2 : 1e3;
+  min = min !== void 0 ? min : 1e3;
   return function push(chunkLength) {
     const now = Date.now();
     const startedAt = timestamps[tail];
@@ -36180,7 +36191,7 @@ function speedometer(samplesCount, min2) {
     if (head === tail) {
       tail = (tail + 1) % samplesCount;
     }
-    if (now - firstSampleTS < min2) {
+    if (now - firstSampleTS < min) {
       return;
     }
     const passed = startedAt && now - startedAt;
@@ -36197,12 +36208,12 @@ var init_speedometer = __esm({
 
 // node_modules/.pnpm/axios@1.12.2/node_modules/axios/lib/helpers/throttle.js
 function throttle(fn2, freq) {
-  let timestamp2 = 0;
+  let timestamp = 0;
   let threshold = 1e3 / freq;
   let lastArgs;
   let timer;
   const invoke = (args, now = Date.now()) => {
-    timestamp2 = now;
+    timestamp = now;
     lastArgs = null;
     if (timer) {
       clearTimeout(timer);
@@ -36212,7 +36223,7 @@ function throttle(fn2, freq) {
   };
   const throttled = (...args) => {
     const now = Date.now();
-    const passed = now - timestamp2;
+    const passed = now - timestamp;
     if (passed >= threshold) {
       invoke(args, now);
     } else {
@@ -36901,20 +36912,20 @@ var init_cookies2 = __esm({
     cookies_default = platform_default.hasStandardBrowserEnv ? (
       // Standard browser envs support document.cookie
       {
-        write(name2, value, expires, path, domain2, secure) {
-          const cookie = [name2 + "=" + encodeURIComponent(value)];
+        write(name, value, expires, path, domain2, secure) {
+          const cookie = [name + "=" + encodeURIComponent(value)];
           utils_default.isNumber(expires) && cookie.push("expires=" + new Date(expires).toGMTString());
           utils_default.isString(path) && cookie.push("path=" + path);
           utils_default.isString(domain2) && cookie.push("domain=" + domain2);
           secure === true && cookie.push("secure");
           document.cookie = cookie.join("; ");
         },
-        read(name2) {
-          const match = document.cookie.match(new RegExp("(^|;\\s*)(" + name2 + ")=([^;]*)"));
+        read(name) {
+          const match = document.cookie.match(new RegExp("(^|;\\s*)(" + name + ")=([^;]*)"));
           return match ? decodeURIComponent(match[3]) : null;
         },
-        remove(name2) {
-          this.write(name2, "", Date.now() - 864e5);
+        remove(name) {
+          this.write(name, "", Date.now() - 864e5);
         }
       }
     ) : (
@@ -37722,23 +37733,23 @@ var init_validator = __esm({
       };
     });
     deprecatedWarnings = {};
-    validators.transitional = function transitional(validator, version4, message2) {
-      function formatMessage(opt, desc2) {
-        return "[Axios v" + VERSION + "] Transitional option '" + opt + "'" + desc2 + (message2 ? ". " + message2 : "");
+    validators.transitional = function transitional(validator, version3, message2) {
+      function formatMessage(opt, desc) {
+        return "[Axios v" + VERSION + "] Transitional option '" + opt + "'" + desc + (message2 ? ". " + message2 : "");
       }
       return (value, opt, opts) => {
         if (validator === false) {
           throw new AxiosError_default(
-            formatMessage(opt, " has been removed" + (version4 ? " in " + version4 : "")),
+            formatMessage(opt, " has been removed" + (version3 ? " in " + version3 : "")),
             AxiosError_default.ERR_DEPRECATED
           );
         }
-        if (version4 && !deprecatedWarnings[opt]) {
+        if (version3 && !deprecatedWarnings[opt]) {
           deprecatedWarnings[opt] = true;
           console.warn(
             formatMessage(
               opt,
-              " has been deprecated since v" + version4 + " and will be removed in the near future"
+              " has been deprecated since v" + version3 + " and will be removed in the near future"
             )
           );
         }
@@ -38266,10 +38277,10 @@ function decodeBase64(encoded) {
   if (Uint8Array.fromBase64) {
     return Uint8Array.fromBase64(encoded);
   }
-  const binary2 = atob(encoded);
-  const bytes = new Uint8Array(binary2.length);
-  for (let i = 0; i < binary2.length; i++) {
-    bytes[i] = binary2.charCodeAt(i);
+  const binary = atob(encoded);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
   }
   return bytes;
 }
@@ -38379,11 +38390,11 @@ var init_errors2 = __esm({
 });
 
 // node_modules/.pnpm/jose@6.1.0/node_modules/jose/dist/webapi/lib/crypto_key.js
-function unusable(name2, prop = "algorithm.name") {
-  return new TypeError(`CryptoKey does not support this operation, its ${prop} must be ${name2}`);
+function unusable(name, prop = "algorithm.name") {
+  return new TypeError(`CryptoKey does not support this operation, its ${prop} must be ${name}`);
 }
-function isAlgorithm(algorithm, name2) {
-  return algorithm.name === name2;
+function isAlgorithm(algorithm, name) {
+  return algorithm.name === name;
 }
 function getHashLength(hash2) {
   return parseInt(hash2.name.slice(4), 10);
@@ -39308,7 +39319,7 @@ var init_verify3 = __esm({
 var epoch_default;
 var init_epoch = __esm({
   "node_modules/.pnpm/jose@6.1.0/node_modules/jose/dist/webapi/lib/epoch.js"() {
-    epoch_default = (date6) => Math.floor(date6.getTime() / 1e3);
+    epoch_default = (date5) => Math.floor(date5.getTime() / 1e3);
   }
 });
 
@@ -39455,8 +39466,8 @@ function validateClaimsSet(protectedHeader, encodedPayload, options = {}) {
   }
   if (maxTokenAge) {
     const age = now - payload.iat;
-    const max2 = typeof maxTokenAge === "number" ? maxTokenAge : secs_default(maxTokenAge);
-    if (age - tolerance > max2) {
+    const max = typeof maxTokenAge === "number" ? maxTokenAge : secs_default(maxTokenAge);
+    if (age - tolerance > max) {
       throw new JWTExpired('"iat" claim timestamp check failed (too far in the past)', payload, "iat", "check_failed");
     }
     if (age < 0 - tolerance) {
@@ -39783,7 +39794,7 @@ var init_env = __esm({
     ENV = {
       appId: process.env.VITE_APP_ID || "Xa5WK2zgALVZPriP2m7kh2",
       cookieSecret: process.env.JWT_SECRET || "Qo7wFva5x43VQDKMJAtvnk",
-      databaseUrl: process.env.DATABASE_URL || 'mysql://3pXYBN7ALdP3R8i.root:BGnF8OX9e1BrMFV0iO77@gateway03.us-east-1.prod.aws.tidbcloud.com:4000/Xa5WK2zgALVZPriP2m7kh2?ssl={"rejectUnauthorized":true}',
+      databaseUrl: process.env.DATABASE_URL || "",
       oAuthServerUrl: process.env.OAUTH_SERVER_URL || "https://api.manus.im",
       ownerOpenId: process.env.OWNER_OPEN_ID || "65XVwZ3rvE37UR5wENnpCq",
       ownerName: process.env.OWNER_NAME || "Ayush Patel",
@@ -39962,15 +39973,15 @@ var init_sdk = __esm({
           const { payload } = await jwtVerify(cookieValue, secretKey, {
             algorithms: ["HS256"]
           });
-          const { openId, appId, name: name2 } = payload;
-          if (!isNonEmptyString(openId) || !isNonEmptyString(appId) || !isNonEmptyString(name2)) {
+          const { openId, appId, name } = payload;
+          if (!isNonEmptyString(openId) || !isNonEmptyString(appId) || !isNonEmptyString(name)) {
             console.warn("[Auth] Session payload missing required fields");
             return null;
           }
           return {
             openId,
             appId,
-            name: name2
+            name
           };
         } catch (error46) {
           console.warn("[Auth] Session verification failed", String(error46));
@@ -40070,16 +40081,16 @@ function registerOAuthRoutes(app2) {
     }
     try {
       const openId = ENV.ownerOpenId || "dev_user_id";
-      const name2 = ENV.ownerName || "Dev User";
+      const name = ENV.ownerName || "Dev User";
       await upsertUser({
         openId,
-        name: name2,
+        name,
         email: "dev@example.com",
         loginMethod: "dev",
         lastSignedIn: /* @__PURE__ */ new Date()
       });
       const sessionToken = await sdk.createSessionToken(openId, {
-        name: name2,
+        name,
         expiresInMs: ONE_YEAR_MS
       });
       const cookieOptions = getSessionCookieOptions(req);
@@ -40093,17 +40104,17 @@ function registerOAuthRoutes(app2) {
   app2.all("/api/oauth/google-login", async (req, res) => {
     try {
       const email3 = req.query.email || req.body?.email || "ayush.patel@gmail.com";
-      const name2 = req.query.name || req.body?.name || "Ayush Patel";
+      const name = req.query.name || req.body?.name || "Ayush Patel";
       const openId = `google_${Buffer.from(email3).toString("hex").slice(0, 16)}`;
       await upsertUser({
         openId,
-        name: name2,
+        name,
         email: email3,
         loginMethod: "google",
         lastSignedIn: /* @__PURE__ */ new Date()
       });
       const sessionToken = await sdk.createSessionToken(openId, {
-        name: name2,
+        name,
         expiresInMs: ONE_YEAR_MS
       });
       const cookieOptions = getSessionCookieOptions(req);
@@ -40229,7 +40240,7 @@ var init_dist = __esm({
 
 // node_modules/.pnpm/zod@4.1.12/node_modules/zod/v4/core/core.js
 // @__NO_SIDE_EFFECTS__
-function $constructor(name2, initializer3, params) {
+function $constructor(name, initializer3, params) {
   function init2(inst, def) {
     var _a2;
     Object.defineProperty(inst, "_zod", {
@@ -40237,7 +40248,7 @@ function $constructor(name2, initializer3, params) {
       enumerable: false
     });
     (_a2 = inst._zod).traits ?? (_a2.traits = /* @__PURE__ */ new Set());
-    inst._zod.traits.add(name2);
+    inst._zod.traits.add(name);
     initializer3(inst, def);
     for (const k2 in _.prototype) {
       if (!(k2 in inst))
@@ -40249,7 +40260,7 @@ function $constructor(name2, initializer3, params) {
   const Parent = params?.Parent ?? Object;
   class Definition extends Parent {
   }
-  Object.defineProperty(Definition, "name", { value: name2 });
+  Object.defineProperty(Definition, "name", { value: name });
   function _(def) {
     var _a2;
     const inst = params?.Parent ? new Definition() : this;
@@ -40265,10 +40276,10 @@ function $constructor(name2, initializer3, params) {
     value: (inst) => {
       if (params?.Parent && inst instanceof params.Parent)
         return true;
-      return inst?._zod?.traits?.has(name2);
+      return inst?._zod?.traits?.has(name);
     }
   });
-  Object.defineProperty(_, "name", { value: name2 });
+  Object.defineProperty(_, "name", { value: name });
   return _;
 }
 function config2(newConfig) {
@@ -40289,8 +40300,8 @@ var init_core = __esm({
       }
     };
     $ZodEncodeError = class extends Error {
-      constructor(name2) {
-        super(`Encountered unidirectional transform during encode: ${name2}`);
+      constructor(name) {
+        super(`Encountered unidirectional transform during encode: ${name}`);
         this.name = "ZodEncodeError";
       }
     };
@@ -41249,13 +41260,13 @@ function time(args) {
   return new RegExp(`^${timeSource(args)}$`);
 }
 function datetime(args) {
-  const time4 = timeSource({ precision: args.precision });
+  const time3 = timeSource({ precision: args.precision });
   const opts = ["Z"];
   if (args.local)
     opts.push("");
   if (args.offset)
     opts.push(`([+-](?:[01]\\d|2[0-3]):[0-5]\\d)`);
-  const timeRegex = `${time4}(?:${opts.join("|")})`;
+  const timeRegex = `${time3}(?:${opts.join("|")})`;
   return new RegExp(`^${dateSource}T(?:${timeRegex})$`);
 }
 function fixedBase64(bodyLength, padding) {
@@ -41276,10 +41287,10 @@ var init_regexes = __esm({
     duration = /^P(?:(\d+W)|(?!.*W)(?=\d|T\d)(\d+Y)?(\d+M)?(\d+D)?(T(?=\d)(\d+H)?(\d+M)?(\d+([.,]\d+)?S)?)?)$/;
     extendedDuration = /^[-+]?P(?!$)(?:(?:[-+]?\d+Y)|(?:[-+]?\d+[.,]\d+Y$))?(?:(?:[-+]?\d+M)|(?:[-+]?\d+[.,]\d+M$))?(?:(?:[-+]?\d+W)|(?:[-+]?\d+[.,]\d+W$))?(?:(?:[-+]?\d+D)|(?:[-+]?\d+[.,]\d+D$))?(?:T(?=[\d+-])(?:(?:[-+]?\d+H)|(?:[-+]?\d+[.,]\d+H$))?(?:(?:[-+]?\d+M)|(?:[-+]?\d+[.,]\d+M$))?(?:[-+]?\d+(?:[.,]\d+)?S)?)??$/;
     guid = /^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$/;
-    uuid = (version4) => {
-      if (!version4)
+    uuid = (version3) => {
+      if (!version3)
         return /^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/;
-      return new RegExp(`^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-${version4}[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$`);
+      return new RegExp(`^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-${version3}[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$`);
     };
     uuid4 = /* @__PURE__ */ uuid(4);
     uuid6 = /* @__PURE__ */ uuid(6);
@@ -42857,8 +42868,8 @@ var init_schemas = __esm({
     });
     $ZodObject = /* @__PURE__ */ $constructor("$ZodObject", (inst, def) => {
       $ZodType.init(inst, def);
-      const desc2 = Object.getOwnPropertyDescriptor(def, "shape");
-      if (!desc2?.get) {
+      const desc = Object.getOwnPropertyDescriptor(def, "shape");
+      if (!desc?.get) {
         const sh = def.shape;
         Object.defineProperty(def, "shape", {
           get: () => {
@@ -44040,8 +44051,8 @@ var init_az = __esm({
 });
 
 // node_modules/.pnpm/zod@4.1.12/node_modules/zod/v4/locales/be.js
-function getBelarusianPlural(count2, one, few, many) {
-  const absCount = Math.abs(count2);
+function getBelarusianPlural(count, one, few, many) {
+  const absCount = Math.abs(count);
   const lastDigit = absCount % 10;
   const lastTwoDigits = absCount % 100;
   if (lastTwoDigits >= 11 && lastTwoDigits <= 19) {
@@ -46984,8 +46995,8 @@ var init_lt = __esm({
       }
       return t2;
     };
-    capitalizeFirstCharacter = (text2) => {
-      return text2.charAt(0).toUpperCase() + text2.slice(1);
+    capitalizeFirstCharacter = (text) => {
+      return text.charAt(0).toUpperCase() + text.slice(1);
     };
     error25 = () => {
       const Sizable = {
@@ -48150,8 +48161,8 @@ var init_pt = __esm({
 });
 
 // node_modules/.pnpm/zod@4.1.12/node_modules/zod/v4/locales/ru.js
-function getRussianPlural(count2, one, few, many) {
-  const absCount = Math.abs(count2);
+function getRussianPlural(count, one, few, many) {
+  const absCount = Math.abs(count);
   const lastDigit = absCount % 10;
   const lastTwoDigits = absCount % 100;
   if (lastTwoDigits >= 11 && lastTwoDigits <= 19) {
@@ -50930,24 +50941,24 @@ var init_to_json_schema = __esm({
             const _json = result.schema;
             switch (def.type) {
               case "string": {
-                const json3 = _json;
-                json3.type = "string";
+                const json2 = _json;
+                json2.type = "string";
                 const { minimum, maximum, format, patterns, contentEncoding } = schema._zod.bag;
                 if (typeof minimum === "number")
-                  json3.minLength = minimum;
+                  json2.minLength = minimum;
                 if (typeof maximum === "number")
-                  json3.maxLength = maximum;
+                  json2.maxLength = maximum;
                 if (format) {
-                  json3.format = formatMap[format] ?? format;
-                  if (json3.format === "")
-                    delete json3.format;
+                  json2.format = formatMap[format] ?? format;
+                  if (json2.format === "")
+                    delete json2.format;
                 }
                 if (contentEncoding)
-                  json3.contentEncoding = contentEncoding;
+                  json2.contentEncoding = contentEncoding;
                 if (patterns && patterns.size > 0) {
                   const regexes = [...patterns];
                   if (regexes.length === 1)
-                    json3.pattern = regexes[0].source;
+                    json2.pattern = regexes[0].source;
                   else if (regexes.length > 1) {
                     result.schema.allOf = [
                       ...regexes.map((regex) => ({
@@ -50960,53 +50971,53 @@ var init_to_json_schema = __esm({
                 break;
               }
               case "number": {
-                const json3 = _json;
+                const json2 = _json;
                 const { minimum, maximum, format, multipleOf, exclusiveMaximum, exclusiveMinimum } = schema._zod.bag;
                 if (typeof format === "string" && format.includes("int"))
-                  json3.type = "integer";
+                  json2.type = "integer";
                 else
-                  json3.type = "number";
+                  json2.type = "number";
                 if (typeof exclusiveMinimum === "number") {
                   if (this.target === "draft-4" || this.target === "openapi-3.0") {
-                    json3.minimum = exclusiveMinimum;
-                    json3.exclusiveMinimum = true;
+                    json2.minimum = exclusiveMinimum;
+                    json2.exclusiveMinimum = true;
                   } else {
-                    json3.exclusiveMinimum = exclusiveMinimum;
+                    json2.exclusiveMinimum = exclusiveMinimum;
                   }
                 }
                 if (typeof minimum === "number") {
-                  json3.minimum = minimum;
+                  json2.minimum = minimum;
                   if (typeof exclusiveMinimum === "number" && this.target !== "draft-4") {
                     if (exclusiveMinimum >= minimum)
-                      delete json3.minimum;
+                      delete json2.minimum;
                     else
-                      delete json3.exclusiveMinimum;
+                      delete json2.exclusiveMinimum;
                   }
                 }
                 if (typeof exclusiveMaximum === "number") {
                   if (this.target === "draft-4" || this.target === "openapi-3.0") {
-                    json3.maximum = exclusiveMaximum;
-                    json3.exclusiveMaximum = true;
+                    json2.maximum = exclusiveMaximum;
+                    json2.exclusiveMaximum = true;
                   } else {
-                    json3.exclusiveMaximum = exclusiveMaximum;
+                    json2.exclusiveMaximum = exclusiveMaximum;
                   }
                 }
                 if (typeof maximum === "number") {
-                  json3.maximum = maximum;
+                  json2.maximum = maximum;
                   if (typeof exclusiveMaximum === "number" && this.target !== "draft-4") {
                     if (exclusiveMaximum <= maximum)
-                      delete json3.maximum;
+                      delete json2.maximum;
                     else
-                      delete json3.exclusiveMaximum;
+                      delete json2.exclusiveMaximum;
                   }
                 }
                 if (typeof multipleOf === "number")
-                  json3.multipleOf = multipleOf;
+                  json2.multipleOf = multipleOf;
                 break;
               }
               case "boolean": {
-                const json3 = _json;
-                json3.type = "boolean";
+                const json2 = _json;
+                json2.type = "boolean";
                 break;
               }
               case "bigint": {
@@ -51059,23 +51070,23 @@ var init_to_json_schema = __esm({
                 break;
               }
               case "array": {
-                const json3 = _json;
+                const json2 = _json;
                 const { minimum, maximum } = schema._zod.bag;
                 if (typeof minimum === "number")
-                  json3.minItems = minimum;
+                  json2.minItems = minimum;
                 if (typeof maximum === "number")
-                  json3.maxItems = maximum;
-                json3.type = "array";
-                json3.items = this.process(def.element, { ...params, path: [...params.path, "items"] });
+                  json2.maxItems = maximum;
+                json2.type = "array";
+                json2.items = this.process(def.element, { ...params, path: [...params.path, "items"] });
                 break;
               }
               case "object": {
-                const json3 = _json;
-                json3.type = "object";
-                json3.properties = {};
+                const json2 = _json;
+                json2.type = "object";
+                json2.properties = {};
                 const shape = def.shape;
                 for (const key in shape) {
-                  json3.properties[key] = this.process(shape[key], {
+                  json2.properties[key] = this.process(shape[key], {
                     ...params,
                     path: [...params.path, "properties", key]
                   });
@@ -51090,15 +51101,15 @@ var init_to_json_schema = __esm({
                   }
                 }));
                 if (requiredKeys.size > 0) {
-                  json3.required = Array.from(requiredKeys);
+                  json2.required = Array.from(requiredKeys);
                 }
                 if (def.catchall?._zod.def.type === "never") {
-                  json3.additionalProperties = false;
+                  json2.additionalProperties = false;
                 } else if (!def.catchall) {
                   if (this.io === "output")
-                    json3.additionalProperties = false;
+                    json2.additionalProperties = false;
                 } else if (def.catchall) {
-                  json3.additionalProperties = this.process(def.catchall, {
+                  json2.additionalProperties = this.process(def.catchall, {
                     ...params,
                     path: [...params.path, "additionalProperties"]
                   });
@@ -51106,16 +51117,16 @@ var init_to_json_schema = __esm({
                 break;
               }
               case "union": {
-                const json3 = _json;
+                const json2 = _json;
                 const options = def.options.map((x2, i) => this.process(x2, {
                   ...params,
                   path: [...params.path, "anyOf", i]
                 }));
-                json3.anyOf = options;
+                json2.anyOf = options;
                 break;
               }
               case "intersection": {
-                const json3 = _json;
+                const json2 = _json;
                 const a = this.process(def.left, {
                   ...params,
                   path: [...params.path, "allOf", 0]
@@ -51129,12 +51140,12 @@ var init_to_json_schema = __esm({
                   ...isSimpleIntersection(a) ? a.allOf : [a],
                   ...isSimpleIntersection(b2) ? b2.allOf : [b2]
                 ];
-                json3.allOf = allOf;
+                json2.allOf = allOf;
                 break;
               }
               case "tuple": {
-                const json3 = _json;
-                json3.type = "array";
+                const json2 = _json;
+                json2.type = "array";
                 const prefixPath = this.target === "draft-2020-12" ? "prefixItems" : "items";
                 const restPath = this.target === "draft-2020-12" ? "items" : this.target === "openapi-3.0" ? "items" : "additionalItems";
                 const prefixItems = def.items.map((x2, i) => this.process(x2, {
@@ -51146,44 +51157,44 @@ var init_to_json_schema = __esm({
                   path: [...params.path, restPath, ...this.target === "openapi-3.0" ? [def.items.length] : []]
                 }) : null;
                 if (this.target === "draft-2020-12") {
-                  json3.prefixItems = prefixItems;
+                  json2.prefixItems = prefixItems;
                   if (rest) {
-                    json3.items = rest;
+                    json2.items = rest;
                   }
                 } else if (this.target === "openapi-3.0") {
-                  json3.items = {
+                  json2.items = {
                     anyOf: prefixItems
                   };
                   if (rest) {
-                    json3.items.anyOf.push(rest);
+                    json2.items.anyOf.push(rest);
                   }
-                  json3.minItems = prefixItems.length;
+                  json2.minItems = prefixItems.length;
                   if (!rest) {
-                    json3.maxItems = prefixItems.length;
+                    json2.maxItems = prefixItems.length;
                   }
                 } else {
-                  json3.items = prefixItems;
+                  json2.items = prefixItems;
                   if (rest) {
-                    json3.additionalItems = rest;
+                    json2.additionalItems = rest;
                   }
                 }
                 const { minimum, maximum } = schema._zod.bag;
                 if (typeof minimum === "number")
-                  json3.minItems = minimum;
+                  json2.minItems = minimum;
                 if (typeof maximum === "number")
-                  json3.maxItems = maximum;
+                  json2.maxItems = maximum;
                 break;
               }
               case "record": {
-                const json3 = _json;
-                json3.type = "object";
+                const json2 = _json;
+                json2.type = "object";
                 if (this.target === "draft-7" || this.target === "draft-2020-12") {
-                  json3.propertyNames = this.process(def.keyType, {
+                  json2.propertyNames = this.process(def.keyType, {
                     ...params,
                     path: [...params.path, "propertyNames"]
                   });
                 }
-                json3.additionalProperties = this.process(def.valueType, {
+                json2.additionalProperties = this.process(def.valueType, {
                   ...params,
                   path: [...params.path, "additionalProperties"]
                 });
@@ -51202,17 +51213,17 @@ var init_to_json_schema = __esm({
                 break;
               }
               case "enum": {
-                const json3 = _json;
+                const json2 = _json;
                 const values = getEnumValues(def.entries);
                 if (values.every((v) => typeof v === "number"))
-                  json3.type = "number";
+                  json2.type = "number";
                 if (values.every((v) => typeof v === "string"))
-                  json3.type = "string";
-                json3.enum = values;
+                  json2.type = "string";
+                json2.enum = values;
                 break;
               }
               case "literal": {
-                const json3 = _json;
+                const json2 = _json;
                 const vals = [];
                 for (const val of def.values) {
                   if (val === void 0) {
@@ -51233,27 +51244,27 @@ var init_to_json_schema = __esm({
                 if (vals.length === 0) {
                 } else if (vals.length === 1) {
                   const val = vals[0];
-                  json3.type = val === null ? "null" : typeof val;
+                  json2.type = val === null ? "null" : typeof val;
                   if (this.target === "draft-4" || this.target === "openapi-3.0") {
-                    json3.enum = [val];
+                    json2.enum = [val];
                   } else {
-                    json3.const = val;
+                    json2.const = val;
                   }
                 } else {
                   if (vals.every((v) => typeof v === "number"))
-                    json3.type = "number";
+                    json2.type = "number";
                   if (vals.every((v) => typeof v === "string"))
-                    json3.type = "string";
+                    json2.type = "string";
                   if (vals.every((v) => typeof v === "boolean"))
-                    json3.type = "string";
+                    json2.type = "string";
                   if (vals.every((v) => v === null))
-                    json3.type = "null";
-                  json3.enum = vals;
+                    json2.type = "null";
+                  json2.enum = vals;
                 }
                 break;
               }
               case "file": {
-                const json3 = _json;
+                const json2 = _json;
                 const file2 = {
                   type: "string",
                   format: "binary",
@@ -51267,15 +51278,15 @@ var init_to_json_schema = __esm({
                 if (mime) {
                   if (mime.length === 1) {
                     file2.contentMediaType = mime[0];
-                    Object.assign(json3, file2);
+                    Object.assign(json2, file2);
                   } else {
-                    json3.anyOf = mime.map((m2) => {
+                    json2.anyOf = mime.map((m2) => {
                       const mFile = { ...file2, contentMediaType: m2 };
                       return mFile;
                     });
                   }
                 } else {
-                  Object.assign(json3, file2);
+                  Object.assign(json2, file2);
                 }
                 break;
               }
@@ -51301,8 +51312,8 @@ var init_to_json_schema = __esm({
                 break;
               }
               case "success": {
-                const json3 = _json;
-                json3.type = "boolean";
+                const json2 = _json;
+                json2.type = "boolean";
                 break;
               }
               case "default": {
@@ -51337,12 +51348,12 @@ var init_to_json_schema = __esm({
                 break;
               }
               case "template_literal": {
-                const json3 = _json;
+                const json2 = _json;
                 const pattern = schema._zod.pattern;
                 if (!pattern)
                   throw new Error("Pattern not found in template literal");
-                json3.type = "string";
-                json3.pattern = pattern.source;
+                json2.type = "string";
+                json2.pattern = pattern.source;
                 break;
               }
               case "pipe": {
@@ -53591,8 +53602,8 @@ var require_custom_transformer_registry = __commonJS({
             return transformer.isApplicable(v);
           });
         };
-        CustomTransformerRegistry2.prototype.findByName = function(name2) {
-          return this.transfomers[name2];
+        CustomTransformerRegistry2.prototype.findByName = function(name) {
+          return this.transfomers[name];
         };
         return CustomTransformerRegistry2;
       })()
@@ -53614,10 +53625,10 @@ var require_is = __commonJS({
       return typeof payload === "undefined";
     };
     exports2.isUndefined = isUndefined2;
-    var isNull2 = function(payload) {
+    var isNull = function(payload) {
       return payload === null;
     };
-    exports2.isNull = isNull2;
+    exports2.isNull = isNull;
     var isPlainObject4 = function(payload) {
       if (typeof payload !== "object" || payload === null)
         return false;
@@ -53717,20 +53728,20 @@ var require_pathstringifier = __commonJS({
       var result = [];
       var segment = "";
       for (var i = 0; i < string4.length; i++) {
-        var char2 = string4.charAt(i);
-        var isEscapedDot = char2 === "\\" && string4.charAt(i + 1) === ".";
+        var char = string4.charAt(i);
+        var isEscapedDot = char === "\\" && string4.charAt(i + 1) === ".";
         if (isEscapedDot) {
           segment += ".";
           i++;
           continue;
         }
-        var isEndOfSegment = char2 === ".";
+        var isEndOfSegment = char === ".";
         if (isEndOfSegment) {
           result.push(segment);
           segment = "";
           continue;
         }
-        segment += char2;
+        segment += char;
       }
       var lastSegment = segment;
       result.push(lastSegment);
@@ -53995,17 +54006,17 @@ var require_transformer = __commonJS({
     simpleRules.forEach(function(rule) {
       simpleRulesByAnnotation[rule.annotation] = rule;
     });
-    var untransformValue = function(json3, type, superJson) {
+    var untransformValue = function(json2, type, superJson) {
       if (is_1.isArray(type)) {
         switch (type[0]) {
           case "symbol":
-            return symbolRule.untransform(json3, type, superJson);
+            return symbolRule.untransform(json2, type, superJson);
           case "class":
-            return classRule.untransform(json3, type, superJson);
+            return classRule.untransform(json2, type, superJson);
           case "custom":
-            return customRule.untransform(json3, type, superJson);
+            return customRule.untransform(json2, type, superJson);
           case "typed-array":
-            return typedArrayRule.untransform(json3, type, superJson);
+            return typedArrayRule.untransform(json2, type, superJson);
           default:
             throw new Error("Unknown transformation: " + type);
         }
@@ -54014,7 +54025,7 @@ var require_transformer = __commonJS({
         if (!transformation) {
           throw new Error("Unknown transformation: " + type);
         }
-        return transformation.untransform(json3, superJson);
+        return transformation.untransform(json2, superJson);
       }
     };
     exports2.untransformValue = untransformValue;
@@ -54413,8 +54424,8 @@ var require_cjs = __commonJS({
       if (!Object.prototype.hasOwnProperty.call(type, "prototype")) {
         throw new TypeError("Type is not a class");
       }
-      const name2 = type.name;
-      return getType(payload) === name2 || Boolean(payload && payload.constructor === type);
+      const name = type.name;
+      return getType(payload) === name || Boolean(payload && payload.constructor === type);
     }
     function isInstanceOf(value, classOrClassName) {
       if (typeof classOrClassName === "function") {
@@ -54445,7 +54456,7 @@ var require_cjs = __commonJS({
     function isNegativeNumber(payload) {
       return isNumber2(payload) && payload < 0;
     }
-    function isNull2(payload) {
+    function isNull(payload) {
       return getType(payload) === "Null";
     }
     function isOneOf(a, b2, c, d, e) {
@@ -54454,7 +54465,7 @@ var require_cjs = __commonJS({
     function isUndefined2(payload) {
       return getType(payload) === "Undefined";
     }
-    var isNullOrUndefined = isOneOf(isNull2, isUndefined2);
+    var isNullOrUndefined = isOneOf(isNull, isUndefined2);
     function isObject4(payload) {
       return isPlainObject4(payload);
     }
@@ -54468,7 +54479,7 @@ var require_cjs = __commonJS({
       return getType(payload) === "Symbol";
     }
     function isPrimitive(payload) {
-      return isBoolean2(payload) || isNull2(payload) || isUndefined2(payload) || isNumber2(payload) || isString2(payload) || isSymbol(payload);
+      return isBoolean2(payload) || isNull(payload) || isUndefined2(payload) || isNumber2(payload) || isString2(payload) || isSymbol(payload);
     }
     function isPromise2(payload) {
       return getType(payload) === "Promise";
@@ -54504,7 +54515,7 @@ var require_cjs = __commonJS({
     exports2.isMap = isMap;
     exports2.isNaNValue = isNaNValue;
     exports2.isNegativeNumber = isNegativeNumber;
-    exports2.isNull = isNull2;
+    exports2.isNull = isNull;
     exports2.isNullOrUndefined = isNullOrUndefined;
     exports2.isNumber = isNumber2;
     exports2.isObject = isObject4;
@@ -54640,8 +54651,8 @@ var require_dist2 = __commonJS({
           return res;
         };
         SuperJSON2.prototype.deserialize = function(payload) {
-          var json3 = payload.json, meta = payload.meta;
-          var result = copy_anything_1.copy(json3);
+          var json2 = payload.json, meta = payload.meta;
+          var result = copy_anything_1.copy(json2);
           if (meta === null || meta === void 0 ? void 0 : meta.values) {
             result = plainer_1.applyValueAnnotations(result, meta.values, this);
           }
@@ -54662,8 +54673,8 @@ var require_dist2 = __commonJS({
         SuperJSON2.prototype.registerSymbol = function(v, identifier) {
           this.symbolRegistry.register(v, identifier);
         };
-        SuperJSON2.prototype.registerCustom = function(transformer, name2) {
-          this.customTransformerRegistry.register(__assign({ name: name2 }, transformer));
+        SuperJSON2.prototype.registerCustom = function(transformer, name) {
+          this.customTransformerRegistry.register(__assign({ name }, transformer));
         };
         SuperJSON2.prototype.allowErrorProps = function() {
           var _a2;
@@ -54821,7462 +54832,6 @@ var init_storage = __esm({
   "server/storage.ts"() {
     "use strict";
     init_env();
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/entity.js
-function is2(value, type) {
-  if (!value || typeof value !== "object") {
-    return false;
-  }
-  if (value instanceof type) {
-    return true;
-  }
-  if (!Object.prototype.hasOwnProperty.call(type, entityKind)) {
-    throw new Error(
-      `Class "${type.name ?? "<unknown>"}" doesn't look like a Drizzle entity. If this is incorrect and the class is provided by Drizzle, please report this as a bug.`
-    );
-  }
-  let cls = Object.getPrototypeOf(value).constructor;
-  if (cls) {
-    while (cls) {
-      if (entityKind in cls && cls[entityKind] === type[entityKind]) {
-        return true;
-      }
-      cls = Object.getPrototypeOf(cls);
-    }
-  }
-  return false;
-}
-var entityKind, hasOwnEntityKind;
-var init_entity = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/entity.js"() {
-    entityKind = Symbol.for("drizzle:entityKind");
-    hasOwnEntityKind = Symbol.for("drizzle:hasOwnEntityKind");
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/column.js
-var Column;
-var init_column = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/column.js"() {
-    init_entity();
-    Column = class {
-      constructor(table, config3) {
-        this.table = table;
-        this.config = config3;
-        this.name = config3.name;
-        this.keyAsName = config3.keyAsName;
-        this.notNull = config3.notNull;
-        this.default = config3.default;
-        this.defaultFn = config3.defaultFn;
-        this.onUpdateFn = config3.onUpdateFn;
-        this.hasDefault = config3.hasDefault;
-        this.primary = config3.primaryKey;
-        this.isUnique = config3.isUnique;
-        this.uniqueName = config3.uniqueName;
-        this.uniqueType = config3.uniqueType;
-        this.dataType = config3.dataType;
-        this.columnType = config3.columnType;
-        this.generated = config3.generated;
-        this.generatedIdentity = config3.generatedIdentity;
-      }
-      static [entityKind] = "Column";
-      name;
-      keyAsName;
-      primary;
-      notNull;
-      default;
-      defaultFn;
-      onUpdateFn;
-      hasDefault;
-      isUnique;
-      uniqueName;
-      uniqueType;
-      dataType;
-      columnType;
-      enumValues = void 0;
-      generated = void 0;
-      generatedIdentity = void 0;
-      config;
-      mapFromDriverValue(value) {
-        return value;
-      }
-      mapToDriverValue(value) {
-        return value;
-      }
-      // ** @internal */
-      shouldDisableInsert() {
-        return this.config.generated !== void 0 && this.config.generated.type !== "byDefault";
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/column-builder.js
-var ColumnBuilder;
-var init_column_builder = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/column-builder.js"() {
-    init_entity();
-    ColumnBuilder = class {
-      static [entityKind] = "ColumnBuilder";
-      config;
-      constructor(name2, dataType, columnType) {
-        this.config = {
-          name: name2,
-          keyAsName: name2 === "",
-          notNull: false,
-          default: void 0,
-          hasDefault: false,
-          primaryKey: false,
-          isUnique: false,
-          uniqueName: void 0,
-          uniqueType: void 0,
-          dataType,
-          columnType,
-          generated: void 0
-        };
-      }
-      /**
-       * Changes the data type of the column. Commonly used with `json` columns. Also, useful for branded types.
-       *
-       * @example
-       * ```ts
-       * const users = pgTable('users', {
-       * 	id: integer('id').$type<UserId>().primaryKey(),
-       * 	details: json('details').$type<UserDetails>().notNull(),
-       * });
-       * ```
-       */
-      $type() {
-        return this;
-      }
-      /**
-       * Adds a `not null` clause to the column definition.
-       *
-       * Affects the `select` model of the table - columns *without* `not null` will be nullable on select.
-       */
-      notNull() {
-        this.config.notNull = true;
-        return this;
-      }
-      /**
-       * Adds a `default <value>` clause to the column definition.
-       *
-       * Affects the `insert` model of the table - columns *with* `default` are optional on insert.
-       *
-       * If you need to set a dynamic default value, use {@link $defaultFn} instead.
-       */
-      default(value) {
-        this.config.default = value;
-        this.config.hasDefault = true;
-        return this;
-      }
-      /**
-       * Adds a dynamic default value to the column.
-       * The function will be called when the row is inserted, and the returned value will be used as the column value.
-       *
-       * **Note:** This value does not affect the `drizzle-kit` behavior, it is only used at runtime in `drizzle-orm`.
-       */
-      $defaultFn(fn2) {
-        this.config.defaultFn = fn2;
-        this.config.hasDefault = true;
-        return this;
-      }
-      /**
-       * Alias for {@link $defaultFn}.
-       */
-      $default = this.$defaultFn;
-      /**
-       * Adds a dynamic update value to the column.
-       * The function will be called when the row is updated, and the returned value will be used as the column value if none is provided.
-       * If no `default` (or `$defaultFn`) value is provided, the function will be called when the row is inserted as well, and the returned value will be used as the column value.
-       *
-       * **Note:** This value does not affect the `drizzle-kit` behavior, it is only used at runtime in `drizzle-orm`.
-       */
-      $onUpdateFn(fn2) {
-        this.config.onUpdateFn = fn2;
-        this.config.hasDefault = true;
-        return this;
-      }
-      /**
-       * Alias for {@link $onUpdateFn}.
-       */
-      $onUpdate = this.$onUpdateFn;
-      /**
-       * Adds a `primary key` clause to the column definition. This implicitly makes the column `not null`.
-       *
-       * In SQLite, `integer primary key` implicitly makes the column auto-incrementing.
-       */
-      primaryKey() {
-        this.config.primaryKey = true;
-        this.config.notNull = true;
-        return this;
-      }
-      /** @internal Sets the name of the column to the key within the table definition if a name was not given. */
-      setName(name2) {
-        if (this.config.name !== "") return;
-        this.config.name = name2;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/table.utils.js
-var TableName;
-var init_table_utils = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/table.utils.js"() {
-    TableName = Symbol.for("drizzle:Name");
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/pg-core/foreign-keys.js
-var ForeignKeyBuilder, ForeignKey;
-var init_foreign_keys = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/pg-core/foreign-keys.js"() {
-    init_entity();
-    init_table_utils();
-    ForeignKeyBuilder = class {
-      static [entityKind] = "PgForeignKeyBuilder";
-      /** @internal */
-      reference;
-      /** @internal */
-      _onUpdate = "no action";
-      /** @internal */
-      _onDelete = "no action";
-      constructor(config3, actions) {
-        this.reference = () => {
-          const { name: name2, columns, foreignColumns } = config3();
-          return { name: name2, columns, foreignTable: foreignColumns[0].table, foreignColumns };
-        };
-        if (actions) {
-          this._onUpdate = actions.onUpdate;
-          this._onDelete = actions.onDelete;
-        }
-      }
-      onUpdate(action) {
-        this._onUpdate = action === void 0 ? "no action" : action;
-        return this;
-      }
-      onDelete(action) {
-        this._onDelete = action === void 0 ? "no action" : action;
-        return this;
-      }
-      /** @internal */
-      build(table) {
-        return new ForeignKey(table, this);
-      }
-    };
-    ForeignKey = class {
-      constructor(table, builder) {
-        this.table = table;
-        this.reference = builder.reference;
-        this.onUpdate = builder._onUpdate;
-        this.onDelete = builder._onDelete;
-      }
-      static [entityKind] = "PgForeignKey";
-      reference;
-      onUpdate;
-      onDelete;
-      getName() {
-        const { name: name2, columns, foreignColumns } = this.reference();
-        const columnNames = columns.map((column) => column.name);
-        const foreignColumnNames = foreignColumns.map((column) => column.name);
-        const chunks = [
-          this.table[TableName],
-          ...columnNames,
-          foreignColumns[0].table[TableName],
-          ...foreignColumnNames
-        ];
-        return name2 ?? `${chunks.join("_")}_fk`;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/tracing-utils.js
-function iife(fn2, ...args) {
-  return fn2(...args);
-}
-var init_tracing_utils = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/tracing-utils.js"() {
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/pg-core/unique-constraint.js
-function uniqueKeyName(table, columns) {
-  return `${table[TableName]}_${columns.join("_")}_unique`;
-}
-var UniqueConstraintBuilder, UniqueOnConstraintBuilder, UniqueConstraint;
-var init_unique_constraint = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/pg-core/unique-constraint.js"() {
-    init_entity();
-    init_table_utils();
-    UniqueConstraintBuilder = class {
-      constructor(columns, name2) {
-        this.name = name2;
-        this.columns = columns;
-      }
-      static [entityKind] = "PgUniqueConstraintBuilder";
-      /** @internal */
-      columns;
-      /** @internal */
-      nullsNotDistinctConfig = false;
-      nullsNotDistinct() {
-        this.nullsNotDistinctConfig = true;
-        return this;
-      }
-      /** @internal */
-      build(table) {
-        return new UniqueConstraint(table, this.columns, this.nullsNotDistinctConfig, this.name);
-      }
-    };
-    UniqueOnConstraintBuilder = class {
-      static [entityKind] = "PgUniqueOnConstraintBuilder";
-      /** @internal */
-      name;
-      constructor(name2) {
-        this.name = name2;
-      }
-      on(...columns) {
-        return new UniqueConstraintBuilder(columns, this.name);
-      }
-    };
-    UniqueConstraint = class {
-      constructor(table, columns, nullsNotDistinct, name2) {
-        this.table = table;
-        this.columns = columns;
-        this.name = name2 ?? uniqueKeyName(this.table, this.columns.map((column) => column.name));
-        this.nullsNotDistinct = nullsNotDistinct;
-      }
-      static [entityKind] = "PgUniqueConstraint";
-      columns;
-      name;
-      nullsNotDistinct = false;
-      getName() {
-        return this.name;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/pg-core/utils/array.js
-function parsePgArrayValue(arrayString, startFrom, inQuotes) {
-  for (let i = startFrom; i < arrayString.length; i++) {
-    const char2 = arrayString[i];
-    if (char2 === "\\") {
-      i++;
-      continue;
-    }
-    if (char2 === '"') {
-      return [arrayString.slice(startFrom, i).replace(/\\/g, ""), i + 1];
-    }
-    if (inQuotes) {
-      continue;
-    }
-    if (char2 === "," || char2 === "}") {
-      return [arrayString.slice(startFrom, i).replace(/\\/g, ""), i];
-    }
-  }
-  return [arrayString.slice(startFrom).replace(/\\/g, ""), arrayString.length];
-}
-function parsePgNestedArray(arrayString, startFrom = 0) {
-  const result = [];
-  let i = startFrom;
-  let lastCharIsComma = false;
-  while (i < arrayString.length) {
-    const char2 = arrayString[i];
-    if (char2 === ",") {
-      if (lastCharIsComma || i === startFrom) {
-        result.push("");
-      }
-      lastCharIsComma = true;
-      i++;
-      continue;
-    }
-    lastCharIsComma = false;
-    if (char2 === "\\") {
-      i += 2;
-      continue;
-    }
-    if (char2 === '"') {
-      const [value2, startFrom2] = parsePgArrayValue(arrayString, i + 1, true);
-      result.push(value2);
-      i = startFrom2;
-      continue;
-    }
-    if (char2 === "}") {
-      return [result, i + 1];
-    }
-    if (char2 === "{") {
-      const [value2, startFrom2] = parsePgNestedArray(arrayString, i + 1);
-      result.push(value2);
-      i = startFrom2;
-      continue;
-    }
-    const [value, newStartFrom] = parsePgArrayValue(arrayString, i, false);
-    result.push(value);
-    i = newStartFrom;
-  }
-  return [result, i];
-}
-function parsePgArray(arrayString) {
-  const [result] = parsePgNestedArray(arrayString, 1);
-  return result;
-}
-function makePgArray(array2) {
-  return `{${array2.map((item) => {
-    if (Array.isArray(item)) {
-      return makePgArray(item);
-    }
-    if (typeof item === "string") {
-      return `"${item.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
-    }
-    return `${item}`;
-  }).join(",")}}`;
-}
-var init_array = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/pg-core/utils/array.js"() {
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/pg-core/columns/common.js
-var PgColumnBuilder, PgColumn, ExtraConfigColumn, IndexedColumn, PgArrayBuilder, PgArray;
-var init_common = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/pg-core/columns/common.js"() {
-    init_column_builder();
-    init_column();
-    init_entity();
-    init_foreign_keys();
-    init_tracing_utils();
-    init_unique_constraint();
-    init_array();
-    PgColumnBuilder = class extends ColumnBuilder {
-      foreignKeyConfigs = [];
-      static [entityKind] = "PgColumnBuilder";
-      array(size) {
-        return new PgArrayBuilder(this.config.name, this, size);
-      }
-      references(ref, actions = {}) {
-        this.foreignKeyConfigs.push({ ref, actions });
-        return this;
-      }
-      unique(name2, config3) {
-        this.config.isUnique = true;
-        this.config.uniqueName = name2;
-        this.config.uniqueType = config3?.nulls;
-        return this;
-      }
-      generatedAlwaysAs(as2) {
-        this.config.generated = {
-          as: as2,
-          type: "always",
-          mode: "stored"
-        };
-        return this;
-      }
-      /** @internal */
-      buildForeignKeys(column, table) {
-        return this.foreignKeyConfigs.map(({ ref, actions }) => {
-          return iife(
-            (ref2, actions2) => {
-              const builder = new ForeignKeyBuilder(() => {
-                const foreignColumn = ref2();
-                return { columns: [column], foreignColumns: [foreignColumn] };
-              });
-              if (actions2.onUpdate) {
-                builder.onUpdate(actions2.onUpdate);
-              }
-              if (actions2.onDelete) {
-                builder.onDelete(actions2.onDelete);
-              }
-              return builder.build(table);
-            },
-            ref,
-            actions
-          );
-        });
-      }
-      /** @internal */
-      buildExtraConfigColumn(table) {
-        return new ExtraConfigColumn(table, this.config);
-      }
-    };
-    PgColumn = class extends Column {
-      constructor(table, config3) {
-        if (!config3.uniqueName) {
-          config3.uniqueName = uniqueKeyName(table, [config3.name]);
-        }
-        super(table, config3);
-        this.table = table;
-      }
-      static [entityKind] = "PgColumn";
-    };
-    ExtraConfigColumn = class extends PgColumn {
-      static [entityKind] = "ExtraConfigColumn";
-      getSQLType() {
-        return this.getSQLType();
-      }
-      indexConfig = {
-        order: this.config.order ?? "asc",
-        nulls: this.config.nulls ?? "last",
-        opClass: this.config.opClass
-      };
-      defaultConfig = {
-        order: "asc",
-        nulls: "last",
-        opClass: void 0
-      };
-      asc() {
-        this.indexConfig.order = "asc";
-        return this;
-      }
-      desc() {
-        this.indexConfig.order = "desc";
-        return this;
-      }
-      nullsFirst() {
-        this.indexConfig.nulls = "first";
-        return this;
-      }
-      nullsLast() {
-        this.indexConfig.nulls = "last";
-        return this;
-      }
-      /**
-       * ### PostgreSQL documentation quote
-       *
-       * > An operator class with optional parameters can be specified for each column of an index.
-       * The operator class identifies the operators to be used by the index for that column.
-       * For example, a B-tree index on four-byte integers would use the int4_ops class;
-       * this operator class includes comparison functions for four-byte integers.
-       * In practice the default operator class for the column's data type is usually sufficient.
-       * The main point of having operator classes is that for some data types, there could be more than one meaningful ordering.
-       * For example, we might want to sort a complex-number data type either by absolute value or by real part.
-       * We could do this by defining two operator classes for the data type and then selecting the proper class when creating an index.
-       * More information about operator classes check:
-       *
-       * ### Useful links
-       * https://www.postgresql.org/docs/current/sql-createindex.html
-       *
-       * https://www.postgresql.org/docs/current/indexes-opclass.html
-       *
-       * https://www.postgresql.org/docs/current/xindex.html
-       *
-       * ### Additional types
-       * If you have the `pg_vector` extension installed in your database, you can use the
-       * `vector_l2_ops`, `vector_ip_ops`, `vector_cosine_ops`, `vector_l1_ops`, `bit_hamming_ops`, `bit_jaccard_ops`, `halfvec_l2_ops`, `sparsevec_l2_ops` options, which are predefined types.
-       *
-       * **You can always specify any string you want in the operator class, in case Drizzle doesn't have it natively in its types**
-       *
-       * @param opClass
-       * @returns
-       */
-      op(opClass) {
-        this.indexConfig.opClass = opClass;
-        return this;
-      }
-    };
-    IndexedColumn = class {
-      static [entityKind] = "IndexedColumn";
-      constructor(name2, keyAsName, type, indexConfig) {
-        this.name = name2;
-        this.keyAsName = keyAsName;
-        this.type = type;
-        this.indexConfig = indexConfig;
-      }
-      name;
-      keyAsName;
-      type;
-      indexConfig;
-    };
-    PgArrayBuilder = class extends PgColumnBuilder {
-      static [entityKind] = "PgArrayBuilder";
-      constructor(name2, baseBuilder, size) {
-        super(name2, "array", "PgArray");
-        this.config.baseBuilder = baseBuilder;
-        this.config.size = size;
-      }
-      /** @internal */
-      build(table) {
-        const baseColumn = this.config.baseBuilder.build(table);
-        return new PgArray(
-          table,
-          this.config,
-          baseColumn
-        );
-      }
-    };
-    PgArray = class _PgArray extends PgColumn {
-      constructor(table, config3, baseColumn, range) {
-        super(table, config3);
-        this.baseColumn = baseColumn;
-        this.range = range;
-        this.size = config3.size;
-      }
-      size;
-      static [entityKind] = "PgArray";
-      getSQLType() {
-        return `${this.baseColumn.getSQLType()}[${typeof this.size === "number" ? this.size : ""}]`;
-      }
-      mapFromDriverValue(value) {
-        if (typeof value === "string") {
-          value = parsePgArray(value);
-        }
-        return value.map((v) => this.baseColumn.mapFromDriverValue(v));
-      }
-      mapToDriverValue(value, isNestedArray = false) {
-        const a = value.map(
-          (v) => v === null ? null : is2(this.baseColumn, _PgArray) ? this.baseColumn.mapToDriverValue(v, true) : this.baseColumn.mapToDriverValue(v)
-        );
-        if (isNestedArray) return a;
-        return makePgArray(a);
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/pg-core/columns/enum.js
-function isPgEnum(obj) {
-  return !!obj && typeof obj === "function" && isPgEnumSym in obj && obj[isPgEnumSym] === true;
-}
-var PgEnumObjectColumnBuilder, PgEnumObjectColumn, isPgEnumSym, PgEnumColumnBuilder, PgEnumColumn;
-var init_enum = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/pg-core/columns/enum.js"() {
-    init_entity();
-    init_common();
-    PgEnumObjectColumnBuilder = class extends PgColumnBuilder {
-      static [entityKind] = "PgEnumObjectColumnBuilder";
-      constructor(name2, enumInstance) {
-        super(name2, "string", "PgEnumObjectColumn");
-        this.config.enum = enumInstance;
-      }
-      /** @internal */
-      build(table) {
-        return new PgEnumObjectColumn(
-          table,
-          this.config
-        );
-      }
-    };
-    PgEnumObjectColumn = class extends PgColumn {
-      static [entityKind] = "PgEnumObjectColumn";
-      enum;
-      enumValues = this.config.enum.enumValues;
-      constructor(table, config3) {
-        super(table, config3);
-        this.enum = config3.enum;
-      }
-      getSQLType() {
-        return this.enum.enumName;
-      }
-    };
-    isPgEnumSym = Symbol.for("drizzle:isPgEnum");
-    PgEnumColumnBuilder = class extends PgColumnBuilder {
-      static [entityKind] = "PgEnumColumnBuilder";
-      constructor(name2, enumInstance) {
-        super(name2, "string", "PgEnumColumn");
-        this.config.enum = enumInstance;
-      }
-      /** @internal */
-      build(table) {
-        return new PgEnumColumn(
-          table,
-          this.config
-        );
-      }
-    };
-    PgEnumColumn = class extends PgColumn {
-      static [entityKind] = "PgEnumColumn";
-      enum = this.config.enum;
-      enumValues = this.config.enum.enumValues;
-      constructor(table, config3) {
-        super(table, config3);
-        this.enum = config3.enum;
-      }
-      getSQLType() {
-        return this.enum.enumName;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/subquery.js
-var Subquery, WithSubquery;
-var init_subquery = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/subquery.js"() {
-    init_entity();
-    Subquery = class {
-      static [entityKind] = "Subquery";
-      constructor(sql2, fields, alias, isWith = false, usedTables = []) {
-        this._ = {
-          brand: "Subquery",
-          sql: sql2,
-          selectedFields: fields,
-          alias,
-          isWith,
-          usedTables
-        };
-      }
-      // getSQL(): SQL<unknown> {
-      // 	return new SQL([this]);
-      // }
-    };
-    WithSubquery = class extends Subquery {
-      static [entityKind] = "WithSubquery";
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/version.js
-var version2;
-var init_version = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/version.js"() {
-    version2 = "0.44.6";
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/tracing.js
-var otel, rawTracer, tracer;
-var init_tracing = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/tracing.js"() {
-    init_tracing_utils();
-    init_version();
-    tracer = {
-      startActiveSpan(name2, fn2) {
-        if (!otel) {
-          return fn2();
-        }
-        if (!rawTracer) {
-          rawTracer = otel.trace.getTracer("drizzle-orm", version2);
-        }
-        return iife(
-          (otel2, rawTracer2) => rawTracer2.startActiveSpan(
-            name2,
-            (span) => {
-              try {
-                return fn2(span);
-              } catch (e) {
-                span.setStatus({
-                  code: otel2.SpanStatusCode.ERROR,
-                  message: e instanceof Error ? e.message : "Unknown error"
-                  // eslint-disable-line no-instanceof/no-instanceof
-                });
-                throw e;
-              } finally {
-                span.end();
-              }
-            }
-          ),
-          otel,
-          rawTracer
-        );
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/view-common.js
-var ViewBaseConfig;
-var init_view_common = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/view-common.js"() {
-    ViewBaseConfig = Symbol.for("drizzle:ViewBaseConfig");
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/table.js
-function isTable(table) {
-  return typeof table === "object" && table !== null && IsDrizzleTable in table;
-}
-function getTableName(table) {
-  return table[TableName];
-}
-function getTableUniqueName(table) {
-  return `${table[Schema] ?? "public"}.${table[TableName]}`;
-}
-var Schema, Columns, ExtraConfigColumns, OriginalName, BaseName, IsAlias, ExtraConfigBuilder, IsDrizzleTable, Table;
-var init_table = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/table.js"() {
-    init_entity();
-    init_table_utils();
-    Schema = Symbol.for("drizzle:Schema");
-    Columns = Symbol.for("drizzle:Columns");
-    ExtraConfigColumns = Symbol.for("drizzle:ExtraConfigColumns");
-    OriginalName = Symbol.for("drizzle:OriginalName");
-    BaseName = Symbol.for("drizzle:BaseName");
-    IsAlias = Symbol.for("drizzle:IsAlias");
-    ExtraConfigBuilder = Symbol.for("drizzle:ExtraConfigBuilder");
-    IsDrizzleTable = Symbol.for("drizzle:IsDrizzleTable");
-    Table = class {
-      static [entityKind] = "Table";
-      /** @internal */
-      static Symbol = {
-        Name: TableName,
-        Schema,
-        OriginalName,
-        Columns,
-        ExtraConfigColumns,
-        BaseName,
-        IsAlias,
-        ExtraConfigBuilder
-      };
-      /**
-       * @internal
-       * Can be changed if the table is aliased.
-       */
-      [TableName];
-      /**
-       * @internal
-       * Used to store the original name of the table, before any aliasing.
-       */
-      [OriginalName];
-      /** @internal */
-      [Schema];
-      /** @internal */
-      [Columns];
-      /** @internal */
-      [ExtraConfigColumns];
-      /**
-       *  @internal
-       * Used to store the table name before the transformation via the `tableCreator` functions.
-       */
-      [BaseName];
-      /** @internal */
-      [IsAlias] = false;
-      /** @internal */
-      [IsDrizzleTable] = true;
-      /** @internal */
-      [ExtraConfigBuilder] = void 0;
-      constructor(name2, schema, baseName) {
-        this[TableName] = this[OriginalName] = name2;
-        this[Schema] = schema;
-        this[BaseName] = baseName;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/sql/sql.js
-function isSQLWrapper(value) {
-  return value !== null && value !== void 0 && typeof value.getSQL === "function";
-}
-function mergeQueries(queries) {
-  const result = { sql: "", params: [] };
-  for (const query of queries) {
-    result.sql += query.sql;
-    result.params.push(...query.params);
-    if (query.typings?.length) {
-      if (!result.typings) {
-        result.typings = [];
-      }
-      result.typings.push(...query.typings);
-    }
-  }
-  return result;
-}
-function name(value) {
-  return new Name(value);
-}
-function isDriverValueEncoder(value) {
-  return typeof value === "object" && value !== null && "mapToDriverValue" in value && typeof value.mapToDriverValue === "function";
-}
-function param(value, encoder2) {
-  return new Param(value, encoder2);
-}
-function sql(strings, ...params) {
-  const queryChunks = [];
-  if (params.length > 0 || strings.length > 0 && strings[0] !== "") {
-    queryChunks.push(new StringChunk(strings[0]));
-  }
-  for (const [paramIndex, param2] of params.entries()) {
-    queryChunks.push(param2, new StringChunk(strings[paramIndex + 1]));
-  }
-  return new SQL(queryChunks);
-}
-function placeholder(name2) {
-  return new Placeholder(name2);
-}
-function fillPlaceholders(params, values) {
-  return params.map((p) => {
-    if (is2(p, Placeholder)) {
-      if (!(p.name in values)) {
-        throw new Error(`No value for placeholder "${p.name}" was provided`);
-      }
-      return values[p.name];
-    }
-    if (is2(p, Param) && is2(p.value, Placeholder)) {
-      if (!(p.value.name in values)) {
-        throw new Error(`No value for placeholder "${p.value.name}" was provided`);
-      }
-      return p.encoder.mapToDriverValue(values[p.value.name]);
-    }
-    return p;
-  });
-}
-function isView(view) {
-  return typeof view === "object" && view !== null && IsDrizzleView in view;
-}
-function getViewName(view) {
-  return view[ViewBaseConfig].name;
-}
-var FakePrimitiveParam, StringChunk, SQL, Name, noopDecoder, noopEncoder, noopMapper, Param, Placeholder, IsDrizzleView, View;
-var init_sql = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/sql/sql.js"() {
-    init_entity();
-    init_enum();
-    init_subquery();
-    init_tracing();
-    init_view_common();
-    init_column();
-    init_table();
-    FakePrimitiveParam = class {
-      static [entityKind] = "FakePrimitiveParam";
-    };
-    StringChunk = class {
-      static [entityKind] = "StringChunk";
-      value;
-      constructor(value) {
-        this.value = Array.isArray(value) ? value : [value];
-      }
-      getSQL() {
-        return new SQL([this]);
-      }
-    };
-    SQL = class _SQL {
-      constructor(queryChunks) {
-        this.queryChunks = queryChunks;
-        for (const chunk of queryChunks) {
-          if (is2(chunk, Table)) {
-            const schemaName = chunk[Table.Symbol.Schema];
-            this.usedTables.push(
-              schemaName === void 0 ? chunk[Table.Symbol.Name] : schemaName + "." + chunk[Table.Symbol.Name]
-            );
-          }
-        }
-      }
-      static [entityKind] = "SQL";
-      /** @internal */
-      decoder = noopDecoder;
-      shouldInlineParams = false;
-      /** @internal */
-      usedTables = [];
-      append(query) {
-        this.queryChunks.push(...query.queryChunks);
-        return this;
-      }
-      toQuery(config3) {
-        return tracer.startActiveSpan("drizzle.buildSQL", (span) => {
-          const query = this.buildQueryFromSourceParams(this.queryChunks, config3);
-          span?.setAttributes({
-            "drizzle.query.text": query.sql,
-            "drizzle.query.params": JSON.stringify(query.params)
-          });
-          return query;
-        });
-      }
-      buildQueryFromSourceParams(chunks, _config) {
-        const config3 = Object.assign({}, _config, {
-          inlineParams: _config.inlineParams || this.shouldInlineParams,
-          paramStartIndex: _config.paramStartIndex || { value: 0 }
-        });
-        const {
-          casing,
-          escapeName,
-          escapeParam,
-          prepareTyping,
-          inlineParams,
-          paramStartIndex
-        } = config3;
-        return mergeQueries(chunks.map((chunk) => {
-          if (is2(chunk, StringChunk)) {
-            return { sql: chunk.value.join(""), params: [] };
-          }
-          if (is2(chunk, Name)) {
-            return { sql: escapeName(chunk.value), params: [] };
-          }
-          if (chunk === void 0) {
-            return { sql: "", params: [] };
-          }
-          if (Array.isArray(chunk)) {
-            const result = [new StringChunk("(")];
-            for (const [i, p] of chunk.entries()) {
-              result.push(p);
-              if (i < chunk.length - 1) {
-                result.push(new StringChunk(", "));
-              }
-            }
-            result.push(new StringChunk(")"));
-            return this.buildQueryFromSourceParams(result, config3);
-          }
-          if (is2(chunk, _SQL)) {
-            return this.buildQueryFromSourceParams(chunk.queryChunks, {
-              ...config3,
-              inlineParams: inlineParams || chunk.shouldInlineParams
-            });
-          }
-          if (is2(chunk, Table)) {
-            const schemaName = chunk[Table.Symbol.Schema];
-            const tableName = chunk[Table.Symbol.Name];
-            return {
-              sql: schemaName === void 0 || chunk[IsAlias] ? escapeName(tableName) : escapeName(schemaName) + "." + escapeName(tableName),
-              params: []
-            };
-          }
-          if (is2(chunk, Column)) {
-            const columnName = casing.getColumnCasing(chunk);
-            if (_config.invokeSource === "indexes") {
-              return { sql: escapeName(columnName), params: [] };
-            }
-            const schemaName = chunk.table[Table.Symbol.Schema];
-            return {
-              sql: chunk.table[IsAlias] || schemaName === void 0 ? escapeName(chunk.table[Table.Symbol.Name]) + "." + escapeName(columnName) : escapeName(schemaName) + "." + escapeName(chunk.table[Table.Symbol.Name]) + "." + escapeName(columnName),
-              params: []
-            };
-          }
-          if (is2(chunk, View)) {
-            const schemaName = chunk[ViewBaseConfig].schema;
-            const viewName = chunk[ViewBaseConfig].name;
-            return {
-              sql: schemaName === void 0 || chunk[ViewBaseConfig].isAlias ? escapeName(viewName) : escapeName(schemaName) + "." + escapeName(viewName),
-              params: []
-            };
-          }
-          if (is2(chunk, Param)) {
-            if (is2(chunk.value, Placeholder)) {
-              return { sql: escapeParam(paramStartIndex.value++, chunk), params: [chunk], typings: ["none"] };
-            }
-            const mappedValue = chunk.value === null ? null : chunk.encoder.mapToDriverValue(chunk.value);
-            if (is2(mappedValue, _SQL)) {
-              return this.buildQueryFromSourceParams([mappedValue], config3);
-            }
-            if (inlineParams) {
-              return { sql: this.mapInlineParam(mappedValue, config3), params: [] };
-            }
-            let typings = ["none"];
-            if (prepareTyping) {
-              typings = [prepareTyping(chunk.encoder)];
-            }
-            return { sql: escapeParam(paramStartIndex.value++, mappedValue), params: [mappedValue], typings };
-          }
-          if (is2(chunk, Placeholder)) {
-            return { sql: escapeParam(paramStartIndex.value++, chunk), params: [chunk], typings: ["none"] };
-          }
-          if (is2(chunk, _SQL.Aliased) && chunk.fieldAlias !== void 0) {
-            return { sql: escapeName(chunk.fieldAlias), params: [] };
-          }
-          if (is2(chunk, Subquery)) {
-            if (chunk._.isWith) {
-              return { sql: escapeName(chunk._.alias), params: [] };
-            }
-            return this.buildQueryFromSourceParams([
-              new StringChunk("("),
-              chunk._.sql,
-              new StringChunk(") "),
-              new Name(chunk._.alias)
-            ], config3);
-          }
-          if (isPgEnum(chunk)) {
-            if (chunk.schema) {
-              return { sql: escapeName(chunk.schema) + "." + escapeName(chunk.enumName), params: [] };
-            }
-            return { sql: escapeName(chunk.enumName), params: [] };
-          }
-          if (isSQLWrapper(chunk)) {
-            if (chunk.shouldOmitSQLParens?.()) {
-              return this.buildQueryFromSourceParams([chunk.getSQL()], config3);
-            }
-            return this.buildQueryFromSourceParams([
-              new StringChunk("("),
-              chunk.getSQL(),
-              new StringChunk(")")
-            ], config3);
-          }
-          if (inlineParams) {
-            return { sql: this.mapInlineParam(chunk, config3), params: [] };
-          }
-          return { sql: escapeParam(paramStartIndex.value++, chunk), params: [chunk], typings: ["none"] };
-        }));
-      }
-      mapInlineParam(chunk, { escapeString }) {
-        if (chunk === null) {
-          return "null";
-        }
-        if (typeof chunk === "number" || typeof chunk === "boolean") {
-          return chunk.toString();
-        }
-        if (typeof chunk === "string") {
-          return escapeString(chunk);
-        }
-        if (typeof chunk === "object") {
-          const mappedValueAsString = chunk.toString();
-          if (mappedValueAsString === "[object Object]") {
-            return escapeString(JSON.stringify(chunk));
-          }
-          return escapeString(mappedValueAsString);
-        }
-        throw new Error("Unexpected param value: " + chunk);
-      }
-      getSQL() {
-        return this;
-      }
-      as(alias) {
-        if (alias === void 0) {
-          return this;
-        }
-        return new _SQL.Aliased(this, alias);
-      }
-      mapWith(decoder2) {
-        this.decoder = typeof decoder2 === "function" ? { mapFromDriverValue: decoder2 } : decoder2;
-        return this;
-      }
-      inlineParams() {
-        this.shouldInlineParams = true;
-        return this;
-      }
-      /**
-       * This method is used to conditionally include a part of the query.
-       *
-       * @param condition - Condition to check
-       * @returns itself if the condition is `true`, otherwise `undefined`
-       */
-      if(condition) {
-        return condition ? this : void 0;
-      }
-    };
-    Name = class {
-      constructor(value) {
-        this.value = value;
-      }
-      static [entityKind] = "Name";
-      brand;
-      getSQL() {
-        return new SQL([this]);
-      }
-    };
-    noopDecoder = {
-      mapFromDriverValue: (value) => value
-    };
-    noopEncoder = {
-      mapToDriverValue: (value) => value
-    };
-    noopMapper = {
-      ...noopDecoder,
-      ...noopEncoder
-    };
-    Param = class {
-      /**
-       * @param value - Parameter value
-       * @param encoder - Encoder to convert the value to a driver parameter
-       */
-      constructor(value, encoder2 = noopEncoder) {
-        this.value = value;
-        this.encoder = encoder2;
-      }
-      static [entityKind] = "Param";
-      brand;
-      getSQL() {
-        return new SQL([this]);
-      }
-    };
-    ((sql2) => {
-      function empty2() {
-        return new SQL([]);
-      }
-      sql2.empty = empty2;
-      function fromList(list) {
-        return new SQL(list);
-      }
-      sql2.fromList = fromList;
-      function raw2(str) {
-        return new SQL([new StringChunk(str)]);
-      }
-      sql2.raw = raw2;
-      function join2(chunks, separator) {
-        const result = [];
-        for (const [i, chunk] of chunks.entries()) {
-          if (i > 0 && separator !== void 0) {
-            result.push(separator);
-          }
-          result.push(chunk);
-        }
-        return new SQL(result);
-      }
-      sql2.join = join2;
-      function identifier(value) {
-        return new Name(value);
-      }
-      sql2.identifier = identifier;
-      function placeholder2(name2) {
-        return new Placeholder(name2);
-      }
-      sql2.placeholder = placeholder2;
-      function param2(value, encoder2) {
-        return new Param(value, encoder2);
-      }
-      sql2.param = param2;
-    })(sql || (sql = {}));
-    ((SQL2) => {
-      class Aliased {
-        constructor(sql2, fieldAlias) {
-          this.sql = sql2;
-          this.fieldAlias = fieldAlias;
-        }
-        static [entityKind] = "SQL.Aliased";
-        /** @internal */
-        isSelectionField = false;
-        getSQL() {
-          return this.sql;
-        }
-        /** @internal */
-        clone() {
-          return new Aliased(this.sql, this.fieldAlias);
-        }
-      }
-      SQL2.Aliased = Aliased;
-    })(SQL || (SQL = {}));
-    Placeholder = class {
-      constructor(name2) {
-        this.name = name2;
-      }
-      static [entityKind] = "Placeholder";
-      getSQL() {
-        return new SQL([this]);
-      }
-    };
-    IsDrizzleView = Symbol.for("drizzle:IsDrizzleView");
-    View = class {
-      static [entityKind] = "View";
-      /** @internal */
-      [ViewBaseConfig];
-      /** @internal */
-      [IsDrizzleView] = true;
-      constructor({ name: name2, schema, selectedFields, query }) {
-        this[ViewBaseConfig] = {
-          name: name2,
-          originalName: name2,
-          schema,
-          selectedFields,
-          query,
-          isExisting: !query,
-          isAlias: false
-        };
-      }
-      getSQL() {
-        return new SQL([this]);
-      }
-    };
-    Column.prototype.getSQL = function() {
-      return new SQL([this]);
-    };
-    Table.prototype.getSQL = function() {
-      return new SQL([this]);
-    };
-    Subquery.prototype.getSQL = function() {
-      return new SQL([this]);
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/alias.js
-function aliasedTable(table, tableAlias) {
-  return new Proxy(table, new TableAliasProxyHandler(tableAlias, false));
-}
-function aliasedRelation(relation, tableAlias) {
-  return new Proxy(relation, new RelationTableAliasProxyHandler(tableAlias));
-}
-function aliasedTableColumn(column, tableAlias) {
-  return new Proxy(
-    column,
-    new ColumnAliasProxyHandler(new Proxy(column.table, new TableAliasProxyHandler(tableAlias, false)))
-  );
-}
-function mapColumnsInAliasedSQLToAlias(query, alias) {
-  return new SQL.Aliased(mapColumnsInSQLToAlias(query.sql, alias), query.fieldAlias);
-}
-function mapColumnsInSQLToAlias(query, alias) {
-  return sql.join(query.queryChunks.map((c) => {
-    if (is2(c, Column)) {
-      return aliasedTableColumn(c, alias);
-    }
-    if (is2(c, SQL)) {
-      return mapColumnsInSQLToAlias(c, alias);
-    }
-    if (is2(c, SQL.Aliased)) {
-      return mapColumnsInAliasedSQLToAlias(c, alias);
-    }
-    return c;
-  }));
-}
-var ColumnAliasProxyHandler, TableAliasProxyHandler, RelationTableAliasProxyHandler;
-var init_alias = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/alias.js"() {
-    init_column();
-    init_entity();
-    init_sql();
-    init_table();
-    init_view_common();
-    ColumnAliasProxyHandler = class {
-      constructor(table) {
-        this.table = table;
-      }
-      static [entityKind] = "ColumnAliasProxyHandler";
-      get(columnObj, prop) {
-        if (prop === "table") {
-          return this.table;
-        }
-        return columnObj[prop];
-      }
-    };
-    TableAliasProxyHandler = class {
-      constructor(alias, replaceOriginalName) {
-        this.alias = alias;
-        this.replaceOriginalName = replaceOriginalName;
-      }
-      static [entityKind] = "TableAliasProxyHandler";
-      get(target, prop) {
-        if (prop === Table.Symbol.IsAlias) {
-          return true;
-        }
-        if (prop === Table.Symbol.Name) {
-          return this.alias;
-        }
-        if (this.replaceOriginalName && prop === Table.Symbol.OriginalName) {
-          return this.alias;
-        }
-        if (prop === ViewBaseConfig) {
-          return {
-            ...target[ViewBaseConfig],
-            name: this.alias,
-            isAlias: true
-          };
-        }
-        if (prop === Table.Symbol.Columns) {
-          const columns = target[Table.Symbol.Columns];
-          if (!columns) {
-            return columns;
-          }
-          const proxiedColumns = {};
-          Object.keys(columns).map((key) => {
-            proxiedColumns[key] = new Proxy(
-              columns[key],
-              new ColumnAliasProxyHandler(new Proxy(target, this))
-            );
-          });
-          return proxiedColumns;
-        }
-        const value = target[prop];
-        if (is2(value, Column)) {
-          return new Proxy(value, new ColumnAliasProxyHandler(new Proxy(target, this)));
-        }
-        return value;
-      }
-    };
-    RelationTableAliasProxyHandler = class {
-      constructor(alias) {
-        this.alias = alias;
-      }
-      static [entityKind] = "RelationTableAliasProxyHandler";
-      get(target, prop) {
-        if (prop === "sourceTable") {
-          return aliasedTable(target.sourceTable, this.alias);
-        }
-        return target[prop];
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/errors.js
-var DrizzleError, DrizzleQueryError, TransactionRollbackError;
-var init_errors5 = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/errors.js"() {
-    init_entity();
-    DrizzleError = class extends Error {
-      static [entityKind] = "DrizzleError";
-      constructor({ message: message2, cause }) {
-        super(message2);
-        this.name = "DrizzleError";
-        this.cause = cause;
-      }
-    };
-    DrizzleQueryError = class _DrizzleQueryError extends Error {
-      constructor(query, params, cause) {
-        super(`Failed query: ${query}
-params: ${params}`);
-        this.query = query;
-        this.params = params;
-        this.cause = cause;
-        Error.captureStackTrace(this, _DrizzleQueryError);
-        if (cause) this.cause = cause;
-      }
-    };
-    TransactionRollbackError = class extends DrizzleError {
-      static [entityKind] = "TransactionRollbackError";
-      constructor() {
-        super({ message: "Rollback" });
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/logger.js
-var ConsoleLogWriter, DefaultLogger, NoopLogger;
-var init_logger = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/logger.js"() {
-    init_entity();
-    ConsoleLogWriter = class {
-      static [entityKind] = "ConsoleLogWriter";
-      write(message2) {
-        console.log(message2);
-      }
-    };
-    DefaultLogger = class {
-      static [entityKind] = "DefaultLogger";
-      writer;
-      constructor(config3) {
-        this.writer = config3?.writer ?? new ConsoleLogWriter();
-      }
-      logQuery(query, params) {
-        const stringifiedParams = params.map((p) => {
-          try {
-            return JSON.stringify(p);
-          } catch {
-            return String(p);
-          }
-        });
-        const paramsStr = stringifiedParams.length ? ` -- params: [${stringifiedParams.join(", ")}]` : "";
-        this.writer.write(`Query: ${query}${paramsStr}`);
-      }
-    };
-    NoopLogger = class {
-      static [entityKind] = "NoopLogger";
-      logQuery() {
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/operations.js
-var init_operations = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/operations.js"() {
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/query-promise.js
-var QueryPromise;
-var init_query_promise = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/query-promise.js"() {
-    init_entity();
-    QueryPromise = class {
-      static [entityKind] = "QueryPromise";
-      [Symbol.toStringTag] = "QueryPromise";
-      catch(onRejected) {
-        return this.then(void 0, onRejected);
-      }
-      finally(onFinally) {
-        return this.then(
-          (value) => {
-            onFinally?.();
-            return value;
-          },
-          (reason) => {
-            onFinally?.();
-            throw reason;
-          }
-        );
-      }
-      then(onFulfilled, onRejected) {
-        return this.execute().then(onFulfilled, onRejected);
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/utils.js
-function mapResultRow(columns, row, joinsNotNullableMap) {
-  const nullifyMap = {};
-  const result = columns.reduce(
-    (result2, { path, field }, columnIndex) => {
-      let decoder2;
-      if (is2(field, Column)) {
-        decoder2 = field;
-      } else if (is2(field, SQL)) {
-        decoder2 = field.decoder;
-      } else {
-        decoder2 = field.sql.decoder;
-      }
-      let node = result2;
-      for (const [pathChunkIndex, pathChunk] of path.entries()) {
-        if (pathChunkIndex < path.length - 1) {
-          if (!(pathChunk in node)) {
-            node[pathChunk] = {};
-          }
-          node = node[pathChunk];
-        } else {
-          const rawValue = row[columnIndex];
-          const value = node[pathChunk] = rawValue === null ? null : decoder2.mapFromDriverValue(rawValue);
-          if (joinsNotNullableMap && is2(field, Column) && path.length === 2) {
-            const objectName = path[0];
-            if (!(objectName in nullifyMap)) {
-              nullifyMap[objectName] = value === null ? getTableName(field.table) : false;
-            } else if (typeof nullifyMap[objectName] === "string" && nullifyMap[objectName] !== getTableName(field.table)) {
-              nullifyMap[objectName] = false;
-            }
-          }
-        }
-      }
-      return result2;
-    },
-    {}
-  );
-  if (joinsNotNullableMap && Object.keys(nullifyMap).length > 0) {
-    for (const [objectName, tableName] of Object.entries(nullifyMap)) {
-      if (typeof tableName === "string" && !joinsNotNullableMap[tableName]) {
-        result[objectName] = null;
-      }
-    }
-  }
-  return result;
-}
-function orderSelectedFields(fields, pathPrefix) {
-  return Object.entries(fields).reduce((result, [name2, field]) => {
-    if (typeof name2 !== "string") {
-      return result;
-    }
-    const newPath = pathPrefix ? [...pathPrefix, name2] : [name2];
-    if (is2(field, Column) || is2(field, SQL) || is2(field, SQL.Aliased)) {
-      result.push({ path: newPath, field });
-    } else if (is2(field, Table)) {
-      result.push(...orderSelectedFields(field[Table.Symbol.Columns], newPath));
-    } else {
-      result.push(...orderSelectedFields(field, newPath));
-    }
-    return result;
-  }, []);
-}
-function haveSameKeys(left, right) {
-  const leftKeys = Object.keys(left);
-  const rightKeys = Object.keys(right);
-  if (leftKeys.length !== rightKeys.length) {
-    return false;
-  }
-  for (const [index, key] of leftKeys.entries()) {
-    if (key !== rightKeys[index]) {
-      return false;
-    }
-  }
-  return true;
-}
-function mapUpdateSet(table, values) {
-  const entries = Object.entries(values).filter(([, value]) => value !== void 0).map(([key, value]) => {
-    if (is2(value, SQL) || is2(value, Column)) {
-      return [key, value];
-    } else {
-      return [key, new Param(value, table[Table.Symbol.Columns][key])];
-    }
-  });
-  if (entries.length === 0) {
-    throw new Error("No values to set");
-  }
-  return Object.fromEntries(entries);
-}
-function applyMixins(baseClass, extendedClasses) {
-  for (const extendedClass of extendedClasses) {
-    for (const name2 of Object.getOwnPropertyNames(extendedClass.prototype)) {
-      if (name2 === "constructor") continue;
-      Object.defineProperty(
-        baseClass.prototype,
-        name2,
-        Object.getOwnPropertyDescriptor(extendedClass.prototype, name2) || /* @__PURE__ */ Object.create(null)
-      );
-    }
-  }
-}
-function getTableColumns(table) {
-  return table[Table.Symbol.Columns];
-}
-function getViewSelectedFields(view) {
-  return view[ViewBaseConfig].selectedFields;
-}
-function getTableLikeName(table) {
-  return is2(table, Subquery) ? table._.alias : is2(table, View) ? table[ViewBaseConfig].name : is2(table, SQL) ? void 0 : table[Table.Symbol.IsAlias] ? table[Table.Symbol.Name] : table[Table.Symbol.BaseName];
-}
-function getColumnNameAndConfig(a, b2) {
-  return {
-    name: typeof a === "string" && a.length > 0 ? a : "",
-    config: typeof a === "object" ? a : b2
-  };
-}
-function isConfig(data) {
-  if (typeof data !== "object" || data === null) return false;
-  if (data.constructor.name !== "Object") return false;
-  if ("logger" in data) {
-    const type = typeof data["logger"];
-    if (type !== "boolean" && (type !== "object" || typeof data["logger"]["logQuery"] !== "function") && type !== "undefined") return false;
-    return true;
-  }
-  if ("schema" in data) {
-    const type = typeof data["schema"];
-    if (type !== "object" && type !== "undefined") return false;
-    return true;
-  }
-  if ("casing" in data) {
-    const type = typeof data["casing"];
-    if (type !== "string" && type !== "undefined") return false;
-    return true;
-  }
-  if ("mode" in data) {
-    if (data["mode"] !== "default" || data["mode"] !== "planetscale" || data["mode"] !== void 0) return false;
-    return true;
-  }
-  if ("connection" in data) {
-    const type = typeof data["connection"];
-    if (type !== "string" && type !== "object" && type !== "undefined") return false;
-    return true;
-  }
-  if ("client" in data) {
-    const type = typeof data["client"];
-    if (type !== "object" && type !== "function" && type !== "undefined") return false;
-    return true;
-  }
-  if (Object.keys(data).length === 0) return true;
-  return false;
-}
-var textDecoder;
-var init_utils3 = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/utils.js"() {
-    init_column();
-    init_entity();
-    init_sql();
-    init_subquery();
-    init_table();
-    init_view_common();
-    textDecoder = typeof TextDecoder === "undefined" ? null : new TextDecoder();
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/pg-core/table.js
-var InlineForeignKeys, EnableRLS, PgTable;
-var init_table2 = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/pg-core/table.js"() {
-    init_entity();
-    init_table();
-    InlineForeignKeys = Symbol.for("drizzle:PgInlineForeignKeys");
-    EnableRLS = Symbol.for("drizzle:EnableRLS");
-    PgTable = class extends Table {
-      static [entityKind] = "PgTable";
-      /** @internal */
-      static Symbol = Object.assign({}, Table.Symbol, {
-        InlineForeignKeys,
-        EnableRLS
-      });
-      /**@internal */
-      [InlineForeignKeys] = [];
-      /** @internal */
-      [EnableRLS] = false;
-      /** @internal */
-      [Table.Symbol.ExtraConfigBuilder] = void 0;
-      /** @internal */
-      [Table.Symbol.ExtraConfigColumns] = {};
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/pg-core/primary-keys.js
-var PrimaryKeyBuilder, PrimaryKey;
-var init_primary_keys = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/pg-core/primary-keys.js"() {
-    init_entity();
-    init_table2();
-    PrimaryKeyBuilder = class {
-      static [entityKind] = "PgPrimaryKeyBuilder";
-      /** @internal */
-      columns;
-      /** @internal */
-      name;
-      constructor(columns, name2) {
-        this.columns = columns;
-        this.name = name2;
-      }
-      /** @internal */
-      build(table) {
-        return new PrimaryKey(table, this.columns, this.name);
-      }
-    };
-    PrimaryKey = class {
-      constructor(table, columns, name2) {
-        this.table = table;
-        this.columns = columns;
-        this.name = name2;
-      }
-      static [entityKind] = "PgPrimaryKey";
-      columns;
-      name;
-      getName() {
-        return this.name ?? `${this.table[PgTable.Symbol.Name]}_${this.columns.map((column) => column.name).join("_")}_pk`;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/sql/expressions/conditions.js
-function bindIfParam(value, column) {
-  if (isDriverValueEncoder(column) && !isSQLWrapper(value) && !is2(value, Param) && !is2(value, Placeholder) && !is2(value, Column) && !is2(value, Table) && !is2(value, View)) {
-    return new Param(value, column);
-  }
-  return value;
-}
-function and(...unfilteredConditions) {
-  const conditions = unfilteredConditions.filter(
-    (c) => c !== void 0
-  );
-  if (conditions.length === 0) {
-    return void 0;
-  }
-  if (conditions.length === 1) {
-    return new SQL(conditions);
-  }
-  return new SQL([
-    new StringChunk("("),
-    sql.join(conditions, new StringChunk(" and ")),
-    new StringChunk(")")
-  ]);
-}
-function or2(...unfilteredConditions) {
-  const conditions = unfilteredConditions.filter(
-    (c) => c !== void 0
-  );
-  if (conditions.length === 0) {
-    return void 0;
-  }
-  if (conditions.length === 1) {
-    return new SQL(conditions);
-  }
-  return new SQL([
-    new StringChunk("("),
-    sql.join(conditions, new StringChunk(" or ")),
-    new StringChunk(")")
-  ]);
-}
-function not(condition) {
-  return sql`not ${condition}`;
-}
-function inArray(column, values) {
-  if (Array.isArray(values)) {
-    if (values.length === 0) {
-      return sql`false`;
-    }
-    return sql`${column} in ${values.map((v) => bindIfParam(v, column))}`;
-  }
-  return sql`${column} in ${bindIfParam(values, column)}`;
-}
-function notInArray(column, values) {
-  if (Array.isArray(values)) {
-    if (values.length === 0) {
-      return sql`true`;
-    }
-    return sql`${column} not in ${values.map((v) => bindIfParam(v, column))}`;
-  }
-  return sql`${column} not in ${bindIfParam(values, column)}`;
-}
-function isNull(value) {
-  return sql`${value} is null`;
-}
-function isNotNull(value) {
-  return sql`${value} is not null`;
-}
-function exists(subquery) {
-  return sql`exists ${subquery}`;
-}
-function notExists(subquery) {
-  return sql`not exists ${subquery}`;
-}
-function between(column, min2, max2) {
-  return sql`${column} between ${bindIfParam(min2, column)} and ${bindIfParam(
-    max2,
-    column
-  )}`;
-}
-function notBetween(column, min2, max2) {
-  return sql`${column} not between ${bindIfParam(
-    min2,
-    column
-  )} and ${bindIfParam(max2, column)}`;
-}
-function like(column, value) {
-  return sql`${column} like ${value}`;
-}
-function notLike(column, value) {
-  return sql`${column} not like ${value}`;
-}
-function ilike(column, value) {
-  return sql`${column} ilike ${value}`;
-}
-function notIlike(column, value) {
-  return sql`${column} not ilike ${value}`;
-}
-function arrayContains(column, values) {
-  if (Array.isArray(values)) {
-    if (values.length === 0) {
-      throw new Error("arrayContains requires at least one value");
-    }
-    const array2 = sql`${bindIfParam(values, column)}`;
-    return sql`${column} @> ${array2}`;
-  }
-  return sql`${column} @> ${bindIfParam(values, column)}`;
-}
-function arrayContained(column, values) {
-  if (Array.isArray(values)) {
-    if (values.length === 0) {
-      throw new Error("arrayContained requires at least one value");
-    }
-    const array2 = sql`${bindIfParam(values, column)}`;
-    return sql`${column} <@ ${array2}`;
-  }
-  return sql`${column} <@ ${bindIfParam(values, column)}`;
-}
-function arrayOverlaps(column, values) {
-  if (Array.isArray(values)) {
-    if (values.length === 0) {
-      throw new Error("arrayOverlaps requires at least one value");
-    }
-    const array2 = sql`${bindIfParam(values, column)}`;
-    return sql`${column} && ${array2}`;
-  }
-  return sql`${column} && ${bindIfParam(values, column)}`;
-}
-var eq, ne, gt, gte, lt2, lte;
-var init_conditions = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/sql/expressions/conditions.js"() {
-    init_column();
-    init_entity();
-    init_table();
-    init_sql();
-    eq = (left, right) => {
-      return sql`${left} = ${bindIfParam(right, left)}`;
-    };
-    ne = (left, right) => {
-      return sql`${left} <> ${bindIfParam(right, left)}`;
-    };
-    gt = (left, right) => {
-      return sql`${left} > ${bindIfParam(right, left)}`;
-    };
-    gte = (left, right) => {
-      return sql`${left} >= ${bindIfParam(right, left)}`;
-    };
-    lt2 = (left, right) => {
-      return sql`${left} < ${bindIfParam(right, left)}`;
-    };
-    lte = (left, right) => {
-      return sql`${left} <= ${bindIfParam(right, left)}`;
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/sql/expressions/select.js
-function asc(column) {
-  return sql`${column} asc`;
-}
-function desc(column) {
-  return sql`${column} desc`;
-}
-var init_select = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/sql/expressions/select.js"() {
-    init_sql();
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/sql/expressions/index.js
-var init_expressions = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/sql/expressions/index.js"() {
-    init_conditions();
-    init_select();
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/relations.js
-function getOperators() {
-  return {
-    and,
-    between,
-    eq,
-    exists,
-    gt,
-    gte,
-    ilike,
-    inArray,
-    isNull,
-    isNotNull,
-    like,
-    lt: lt2,
-    lte,
-    ne,
-    not,
-    notBetween,
-    notExists,
-    notLike,
-    notIlike,
-    notInArray,
-    or: or2,
-    sql
-  };
-}
-function getOrderByOperators() {
-  return {
-    sql,
-    asc,
-    desc
-  };
-}
-function extractTablesRelationalConfig(schema, configHelpers) {
-  if (Object.keys(schema).length === 1 && "default" in schema && !is2(schema["default"], Table)) {
-    schema = schema["default"];
-  }
-  const tableNamesMap = {};
-  const relationsBuffer = {};
-  const tablesConfig = {};
-  for (const [key, value] of Object.entries(schema)) {
-    if (is2(value, Table)) {
-      const dbName = getTableUniqueName(value);
-      const bufferedRelations = relationsBuffer[dbName];
-      tableNamesMap[dbName] = key;
-      tablesConfig[key] = {
-        tsName: key,
-        dbName: value[Table.Symbol.Name],
-        schema: value[Table.Symbol.Schema],
-        columns: value[Table.Symbol.Columns],
-        relations: bufferedRelations?.relations ?? {},
-        primaryKey: bufferedRelations?.primaryKey ?? []
-      };
-      for (const column of Object.values(
-        value[Table.Symbol.Columns]
-      )) {
-        if (column.primary) {
-          tablesConfig[key].primaryKey.push(column);
-        }
-      }
-      const extraConfig = value[Table.Symbol.ExtraConfigBuilder]?.(value[Table.Symbol.ExtraConfigColumns]);
-      if (extraConfig) {
-        for (const configEntry of Object.values(extraConfig)) {
-          if (is2(configEntry, PrimaryKeyBuilder)) {
-            tablesConfig[key].primaryKey.push(...configEntry.columns);
-          }
-        }
-      }
-    } else if (is2(value, Relations)) {
-      const dbName = getTableUniqueName(value.table);
-      const tableName = tableNamesMap[dbName];
-      const relations2 = value.config(
-        configHelpers(value.table)
-      );
-      let primaryKey;
-      for (const [relationName, relation] of Object.entries(relations2)) {
-        if (tableName) {
-          const tableConfig = tablesConfig[tableName];
-          tableConfig.relations[relationName] = relation;
-          if (primaryKey) {
-            tableConfig.primaryKey.push(...primaryKey);
-          }
-        } else {
-          if (!(dbName in relationsBuffer)) {
-            relationsBuffer[dbName] = {
-              relations: {},
-              primaryKey
-            };
-          }
-          relationsBuffer[dbName].relations[relationName] = relation;
-        }
-      }
-    }
-  }
-  return { tables: tablesConfig, tableNamesMap };
-}
-function relations(table, relations2) {
-  return new Relations(
-    table,
-    (helpers) => Object.fromEntries(
-      Object.entries(relations2(helpers)).map(([key, value]) => [
-        key,
-        value.withFieldName(key)
-      ])
-    )
-  );
-}
-function createOne(sourceTable) {
-  return function one(table, config3) {
-    return new One(
-      sourceTable,
-      table,
-      config3,
-      config3?.fields.reduce((res, f) => res && f.notNull, true) ?? false
-    );
-  };
-}
-function createMany(sourceTable) {
-  return function many(referencedTable, config3) {
-    return new Many(sourceTable, referencedTable, config3);
-  };
-}
-function normalizeRelation(schema, tableNamesMap, relation) {
-  if (is2(relation, One) && relation.config) {
-    return {
-      fields: relation.config.fields,
-      references: relation.config.references
-    };
-  }
-  const referencedTableTsName = tableNamesMap[getTableUniqueName(relation.referencedTable)];
-  if (!referencedTableTsName) {
-    throw new Error(
-      `Table "${relation.referencedTable[Table.Symbol.Name]}" not found in schema`
-    );
-  }
-  const referencedTableConfig = schema[referencedTableTsName];
-  if (!referencedTableConfig) {
-    throw new Error(`Table "${referencedTableTsName}" not found in schema`);
-  }
-  const sourceTable = relation.sourceTable;
-  const sourceTableTsName = tableNamesMap[getTableUniqueName(sourceTable)];
-  if (!sourceTableTsName) {
-    throw new Error(
-      `Table "${sourceTable[Table.Symbol.Name]}" not found in schema`
-    );
-  }
-  const reverseRelations = [];
-  for (const referencedTableRelation of Object.values(
-    referencedTableConfig.relations
-  )) {
-    if (relation.relationName && relation !== referencedTableRelation && referencedTableRelation.relationName === relation.relationName || !relation.relationName && referencedTableRelation.referencedTable === relation.sourceTable) {
-      reverseRelations.push(referencedTableRelation);
-    }
-  }
-  if (reverseRelations.length > 1) {
-    throw relation.relationName ? new Error(
-      `There are multiple relations with name "${relation.relationName}" in table "${referencedTableTsName}"`
-    ) : new Error(
-      `There are multiple relations between "${referencedTableTsName}" and "${relation.sourceTable[Table.Symbol.Name]}". Please specify relation name`
-    );
-  }
-  if (reverseRelations[0] && is2(reverseRelations[0], One) && reverseRelations[0].config) {
-    return {
-      fields: reverseRelations[0].config.references,
-      references: reverseRelations[0].config.fields
-    };
-  }
-  throw new Error(
-    `There is not enough information to infer relation "${sourceTableTsName}.${relation.fieldName}"`
-  );
-}
-function createTableRelationsHelpers(sourceTable) {
-  return {
-    one: createOne(sourceTable),
-    many: createMany(sourceTable)
-  };
-}
-function mapRelationalRow(tablesConfig, tableConfig, row, buildQueryResultSelection, mapColumnValue = (value) => value) {
-  const result = {};
-  for (const [
-    selectionItemIndex,
-    selectionItem
-  ] of buildQueryResultSelection.entries()) {
-    if (selectionItem.isJson) {
-      const relation = tableConfig.relations[selectionItem.tsKey];
-      const rawSubRows = row[selectionItemIndex];
-      const subRows = typeof rawSubRows === "string" ? JSON.parse(rawSubRows) : rawSubRows;
-      result[selectionItem.tsKey] = is2(relation, One) ? subRows && mapRelationalRow(
-        tablesConfig,
-        tablesConfig[selectionItem.relationTableTsKey],
-        subRows,
-        selectionItem.selection,
-        mapColumnValue
-      ) : subRows.map(
-        (subRow) => mapRelationalRow(
-          tablesConfig,
-          tablesConfig[selectionItem.relationTableTsKey],
-          subRow,
-          selectionItem.selection,
-          mapColumnValue
-        )
-      );
-    } else {
-      const value = mapColumnValue(row[selectionItemIndex]);
-      const field = selectionItem.field;
-      let decoder2;
-      if (is2(field, Column)) {
-        decoder2 = field;
-      } else if (is2(field, SQL)) {
-        decoder2 = field.decoder;
-      } else {
-        decoder2 = field.sql.decoder;
-      }
-      result[selectionItem.tsKey] = value === null ? null : decoder2.mapFromDriverValue(value);
-    }
-  }
-  return result;
-}
-var Relation, Relations, One, Many;
-var init_relations = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/relations.js"() {
-    init_table();
-    init_column();
-    init_entity();
-    init_primary_keys();
-    init_expressions();
-    init_sql();
-    Relation = class {
-      constructor(sourceTable, referencedTable, relationName) {
-        this.sourceTable = sourceTable;
-        this.referencedTable = referencedTable;
-        this.relationName = relationName;
-        this.referencedTableName = referencedTable[Table.Symbol.Name];
-      }
-      static [entityKind] = "Relation";
-      referencedTableName;
-      fieldName;
-    };
-    Relations = class {
-      constructor(table, config3) {
-        this.table = table;
-        this.config = config3;
-      }
-      static [entityKind] = "Relations";
-    };
-    One = class _One extends Relation {
-      constructor(sourceTable, referencedTable, config3, isNullable) {
-        super(sourceTable, referencedTable, config3?.relationName);
-        this.config = config3;
-        this.isNullable = isNullable;
-      }
-      static [entityKind] = "One";
-      withFieldName(fieldName) {
-        const relation = new _One(
-          this.sourceTable,
-          this.referencedTable,
-          this.config,
-          this.isNullable
-        );
-        relation.fieldName = fieldName;
-        return relation;
-      }
-    };
-    Many = class _Many extends Relation {
-      constructor(sourceTable, referencedTable, config3) {
-        super(sourceTable, referencedTable, config3?.relationName);
-        this.config = config3;
-      }
-      static [entityKind] = "Many";
-      withFieldName(fieldName) {
-        const relation = new _Many(
-          this.sourceTable,
-          this.referencedTable,
-          this.config
-        );
-        relation.fieldName = fieldName;
-        return relation;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/sql/functions/aggregate.js
-function count(expression) {
-  return sql`count(${expression || sql.raw("*")})`.mapWith(Number);
-}
-function countDistinct(expression) {
-  return sql`count(distinct ${expression})`.mapWith(Number);
-}
-function avg(expression) {
-  return sql`avg(${expression})`.mapWith(String);
-}
-function avgDistinct(expression) {
-  return sql`avg(distinct ${expression})`.mapWith(String);
-}
-function sum(expression) {
-  return sql`sum(${expression})`.mapWith(String);
-}
-function sumDistinct(expression) {
-  return sql`sum(distinct ${expression})`.mapWith(String);
-}
-function max(expression) {
-  return sql`max(${expression})`.mapWith(is2(expression, Column) ? expression : String);
-}
-function min(expression) {
-  return sql`min(${expression})`.mapWith(is2(expression, Column) ? expression : String);
-}
-var init_aggregate = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/sql/functions/aggregate.js"() {
-    init_column();
-    init_entity();
-    init_sql();
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/sql/functions/vector.js
-function toSql(value) {
-  return JSON.stringify(value);
-}
-function l2Distance(column, value) {
-  if (Array.isArray(value)) {
-    return sql`${column} <-> ${toSql(value)}`;
-  }
-  return sql`${column} <-> ${value}`;
-}
-function l1Distance(column, value) {
-  if (Array.isArray(value)) {
-    return sql`${column} <+> ${toSql(value)}`;
-  }
-  return sql`${column} <+> ${value}`;
-}
-function innerProduct(column, value) {
-  if (Array.isArray(value)) {
-    return sql`${column} <#> ${toSql(value)}`;
-  }
-  return sql`${column} <#> ${value}`;
-}
-function cosineDistance(column, value) {
-  if (Array.isArray(value)) {
-    return sql`${column} <=> ${toSql(value)}`;
-  }
-  return sql`${column} <=> ${value}`;
-}
-function hammingDistance(column, value) {
-  if (Array.isArray(value)) {
-    return sql`${column} <~> ${toSql(value)}`;
-  }
-  return sql`${column} <~> ${value}`;
-}
-function jaccardDistance(column, value) {
-  if (Array.isArray(value)) {
-    return sql`${column} <%> ${toSql(value)}`;
-  }
-  return sql`${column} <%> ${value}`;
-}
-var init_vector = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/sql/functions/vector.js"() {
-    init_sql();
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/sql/functions/index.js
-var init_functions = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/sql/functions/index.js"() {
-    init_aggregate();
-    init_vector();
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/sql/index.js
-var init_sql2 = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/sql/index.js"() {
-    init_expressions();
-    init_functions();
-    init_sql();
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/index.js
-var drizzle_orm_exports = {};
-__export(drizzle_orm_exports, {
-  BaseName: () => BaseName,
-  Column: () => Column,
-  ColumnAliasProxyHandler: () => ColumnAliasProxyHandler,
-  ColumnBuilder: () => ColumnBuilder,
-  Columns: () => Columns,
-  ConsoleLogWriter: () => ConsoleLogWriter,
-  DefaultLogger: () => DefaultLogger,
-  DrizzleError: () => DrizzleError,
-  DrizzleQueryError: () => DrizzleQueryError,
-  ExtraConfigBuilder: () => ExtraConfigBuilder,
-  ExtraConfigColumns: () => ExtraConfigColumns,
-  FakePrimitiveParam: () => FakePrimitiveParam,
-  IsAlias: () => IsAlias,
-  Many: () => Many,
-  Name: () => Name,
-  NoopLogger: () => NoopLogger,
-  One: () => One,
-  OriginalName: () => OriginalName,
-  Param: () => Param,
-  Placeholder: () => Placeholder,
-  QueryPromise: () => QueryPromise,
-  Relation: () => Relation,
-  RelationTableAliasProxyHandler: () => RelationTableAliasProxyHandler,
-  Relations: () => Relations,
-  SQL: () => SQL,
-  Schema: () => Schema,
-  StringChunk: () => StringChunk,
-  Subquery: () => Subquery,
-  Table: () => Table,
-  TableAliasProxyHandler: () => TableAliasProxyHandler,
-  TransactionRollbackError: () => TransactionRollbackError,
-  View: () => View,
-  ViewBaseConfig: () => ViewBaseConfig,
-  WithSubquery: () => WithSubquery,
-  aliasedRelation: () => aliasedRelation,
-  aliasedTable: () => aliasedTable,
-  aliasedTableColumn: () => aliasedTableColumn,
-  and: () => and,
-  applyMixins: () => applyMixins,
-  arrayContained: () => arrayContained,
-  arrayContains: () => arrayContains,
-  arrayOverlaps: () => arrayOverlaps,
-  asc: () => asc,
-  avg: () => avg,
-  avgDistinct: () => avgDistinct,
-  between: () => between,
-  bindIfParam: () => bindIfParam,
-  cosineDistance: () => cosineDistance,
-  count: () => count,
-  countDistinct: () => countDistinct,
-  createMany: () => createMany,
-  createOne: () => createOne,
-  createTableRelationsHelpers: () => createTableRelationsHelpers,
-  desc: () => desc,
-  entityKind: () => entityKind,
-  eq: () => eq,
-  exists: () => exists,
-  extractTablesRelationalConfig: () => extractTablesRelationalConfig,
-  fillPlaceholders: () => fillPlaceholders,
-  getColumnNameAndConfig: () => getColumnNameAndConfig,
-  getOperators: () => getOperators,
-  getOrderByOperators: () => getOrderByOperators,
-  getTableColumns: () => getTableColumns,
-  getTableLikeName: () => getTableLikeName,
-  getTableName: () => getTableName,
-  getTableUniqueName: () => getTableUniqueName,
-  getViewName: () => getViewName,
-  getViewSelectedFields: () => getViewSelectedFields,
-  gt: () => gt,
-  gte: () => gte,
-  hammingDistance: () => hammingDistance,
-  hasOwnEntityKind: () => hasOwnEntityKind,
-  haveSameKeys: () => haveSameKeys,
-  ilike: () => ilike,
-  inArray: () => inArray,
-  innerProduct: () => innerProduct,
-  is: () => is2,
-  isConfig: () => isConfig,
-  isDriverValueEncoder: () => isDriverValueEncoder,
-  isNotNull: () => isNotNull,
-  isNull: () => isNull,
-  isSQLWrapper: () => isSQLWrapper,
-  isTable: () => isTable,
-  isView: () => isView,
-  jaccardDistance: () => jaccardDistance,
-  l1Distance: () => l1Distance,
-  l2Distance: () => l2Distance,
-  like: () => like,
-  lt: () => lt2,
-  lte: () => lte,
-  mapColumnsInAliasedSQLToAlias: () => mapColumnsInAliasedSQLToAlias,
-  mapColumnsInSQLToAlias: () => mapColumnsInSQLToAlias,
-  mapRelationalRow: () => mapRelationalRow,
-  mapResultRow: () => mapResultRow,
-  mapUpdateSet: () => mapUpdateSet,
-  max: () => max,
-  min: () => min,
-  name: () => name,
-  ne: () => ne,
-  noopDecoder: () => noopDecoder,
-  noopEncoder: () => noopEncoder,
-  noopMapper: () => noopMapper,
-  normalizeRelation: () => normalizeRelation,
-  not: () => not,
-  notBetween: () => notBetween,
-  notExists: () => notExists,
-  notIlike: () => notIlike,
-  notInArray: () => notInArray,
-  notLike: () => notLike,
-  or: () => or2,
-  orderSelectedFields: () => orderSelectedFields,
-  param: () => param,
-  placeholder: () => placeholder,
-  relations: () => relations,
-  sql: () => sql,
-  sum: () => sum,
-  sumDistinct: () => sumDistinct,
-  textDecoder: () => textDecoder
-});
-var init_drizzle_orm = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/index.js"() {
-    init_alias();
-    init_column_builder();
-    init_column();
-    init_entity();
-    init_errors5();
-    init_logger();
-    init_operations();
-    init_query_promise();
-    init_relations();
-    init_sql2();
-    init_subquery();
-    init_table();
-    init_utils3();
-    init_view_common();
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/alias.js
-var init_alias2 = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/alias.js"() {
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/checks.js
-var CheckBuilder, Check;
-var init_checks3 = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/checks.js"() {
-    init_entity();
-    CheckBuilder = class {
-      constructor(name2, value) {
-        this.name = name2;
-        this.value = value;
-      }
-      static [entityKind] = "MySqlCheckBuilder";
-      brand;
-      /** @internal */
-      build(table) {
-        return new Check(table, this);
-      }
-    };
-    Check = class {
-      constructor(table, builder) {
-        this.table = table;
-        this.name = builder.name;
-        this.value = builder.value;
-      }
-      static [entityKind] = "MySqlCheck";
-      name;
-      value;
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/foreign-keys.js
-var ForeignKeyBuilder2, ForeignKey2;
-var init_foreign_keys2 = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/foreign-keys.js"() {
-    init_entity();
-    init_table_utils();
-    ForeignKeyBuilder2 = class {
-      static [entityKind] = "MySqlForeignKeyBuilder";
-      /** @internal */
-      reference;
-      /** @internal */
-      _onUpdate;
-      /** @internal */
-      _onDelete;
-      constructor(config3, actions) {
-        this.reference = () => {
-          const { name: name2, columns, foreignColumns } = config3();
-          return { name: name2, columns, foreignTable: foreignColumns[0].table, foreignColumns };
-        };
-        if (actions) {
-          this._onUpdate = actions.onUpdate;
-          this._onDelete = actions.onDelete;
-        }
-      }
-      onUpdate(action) {
-        this._onUpdate = action;
-        return this;
-      }
-      onDelete(action) {
-        this._onDelete = action;
-        return this;
-      }
-      /** @internal */
-      build(table) {
-        return new ForeignKey2(table, this);
-      }
-    };
-    ForeignKey2 = class {
-      constructor(table, builder) {
-        this.table = table;
-        this.reference = builder.reference;
-        this.onUpdate = builder._onUpdate;
-        this.onDelete = builder._onDelete;
-      }
-      static [entityKind] = "MySqlForeignKey";
-      reference;
-      onUpdate;
-      onDelete;
-      getName() {
-        const { name: name2, columns, foreignColumns } = this.reference();
-        const columnNames = columns.map((column) => column.name);
-        const foreignColumnNames = foreignColumns.map((column) => column.name);
-        const chunks = [
-          this.table[TableName],
-          ...columnNames,
-          foreignColumns[0].table[TableName],
-          ...foreignColumnNames
-        ];
-        return name2 ?? `${chunks.join("_")}_fk`;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/unique-constraint.js
-function uniqueKeyName2(table, columns) {
-  return `${table[TableName]}_${columns.join("_")}_unique`;
-}
-var UniqueConstraintBuilder2, UniqueOnConstraintBuilder2, UniqueConstraint2;
-var init_unique_constraint2 = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/unique-constraint.js"() {
-    init_entity();
-    init_table_utils();
-    UniqueConstraintBuilder2 = class {
-      constructor(columns, name2) {
-        this.name = name2;
-        this.columns = columns;
-      }
-      static [entityKind] = "MySqlUniqueConstraintBuilder";
-      /** @internal */
-      columns;
-      /** @internal */
-      build(table) {
-        return new UniqueConstraint2(table, this.columns, this.name);
-      }
-    };
-    UniqueOnConstraintBuilder2 = class {
-      static [entityKind] = "MySqlUniqueOnConstraintBuilder";
-      /** @internal */
-      name;
-      constructor(name2) {
-        this.name = name2;
-      }
-      on(...columns) {
-        return new UniqueConstraintBuilder2(columns, this.name);
-      }
-    };
-    UniqueConstraint2 = class {
-      constructor(table, columns, name2) {
-        this.table = table;
-        this.columns = columns;
-        this.name = name2 ?? uniqueKeyName2(this.table, this.columns.map((column) => column.name));
-      }
-      static [entityKind] = "MySqlUniqueConstraint";
-      columns;
-      name;
-      nullsNotDistinct = false;
-      getName() {
-        return this.name;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/common.js
-var MySqlColumnBuilder, MySqlColumn, MySqlColumnBuilderWithAutoIncrement, MySqlColumnWithAutoIncrement;
-var init_common2 = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/common.js"() {
-    init_column_builder();
-    init_column();
-    init_entity();
-    init_foreign_keys2();
-    init_unique_constraint2();
-    MySqlColumnBuilder = class extends ColumnBuilder {
-      static [entityKind] = "MySqlColumnBuilder";
-      foreignKeyConfigs = [];
-      references(ref, actions = {}) {
-        this.foreignKeyConfigs.push({ ref, actions });
-        return this;
-      }
-      unique(name2) {
-        this.config.isUnique = true;
-        this.config.uniqueName = name2;
-        return this;
-      }
-      generatedAlwaysAs(as2, config3) {
-        this.config.generated = {
-          as: as2,
-          type: "always",
-          mode: config3?.mode ?? "virtual"
-        };
-        return this;
-      }
-      /** @internal */
-      buildForeignKeys(column, table) {
-        return this.foreignKeyConfigs.map(({ ref, actions }) => {
-          return ((ref2, actions2) => {
-            const builder = new ForeignKeyBuilder2(() => {
-              const foreignColumn = ref2();
-              return { columns: [column], foreignColumns: [foreignColumn] };
-            });
-            if (actions2.onUpdate) {
-              builder.onUpdate(actions2.onUpdate);
-            }
-            if (actions2.onDelete) {
-              builder.onDelete(actions2.onDelete);
-            }
-            return builder.build(table);
-          })(ref, actions);
-        });
-      }
-    };
-    MySqlColumn = class extends Column {
-      constructor(table, config3) {
-        if (!config3.uniqueName) {
-          config3.uniqueName = uniqueKeyName2(table, [config3.name]);
-        }
-        super(table, config3);
-        this.table = table;
-      }
-      static [entityKind] = "MySqlColumn";
-    };
-    MySqlColumnBuilderWithAutoIncrement = class extends MySqlColumnBuilder {
-      static [entityKind] = "MySqlColumnBuilderWithAutoIncrement";
-      constructor(name2, dataType, columnType) {
-        super(name2, dataType, columnType);
-        this.config.autoIncrement = false;
-      }
-      autoincrement() {
-        this.config.autoIncrement = true;
-        this.config.hasDefault = true;
-        return this;
-      }
-    };
-    MySqlColumnWithAutoIncrement = class extends MySqlColumn {
-      static [entityKind] = "MySqlColumnWithAutoIncrement";
-      autoIncrement = this.config.autoIncrement;
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/bigint.js
-function bigint4(a, b2) {
-  const { name: name2, config: config3 } = getColumnNameAndConfig(a, b2);
-  if (config3.mode === "number") {
-    return new MySqlBigInt53Builder(name2, config3.unsigned);
-  }
-  return new MySqlBigInt64Builder(name2, config3.unsigned);
-}
-var MySqlBigInt53Builder, MySqlBigInt53, MySqlBigInt64Builder, MySqlBigInt64;
-var init_bigint = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/bigint.js"() {
-    init_entity();
-    init_utils3();
-    init_common2();
-    MySqlBigInt53Builder = class extends MySqlColumnBuilderWithAutoIncrement {
-      static [entityKind] = "MySqlBigInt53Builder";
-      constructor(name2, unsigned = false) {
-        super(name2, "number", "MySqlBigInt53");
-        this.config.unsigned = unsigned;
-      }
-      /** @internal */
-      build(table) {
-        return new MySqlBigInt53(
-          table,
-          this.config
-        );
-      }
-    };
-    MySqlBigInt53 = class extends MySqlColumnWithAutoIncrement {
-      static [entityKind] = "MySqlBigInt53";
-      getSQLType() {
-        return `bigint${this.config.unsigned ? " unsigned" : ""}`;
-      }
-      mapFromDriverValue(value) {
-        if (typeof value === "number") {
-          return value;
-        }
-        return Number(value);
-      }
-    };
-    MySqlBigInt64Builder = class extends MySqlColumnBuilderWithAutoIncrement {
-      static [entityKind] = "MySqlBigInt64Builder";
-      constructor(name2, unsigned = false) {
-        super(name2, "bigint", "MySqlBigInt64");
-        this.config.unsigned = unsigned;
-      }
-      /** @internal */
-      build(table) {
-        return new MySqlBigInt64(
-          table,
-          this.config
-        );
-      }
-    };
-    MySqlBigInt64 = class extends MySqlColumnWithAutoIncrement {
-      static [entityKind] = "MySqlBigInt64";
-      getSQLType() {
-        return `bigint${this.config.unsigned ? " unsigned" : ""}`;
-      }
-      // eslint-disable-next-line unicorn/prefer-native-coercion-functions
-      mapFromDriverValue(value) {
-        return BigInt(value);
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/binary.js
-function binary(a, b2 = {}) {
-  const { name: name2, config: config3 } = getColumnNameAndConfig(a, b2);
-  return new MySqlBinaryBuilder(name2, config3.length);
-}
-var MySqlBinaryBuilder, MySqlBinary;
-var init_binary = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/binary.js"() {
-    init_entity();
-    init_utils3();
-    init_common2();
-    MySqlBinaryBuilder = class extends MySqlColumnBuilder {
-      static [entityKind] = "MySqlBinaryBuilder";
-      constructor(name2, length) {
-        super(name2, "string", "MySqlBinary");
-        this.config.length = length;
-      }
-      /** @internal */
-      build(table) {
-        return new MySqlBinary(table, this.config);
-      }
-    };
-    MySqlBinary = class extends MySqlColumn {
-      static [entityKind] = "MySqlBinary";
-      length = this.config.length;
-      mapFromDriverValue(value) {
-        if (typeof value === "string") return value;
-        if (Buffer.isBuffer(value)) return value.toString();
-        const str = [];
-        for (const v of value) {
-          str.push(v === 49 ? "1" : "0");
-        }
-        return str.join("");
-      }
-      getSQLType() {
-        return this.length === void 0 ? `binary` : `binary(${this.length})`;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/boolean.js
-function boolean4(name2) {
-  return new MySqlBooleanBuilder(name2 ?? "");
-}
-var MySqlBooleanBuilder, MySqlBoolean;
-var init_boolean = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/boolean.js"() {
-    init_entity();
-    init_common2();
-    MySqlBooleanBuilder = class extends MySqlColumnBuilder {
-      static [entityKind] = "MySqlBooleanBuilder";
-      constructor(name2) {
-        super(name2, "boolean", "MySqlBoolean");
-      }
-      /** @internal */
-      build(table) {
-        return new MySqlBoolean(
-          table,
-          this.config
-        );
-      }
-    };
-    MySqlBoolean = class extends MySqlColumn {
-      static [entityKind] = "MySqlBoolean";
-      getSQLType() {
-        return "boolean";
-      }
-      mapFromDriverValue(value) {
-        if (typeof value === "boolean") {
-          return value;
-        }
-        return value === 1;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/char.js
-function char(a, b2 = {}) {
-  const { name: name2, config: config3 } = getColumnNameAndConfig(a, b2);
-  return new MySqlCharBuilder(name2, config3);
-}
-var MySqlCharBuilder, MySqlChar;
-var init_char = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/char.js"() {
-    init_entity();
-    init_utils3();
-    init_common2();
-    MySqlCharBuilder = class extends MySqlColumnBuilder {
-      static [entityKind] = "MySqlCharBuilder";
-      constructor(name2, config3) {
-        super(name2, "string", "MySqlChar");
-        this.config.length = config3.length;
-        this.config.enum = config3.enum;
-      }
-      /** @internal */
-      build(table) {
-        return new MySqlChar(
-          table,
-          this.config
-        );
-      }
-    };
-    MySqlChar = class extends MySqlColumn {
-      static [entityKind] = "MySqlChar";
-      length = this.config.length;
-      enumValues = this.config.enum;
-      getSQLType() {
-        return this.length === void 0 ? `char` : `char(${this.length})`;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/custom.js
-function customType(customTypeParams) {
-  return (a, b2) => {
-    const { name: name2, config: config3 } = getColumnNameAndConfig(a, b2);
-    return new MySqlCustomColumnBuilder(name2, config3, customTypeParams);
-  };
-}
-var MySqlCustomColumnBuilder, MySqlCustomColumn;
-var init_custom = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/custom.js"() {
-    init_entity();
-    init_utils3();
-    init_common2();
-    MySqlCustomColumnBuilder = class extends MySqlColumnBuilder {
-      static [entityKind] = "MySqlCustomColumnBuilder";
-      constructor(name2, fieldConfig, customTypeParams) {
-        super(name2, "custom", "MySqlCustomColumn");
-        this.config.fieldConfig = fieldConfig;
-        this.config.customTypeParams = customTypeParams;
-      }
-      /** @internal */
-      build(table) {
-        return new MySqlCustomColumn(
-          table,
-          this.config
-        );
-      }
-    };
-    MySqlCustomColumn = class extends MySqlColumn {
-      static [entityKind] = "MySqlCustomColumn";
-      sqlName;
-      mapTo;
-      mapFrom;
-      constructor(table, config3) {
-        super(table, config3);
-        this.sqlName = config3.customTypeParams.dataType(config3.fieldConfig);
-        this.mapTo = config3.customTypeParams.toDriver;
-        this.mapFrom = config3.customTypeParams.fromDriver;
-      }
-      getSQLType() {
-        return this.sqlName;
-      }
-      mapFromDriverValue(value) {
-        return typeof this.mapFrom === "function" ? this.mapFrom(value) : value;
-      }
-      mapToDriverValue(value) {
-        return typeof this.mapTo === "function" ? this.mapTo(value) : value;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/date.js
-function date5(a, b2) {
-  const { name: name2, config: config3 } = getColumnNameAndConfig(a, b2);
-  if (config3?.mode === "string") {
-    return new MySqlDateStringBuilder(name2);
-  }
-  return new MySqlDateBuilder(name2);
-}
-var MySqlDateBuilder, MySqlDate, MySqlDateStringBuilder, MySqlDateString;
-var init_date = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/date.js"() {
-    init_entity();
-    init_utils3();
-    init_common2();
-    MySqlDateBuilder = class extends MySqlColumnBuilder {
-      static [entityKind] = "MySqlDateBuilder";
-      constructor(name2) {
-        super(name2, "date", "MySqlDate");
-      }
-      /** @internal */
-      build(table) {
-        return new MySqlDate(table, this.config);
-      }
-    };
-    MySqlDate = class extends MySqlColumn {
-      static [entityKind] = "MySqlDate";
-      constructor(table, config3) {
-        super(table, config3);
-      }
-      getSQLType() {
-        return `date`;
-      }
-      mapFromDriverValue(value) {
-        return new Date(value);
-      }
-    };
-    MySqlDateStringBuilder = class extends MySqlColumnBuilder {
-      static [entityKind] = "MySqlDateStringBuilder";
-      constructor(name2) {
-        super(name2, "string", "MySqlDateString");
-      }
-      /** @internal */
-      build(table) {
-        return new MySqlDateString(
-          table,
-          this.config
-        );
-      }
-    };
-    MySqlDateString = class extends MySqlColumn {
-      static [entityKind] = "MySqlDateString";
-      constructor(table, config3) {
-        super(table, config3);
-      }
-      getSQLType() {
-        return `date`;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/datetime.js
-function datetime3(a, b2) {
-  const { name: name2, config: config3 } = getColumnNameAndConfig(a, b2);
-  if (config3?.mode === "string") {
-    return new MySqlDateTimeStringBuilder(name2, config3);
-  }
-  return new MySqlDateTimeBuilder(name2, config3);
-}
-var MySqlDateTimeBuilder, MySqlDateTime, MySqlDateTimeStringBuilder, MySqlDateTimeString;
-var init_datetime = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/datetime.js"() {
-    init_entity();
-    init_utils3();
-    init_common2();
-    MySqlDateTimeBuilder = class extends MySqlColumnBuilder {
-      static [entityKind] = "MySqlDateTimeBuilder";
-      constructor(name2, config3) {
-        super(name2, "date", "MySqlDateTime");
-        this.config.fsp = config3?.fsp;
-      }
-      /** @internal */
-      build(table) {
-        return new MySqlDateTime(
-          table,
-          this.config
-        );
-      }
-    };
-    MySqlDateTime = class extends MySqlColumn {
-      static [entityKind] = "MySqlDateTime";
-      fsp;
-      constructor(table, config3) {
-        super(table, config3);
-        this.fsp = config3.fsp;
-      }
-      getSQLType() {
-        const precision = this.fsp === void 0 ? "" : `(${this.fsp})`;
-        return `datetime${precision}`;
-      }
-      mapToDriverValue(value) {
-        return value.toISOString().replace("T", " ").replace("Z", "");
-      }
-      mapFromDriverValue(value) {
-        return /* @__PURE__ */ new Date(value.replace(" ", "T") + "Z");
-      }
-    };
-    MySqlDateTimeStringBuilder = class extends MySqlColumnBuilder {
-      static [entityKind] = "MySqlDateTimeStringBuilder";
-      constructor(name2, config3) {
-        super(name2, "string", "MySqlDateTimeString");
-        this.config.fsp = config3?.fsp;
-      }
-      /** @internal */
-      build(table) {
-        return new MySqlDateTimeString(
-          table,
-          this.config
-        );
-      }
-    };
-    MySqlDateTimeString = class extends MySqlColumn {
-      static [entityKind] = "MySqlDateTimeString";
-      fsp;
-      constructor(table, config3) {
-        super(table, config3);
-        this.fsp = config3.fsp;
-      }
-      getSQLType() {
-        const precision = this.fsp === void 0 ? "" : `(${this.fsp})`;
-        return `datetime${precision}`;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/decimal.js
-function decimal(a, b2 = {}) {
-  const { name: name2, config: config3 } = getColumnNameAndConfig(a, b2);
-  const mode = config3?.mode;
-  return mode === "number" ? new MySqlDecimalNumberBuilder(name2, config3) : mode === "bigint" ? new MySqlDecimalBigIntBuilder(name2, config3) : new MySqlDecimalBuilder(name2, config3);
-}
-var MySqlDecimalBuilder, MySqlDecimal, MySqlDecimalNumberBuilder, MySqlDecimalNumber, MySqlDecimalBigIntBuilder, MySqlDecimalBigInt;
-var init_decimal = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/decimal.js"() {
-    init_entity();
-    init_utils3();
-    init_common2();
-    MySqlDecimalBuilder = class extends MySqlColumnBuilderWithAutoIncrement {
-      static [entityKind] = "MySqlDecimalBuilder";
-      constructor(name2, config3) {
-        super(name2, "string", "MySqlDecimal");
-        this.config.precision = config3?.precision;
-        this.config.scale = config3?.scale;
-        this.config.unsigned = config3?.unsigned;
-      }
-      /** @internal */
-      build(table) {
-        return new MySqlDecimal(
-          table,
-          this.config
-        );
-      }
-    };
-    MySqlDecimal = class extends MySqlColumnWithAutoIncrement {
-      static [entityKind] = "MySqlDecimal";
-      precision = this.config.precision;
-      scale = this.config.scale;
-      unsigned = this.config.unsigned;
-      mapFromDriverValue(value) {
-        if (typeof value === "string") return value;
-        return String(value);
-      }
-      getSQLType() {
-        let type = "";
-        if (this.precision !== void 0 && this.scale !== void 0) {
-          type += `decimal(${this.precision},${this.scale})`;
-        } else if (this.precision === void 0) {
-          type += "decimal";
-        } else {
-          type += `decimal(${this.precision})`;
-        }
-        type = type === "decimal(10,0)" || type === "decimal(10)" ? "decimal" : type;
-        return this.unsigned ? `${type} unsigned` : type;
-      }
-    };
-    MySqlDecimalNumberBuilder = class extends MySqlColumnBuilderWithAutoIncrement {
-      static [entityKind] = "MySqlDecimalNumberBuilder";
-      constructor(name2, config3) {
-        super(name2, "number", "MySqlDecimalNumber");
-        this.config.precision = config3?.precision;
-        this.config.scale = config3?.scale;
-        this.config.unsigned = config3?.unsigned;
-      }
-      /** @internal */
-      build(table) {
-        return new MySqlDecimalNumber(
-          table,
-          this.config
-        );
-      }
-    };
-    MySqlDecimalNumber = class extends MySqlColumnWithAutoIncrement {
-      static [entityKind] = "MySqlDecimalNumber";
-      precision = this.config.precision;
-      scale = this.config.scale;
-      unsigned = this.config.unsigned;
-      mapFromDriverValue(value) {
-        if (typeof value === "number") return value;
-        return Number(value);
-      }
-      mapToDriverValue = String;
-      getSQLType() {
-        let type = "";
-        if (this.precision !== void 0 && this.scale !== void 0) {
-          type += `decimal(${this.precision},${this.scale})`;
-        } else if (this.precision === void 0) {
-          type += "decimal";
-        } else {
-          type += `decimal(${this.precision})`;
-        }
-        type = type === "decimal(10,0)" || type === "decimal(10)" ? "decimal" : type;
-        return this.unsigned ? `${type} unsigned` : type;
-      }
-    };
-    MySqlDecimalBigIntBuilder = class extends MySqlColumnBuilderWithAutoIncrement {
-      static [entityKind] = "MySqlDecimalBigIntBuilder";
-      constructor(name2, config3) {
-        super(name2, "bigint", "MySqlDecimalBigInt");
-        this.config.precision = config3?.precision;
-        this.config.scale = config3?.scale;
-        this.config.unsigned = config3?.unsigned;
-      }
-      /** @internal */
-      build(table) {
-        return new MySqlDecimalBigInt(
-          table,
-          this.config
-        );
-      }
-    };
-    MySqlDecimalBigInt = class extends MySqlColumnWithAutoIncrement {
-      static [entityKind] = "MySqlDecimalBigInt";
-      precision = this.config.precision;
-      scale = this.config.scale;
-      unsigned = this.config.unsigned;
-      mapFromDriverValue = BigInt;
-      mapToDriverValue = String;
-      getSQLType() {
-        let type = "";
-        if (this.precision !== void 0 && this.scale !== void 0) {
-          type += `decimal(${this.precision},${this.scale})`;
-        } else if (this.precision === void 0) {
-          type += "decimal";
-        } else {
-          type += `decimal(${this.precision})`;
-        }
-        type = type === "decimal(10,0)" || type === "decimal(10)" ? "decimal" : type;
-        return this.unsigned ? `${type} unsigned` : type;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/double.js
-function double(a, b2) {
-  const { name: name2, config: config3 } = getColumnNameAndConfig(a, b2);
-  return new MySqlDoubleBuilder(name2, config3);
-}
-var MySqlDoubleBuilder, MySqlDouble;
-var init_double = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/double.js"() {
-    init_entity();
-    init_utils3();
-    init_common2();
-    MySqlDoubleBuilder = class extends MySqlColumnBuilderWithAutoIncrement {
-      static [entityKind] = "MySqlDoubleBuilder";
-      constructor(name2, config3) {
-        super(name2, "number", "MySqlDouble");
-        this.config.precision = config3?.precision;
-        this.config.scale = config3?.scale;
-        this.config.unsigned = config3?.unsigned;
-      }
-      /** @internal */
-      build(table) {
-        return new MySqlDouble(table, this.config);
-      }
-    };
-    MySqlDouble = class extends MySqlColumnWithAutoIncrement {
-      static [entityKind] = "MySqlDouble";
-      precision = this.config.precision;
-      scale = this.config.scale;
-      unsigned = this.config.unsigned;
-      getSQLType() {
-        let type = "";
-        if (this.precision !== void 0 && this.scale !== void 0) {
-          type += `double(${this.precision},${this.scale})`;
-        } else if (this.precision === void 0) {
-          type += "double";
-        } else {
-          type += `double(${this.precision})`;
-        }
-        return this.unsigned ? `${type} unsigned` : type;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/enum.js
-function mysqlEnum(a, b2) {
-  if (typeof a === "string" && Array.isArray(b2) || Array.isArray(a)) {
-    const name2 = typeof a === "string" && a.length > 0 ? a : "";
-    const values = (typeof a === "string" ? b2 : a) ?? [];
-    if (values.length === 0) {
-      throw new Error(`You have an empty array for "${name2}" enum values`);
-    }
-    return new MySqlEnumColumnBuilder(name2, values);
-  }
-  if (typeof a === "string" && typeof b2 === "object" || typeof a === "object") {
-    const name2 = typeof a === "object" ? "" : a;
-    const values = typeof a === "object" ? Object.values(a) : typeof b2 === "object" ? Object.values(b2) : [];
-    if (values.length === 0) {
-      throw new Error(`You have an empty array for "${name2}" enum values`);
-    }
-    return new MySqlEnumObjectColumnBuilder(name2, values);
-  }
-}
-var MySqlEnumColumnBuilder, MySqlEnumColumn, MySqlEnumObjectColumnBuilder, MySqlEnumObjectColumn;
-var init_enum2 = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/enum.js"() {
-    init_entity();
-    init_common2();
-    MySqlEnumColumnBuilder = class extends MySqlColumnBuilder {
-      static [entityKind] = "MySqlEnumColumnBuilder";
-      constructor(name2, values) {
-        super(name2, "string", "MySqlEnumColumn");
-        this.config.enumValues = values;
-      }
-      /** @internal */
-      build(table) {
-        return new MySqlEnumColumn(
-          table,
-          this.config
-        );
-      }
-    };
-    MySqlEnumColumn = class extends MySqlColumn {
-      static [entityKind] = "MySqlEnumColumn";
-      enumValues = this.config.enumValues;
-      getSQLType() {
-        return `enum(${this.enumValues.map((value) => `'${value}'`).join(",")})`;
-      }
-    };
-    MySqlEnumObjectColumnBuilder = class extends MySqlColumnBuilder {
-      static [entityKind] = "MySqlEnumObjectColumnBuilder";
-      constructor(name2, values) {
-        super(name2, "string", "MySqlEnumObjectColumn");
-        this.config.enumValues = values;
-      }
-      /** @internal */
-      build(table) {
-        return new MySqlEnumObjectColumn(
-          table,
-          this.config
-        );
-      }
-    };
-    MySqlEnumObjectColumn = class extends MySqlColumn {
-      static [entityKind] = "MySqlEnumObjectColumn";
-      enumValues = this.config.enumValues;
-      getSQLType() {
-        return `enum(${this.enumValues.map((value) => `'${value}'`).join(",")})`;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/float.js
-function float(a, b2) {
-  const { name: name2, config: config3 } = getColumnNameAndConfig(a, b2);
-  return new MySqlFloatBuilder(name2, config3);
-}
-var MySqlFloatBuilder, MySqlFloat;
-var init_float = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/float.js"() {
-    init_entity();
-    init_utils3();
-    init_common2();
-    MySqlFloatBuilder = class extends MySqlColumnBuilderWithAutoIncrement {
-      static [entityKind] = "MySqlFloatBuilder";
-      constructor(name2, config3) {
-        super(name2, "number", "MySqlFloat");
-        this.config.precision = config3?.precision;
-        this.config.scale = config3?.scale;
-        this.config.unsigned = config3?.unsigned;
-      }
-      /** @internal */
-      build(table) {
-        return new MySqlFloat(table, this.config);
-      }
-    };
-    MySqlFloat = class extends MySqlColumnWithAutoIncrement {
-      static [entityKind] = "MySqlFloat";
-      precision = this.config.precision;
-      scale = this.config.scale;
-      unsigned = this.config.unsigned;
-      getSQLType() {
-        let type = "";
-        if (this.precision !== void 0 && this.scale !== void 0) {
-          type += `float(${this.precision},${this.scale})`;
-        } else if (this.precision === void 0) {
-          type += "float";
-        } else {
-          type += `float(${this.precision})`;
-        }
-        return this.unsigned ? `${type} unsigned` : type;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/int.js
-function int2(a, b2) {
-  const { name: name2, config: config3 } = getColumnNameAndConfig(a, b2);
-  return new MySqlIntBuilder(name2, config3);
-}
-var MySqlIntBuilder, MySqlInt;
-var init_int = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/int.js"() {
-    init_entity();
-    init_utils3();
-    init_common2();
-    MySqlIntBuilder = class extends MySqlColumnBuilderWithAutoIncrement {
-      static [entityKind] = "MySqlIntBuilder";
-      constructor(name2, config3) {
-        super(name2, "number", "MySqlInt");
-        this.config.unsigned = config3 ? config3.unsigned : false;
-      }
-      /** @internal */
-      build(table) {
-        return new MySqlInt(table, this.config);
-      }
-    };
-    MySqlInt = class extends MySqlColumnWithAutoIncrement {
-      static [entityKind] = "MySqlInt";
-      getSQLType() {
-        return `int${this.config.unsigned ? " unsigned" : ""}`;
-      }
-      mapFromDriverValue(value) {
-        if (typeof value === "string") {
-          return Number(value);
-        }
-        return value;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/json.js
-function json2(name2) {
-  return new MySqlJsonBuilder(name2 ?? "");
-}
-var MySqlJsonBuilder, MySqlJson;
-var init_json = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/json.js"() {
-    init_entity();
-    init_common2();
-    MySqlJsonBuilder = class extends MySqlColumnBuilder {
-      static [entityKind] = "MySqlJsonBuilder";
-      constructor(name2) {
-        super(name2, "json", "MySqlJson");
-      }
-      /** @internal */
-      build(table) {
-        return new MySqlJson(table, this.config);
-      }
-    };
-    MySqlJson = class extends MySqlColumn {
-      static [entityKind] = "MySqlJson";
-      getSQLType() {
-        return "json";
-      }
-      mapToDriverValue(value) {
-        return JSON.stringify(value);
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/mediumint.js
-function mediumint(a, b2) {
-  const { name: name2, config: config3 } = getColumnNameAndConfig(a, b2);
-  return new MySqlMediumIntBuilder(name2, config3);
-}
-var MySqlMediumIntBuilder, MySqlMediumInt;
-var init_mediumint = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/mediumint.js"() {
-    init_entity();
-    init_utils3();
-    init_common2();
-    MySqlMediumIntBuilder = class extends MySqlColumnBuilderWithAutoIncrement {
-      static [entityKind] = "MySqlMediumIntBuilder";
-      constructor(name2, config3) {
-        super(name2, "number", "MySqlMediumInt");
-        this.config.unsigned = config3 ? config3.unsigned : false;
-      }
-      /** @internal */
-      build(table) {
-        return new MySqlMediumInt(
-          table,
-          this.config
-        );
-      }
-    };
-    MySqlMediumInt = class extends MySqlColumnWithAutoIncrement {
-      static [entityKind] = "MySqlMediumInt";
-      getSQLType() {
-        return `mediumint${this.config.unsigned ? " unsigned" : ""}`;
-      }
-      mapFromDriverValue(value) {
-        if (typeof value === "string") {
-          return Number(value);
-        }
-        return value;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/real.js
-function real(a, b2 = {}) {
-  const { name: name2, config: config3 } = getColumnNameAndConfig(a, b2);
-  return new MySqlRealBuilder(name2, config3);
-}
-var MySqlRealBuilder, MySqlReal;
-var init_real = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/real.js"() {
-    init_entity();
-    init_utils3();
-    init_common2();
-    MySqlRealBuilder = class extends MySqlColumnBuilderWithAutoIncrement {
-      static [entityKind] = "MySqlRealBuilder";
-      constructor(name2, config3) {
-        super(name2, "number", "MySqlReal");
-        this.config.precision = config3?.precision;
-        this.config.scale = config3?.scale;
-      }
-      /** @internal */
-      build(table) {
-        return new MySqlReal(table, this.config);
-      }
-    };
-    MySqlReal = class extends MySqlColumnWithAutoIncrement {
-      static [entityKind] = "MySqlReal";
-      precision = this.config.precision;
-      scale = this.config.scale;
-      getSQLType() {
-        if (this.precision !== void 0 && this.scale !== void 0) {
-          return `real(${this.precision}, ${this.scale})`;
-        } else if (this.precision === void 0) {
-          return "real";
-        } else {
-          return `real(${this.precision})`;
-        }
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/serial.js
-function serial(name2) {
-  return new MySqlSerialBuilder(name2 ?? "");
-}
-var MySqlSerialBuilder, MySqlSerial;
-var init_serial = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/serial.js"() {
-    init_entity();
-    init_common2();
-    MySqlSerialBuilder = class extends MySqlColumnBuilderWithAutoIncrement {
-      static [entityKind] = "MySqlSerialBuilder";
-      constructor(name2) {
-        super(name2, "number", "MySqlSerial");
-        this.config.hasDefault = true;
-        this.config.autoIncrement = true;
-      }
-      /** @internal */
-      build(table) {
-        return new MySqlSerial(table, this.config);
-      }
-    };
-    MySqlSerial = class extends MySqlColumnWithAutoIncrement {
-      static [entityKind] = "MySqlSerial";
-      getSQLType() {
-        return "serial";
-      }
-      mapFromDriverValue(value) {
-        if (typeof value === "string") {
-          return Number(value);
-        }
-        return value;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/smallint.js
-function smallint(a, b2) {
-  const { name: name2, config: config3 } = getColumnNameAndConfig(a, b2);
-  return new MySqlSmallIntBuilder(name2, config3);
-}
-var MySqlSmallIntBuilder, MySqlSmallInt;
-var init_smallint = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/smallint.js"() {
-    init_entity();
-    init_utils3();
-    init_common2();
-    MySqlSmallIntBuilder = class extends MySqlColumnBuilderWithAutoIncrement {
-      static [entityKind] = "MySqlSmallIntBuilder";
-      constructor(name2, config3) {
-        super(name2, "number", "MySqlSmallInt");
-        this.config.unsigned = config3 ? config3.unsigned : false;
-      }
-      /** @internal */
-      build(table) {
-        return new MySqlSmallInt(
-          table,
-          this.config
-        );
-      }
-    };
-    MySqlSmallInt = class extends MySqlColumnWithAutoIncrement {
-      static [entityKind] = "MySqlSmallInt";
-      getSQLType() {
-        return `smallint${this.config.unsigned ? " unsigned" : ""}`;
-      }
-      mapFromDriverValue(value) {
-        if (typeof value === "string") {
-          return Number(value);
-        }
-        return value;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/text.js
-function text(a, b2 = {}) {
-  const { name: name2, config: config3 } = getColumnNameAndConfig(a, b2);
-  return new MySqlTextBuilder(name2, "text", config3);
-}
-function tinytext(a, b2 = {}) {
-  const { name: name2, config: config3 } = getColumnNameAndConfig(a, b2);
-  return new MySqlTextBuilder(name2, "tinytext", config3);
-}
-function mediumtext(a, b2 = {}) {
-  const { name: name2, config: config3 } = getColumnNameAndConfig(a, b2);
-  return new MySqlTextBuilder(name2, "mediumtext", config3);
-}
-function longtext(a, b2 = {}) {
-  const { name: name2, config: config3 } = getColumnNameAndConfig(a, b2);
-  return new MySqlTextBuilder(name2, "longtext", config3);
-}
-var MySqlTextBuilder, MySqlText;
-var init_text = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/text.js"() {
-    init_entity();
-    init_utils3();
-    init_common2();
-    MySqlTextBuilder = class extends MySqlColumnBuilder {
-      static [entityKind] = "MySqlTextBuilder";
-      constructor(name2, textType, config3) {
-        super(name2, "string", "MySqlText");
-        this.config.textType = textType;
-        this.config.enumValues = config3.enum;
-      }
-      /** @internal */
-      build(table) {
-        return new MySqlText(table, this.config);
-      }
-    };
-    MySqlText = class extends MySqlColumn {
-      static [entityKind] = "MySqlText";
-      textType = this.config.textType;
-      enumValues = this.config.enumValues;
-      getSQLType() {
-        return this.textType;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/time.js
-function time3(a, b2) {
-  const { name: name2, config: config3 } = getColumnNameAndConfig(a, b2);
-  return new MySqlTimeBuilder(name2, config3);
-}
-var MySqlTimeBuilder, MySqlTime;
-var init_time = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/time.js"() {
-    init_entity();
-    init_utils3();
-    init_common2();
-    MySqlTimeBuilder = class extends MySqlColumnBuilder {
-      static [entityKind] = "MySqlTimeBuilder";
-      constructor(name2, config3) {
-        super(name2, "string", "MySqlTime");
-        this.config.fsp = config3?.fsp;
-      }
-      /** @internal */
-      build(table) {
-        return new MySqlTime(table, this.config);
-      }
-    };
-    MySqlTime = class extends MySqlColumn {
-      static [entityKind] = "MySqlTime";
-      fsp = this.config.fsp;
-      getSQLType() {
-        const precision = this.fsp === void 0 ? "" : `(${this.fsp})`;
-        return `time${precision}`;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/date.common.js
-var MySqlDateColumnBaseBuilder, MySqlDateBaseColumn;
-var init_date_common = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/date.common.js"() {
-    init_entity();
-    init_sql();
-    init_common2();
-    MySqlDateColumnBaseBuilder = class extends MySqlColumnBuilder {
-      static [entityKind] = "MySqlDateColumnBuilder";
-      defaultNow() {
-        return this.default(sql`(now())`);
-      }
-      // "on update now" also adds an implicit default value to the column - https://dev.mysql.com/doc/refman/8.0/en/timestamp-initialization.html
-      onUpdateNow() {
-        this.config.hasOnUpdateNow = true;
-        this.config.hasDefault = true;
-        return this;
-      }
-    };
-    MySqlDateBaseColumn = class extends MySqlColumn {
-      static [entityKind] = "MySqlDateColumn";
-      hasOnUpdateNow = this.config.hasOnUpdateNow;
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/timestamp.js
-function timestamp(a, b2 = {}) {
-  const { name: name2, config: config3 } = getColumnNameAndConfig(a, b2);
-  if (config3?.mode === "string") {
-    return new MySqlTimestampStringBuilder(name2, config3);
-  }
-  return new MySqlTimestampBuilder(name2, config3);
-}
-var MySqlTimestampBuilder, MySqlTimestamp, MySqlTimestampStringBuilder, MySqlTimestampString;
-var init_timestamp = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/timestamp.js"() {
-    init_entity();
-    init_utils3();
-    init_date_common();
-    MySqlTimestampBuilder = class extends MySqlDateColumnBaseBuilder {
-      static [entityKind] = "MySqlTimestampBuilder";
-      constructor(name2, config3) {
-        super(name2, "date", "MySqlTimestamp");
-        this.config.fsp = config3?.fsp;
-      }
-      /** @internal */
-      build(table) {
-        return new MySqlTimestamp(
-          table,
-          this.config
-        );
-      }
-    };
-    MySqlTimestamp = class extends MySqlDateBaseColumn {
-      static [entityKind] = "MySqlTimestamp";
-      fsp = this.config.fsp;
-      getSQLType() {
-        const precision = this.fsp === void 0 ? "" : `(${this.fsp})`;
-        return `timestamp${precision}`;
-      }
-      mapFromDriverValue(value) {
-        return /* @__PURE__ */ new Date(value + "+0000");
-      }
-      mapToDriverValue(value) {
-        return value.toISOString().slice(0, -1).replace("T", " ");
-      }
-    };
-    MySqlTimestampStringBuilder = class extends MySqlDateColumnBaseBuilder {
-      static [entityKind] = "MySqlTimestampStringBuilder";
-      constructor(name2, config3) {
-        super(name2, "string", "MySqlTimestampString");
-        this.config.fsp = config3?.fsp;
-      }
-      /** @internal */
-      build(table) {
-        return new MySqlTimestampString(
-          table,
-          this.config
-        );
-      }
-    };
-    MySqlTimestampString = class extends MySqlDateBaseColumn {
-      static [entityKind] = "MySqlTimestampString";
-      fsp = this.config.fsp;
-      getSQLType() {
-        const precision = this.fsp === void 0 ? "" : `(${this.fsp})`;
-        return `timestamp${precision}`;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/tinyint.js
-function tinyint(a, b2) {
-  const { name: name2, config: config3 } = getColumnNameAndConfig(a, b2);
-  return new MySqlTinyIntBuilder(name2, config3);
-}
-var MySqlTinyIntBuilder, MySqlTinyInt;
-var init_tinyint = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/tinyint.js"() {
-    init_entity();
-    init_utils3();
-    init_common2();
-    MySqlTinyIntBuilder = class extends MySqlColumnBuilderWithAutoIncrement {
-      static [entityKind] = "MySqlTinyIntBuilder";
-      constructor(name2, config3) {
-        super(name2, "number", "MySqlTinyInt");
-        this.config.unsigned = config3 ? config3.unsigned : false;
-      }
-      /** @internal */
-      build(table) {
-        return new MySqlTinyInt(
-          table,
-          this.config
-        );
-      }
-    };
-    MySqlTinyInt = class extends MySqlColumnWithAutoIncrement {
-      static [entityKind] = "MySqlTinyInt";
-      getSQLType() {
-        return `tinyint${this.config.unsigned ? " unsigned" : ""}`;
-      }
-      mapFromDriverValue(value) {
-        if (typeof value === "string") {
-          return Number(value);
-        }
-        return value;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/varbinary.js
-function varbinary(a, b2) {
-  const { name: name2, config: config3 } = getColumnNameAndConfig(a, b2);
-  return new MySqlVarBinaryBuilder(name2, config3);
-}
-var MySqlVarBinaryBuilder, MySqlVarBinary;
-var init_varbinary = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/varbinary.js"() {
-    init_entity();
-    init_utils3();
-    init_common2();
-    MySqlVarBinaryBuilder = class extends MySqlColumnBuilder {
-      static [entityKind] = "MySqlVarBinaryBuilder";
-      /** @internal */
-      constructor(name2, config3) {
-        super(name2, "string", "MySqlVarBinary");
-        this.config.length = config3?.length;
-      }
-      /** @internal */
-      build(table) {
-        return new MySqlVarBinary(
-          table,
-          this.config
-        );
-      }
-    };
-    MySqlVarBinary = class extends MySqlColumn {
-      static [entityKind] = "MySqlVarBinary";
-      length = this.config.length;
-      mapFromDriverValue(value) {
-        if (typeof value === "string") return value;
-        if (Buffer.isBuffer(value)) return value.toString();
-        const str = [];
-        for (const v of value) {
-          str.push(v === 49 ? "1" : "0");
-        }
-        return str.join("");
-      }
-      getSQLType() {
-        return this.length === void 0 ? `varbinary` : `varbinary(${this.length})`;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/varchar.js
-function varchar(a, b2) {
-  const { name: name2, config: config3 } = getColumnNameAndConfig(a, b2);
-  return new MySqlVarCharBuilder(name2, config3);
-}
-var MySqlVarCharBuilder, MySqlVarChar;
-var init_varchar = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/varchar.js"() {
-    init_entity();
-    init_utils3();
-    init_common2();
-    MySqlVarCharBuilder = class extends MySqlColumnBuilder {
-      static [entityKind] = "MySqlVarCharBuilder";
-      /** @internal */
-      constructor(name2, config3) {
-        super(name2, "string", "MySqlVarChar");
-        this.config.length = config3.length;
-        this.config.enum = config3.enum;
-      }
-      /** @internal */
-      build(table) {
-        return new MySqlVarChar(
-          table,
-          this.config
-        );
-      }
-    };
-    MySqlVarChar = class extends MySqlColumn {
-      static [entityKind] = "MySqlVarChar";
-      length = this.config.length;
-      enumValues = this.config.enum;
-      getSQLType() {
-        return this.length === void 0 ? `varchar` : `varchar(${this.length})`;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/year.js
-function year2(name2) {
-  return new MySqlYearBuilder(name2 ?? "");
-}
-var MySqlYearBuilder, MySqlYear;
-var init_year = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/year.js"() {
-    init_entity();
-    init_common2();
-    MySqlYearBuilder = class extends MySqlColumnBuilder {
-      static [entityKind] = "MySqlYearBuilder";
-      constructor(name2) {
-        super(name2, "number", "MySqlYear");
-      }
-      /** @internal */
-      build(table) {
-        return new MySqlYear(table, this.config);
-      }
-    };
-    MySqlYear = class extends MySqlColumn {
-      static [entityKind] = "MySqlYear";
-      getSQLType() {
-        return `year`;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/index.js
-var init_columns = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/index.js"() {
-    init_bigint();
-    init_binary();
-    init_boolean();
-    init_char();
-    init_common2();
-    init_custom();
-    init_date();
-    init_datetime();
-    init_decimal();
-    init_double();
-    init_enum2();
-    init_float();
-    init_int();
-    init_json();
-    init_mediumint();
-    init_real();
-    init_serial();
-    init_smallint();
-    init_text();
-    init_time();
-    init_timestamp();
-    init_tinyint();
-    init_varbinary();
-    init_varchar();
-    init_year();
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/selection-proxy.js
-var SelectionProxyHandler;
-var init_selection_proxy = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/selection-proxy.js"() {
-    init_alias();
-    init_column();
-    init_entity();
-    init_sql();
-    init_subquery();
-    init_view_common();
-    SelectionProxyHandler = class _SelectionProxyHandler {
-      static [entityKind] = "SelectionProxyHandler";
-      config;
-      constructor(config3) {
-        this.config = { ...config3 };
-      }
-      get(subquery, prop) {
-        if (prop === "_") {
-          return {
-            ...subquery["_"],
-            selectedFields: new Proxy(
-              subquery._.selectedFields,
-              this
-            )
-          };
-        }
-        if (prop === ViewBaseConfig) {
-          return {
-            ...subquery[ViewBaseConfig],
-            selectedFields: new Proxy(
-              subquery[ViewBaseConfig].selectedFields,
-              this
-            )
-          };
-        }
-        if (typeof prop === "symbol") {
-          return subquery[prop];
-        }
-        const columns = is2(subquery, Subquery) ? subquery._.selectedFields : is2(subquery, View) ? subquery[ViewBaseConfig].selectedFields : subquery;
-        const value = columns[prop];
-        if (is2(value, SQL.Aliased)) {
-          if (this.config.sqlAliasedBehavior === "sql" && !value.isSelectionField) {
-            return value.sql;
-          }
-          const newValue = value.clone();
-          newValue.isSelectionField = true;
-          return newValue;
-        }
-        if (is2(value, SQL)) {
-          if (this.config.sqlBehavior === "sql") {
-            return value;
-          }
-          throw new Error(
-            `You tried to reference "${prop}" field from a subquery, which is a raw SQL field, but it doesn't have an alias declared. Please add an alias to the field using ".as('alias')" method.`
-          );
-        }
-        if (is2(value, Column)) {
-          if (this.config.alias) {
-            return new Proxy(
-              value,
-              new ColumnAliasProxyHandler(
-                new Proxy(
-                  value.table,
-                  new TableAliasProxyHandler(this.config.alias, this.config.replaceOriginalName ?? false)
-                )
-              )
-            );
-          }
-          return value;
-        }
-        if (typeof value !== "object" || value === null) {
-          return value;
-        }
-        return new Proxy(value, new _SelectionProxyHandler(this.config));
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/query-builders/count.js
-var MySqlCountBuilder;
-var init_count = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/query-builders/count.js"() {
-    init_entity();
-    init_sql();
-    MySqlCountBuilder = class _MySqlCountBuilder extends SQL {
-      constructor(params) {
-        super(_MySqlCountBuilder.buildEmbeddedCount(params.source, params.filters).queryChunks);
-        this.params = params;
-        this.mapWith(Number);
-        this.session = params.session;
-        this.sql = _MySqlCountBuilder.buildCount(
-          params.source,
-          params.filters
-        );
-      }
-      sql;
-      static [entityKind] = "MySqlCountBuilder";
-      [Symbol.toStringTag] = "MySqlCountBuilder";
-      session;
-      static buildEmbeddedCount(source, filters) {
-        return sql`(select count(*) from ${source}${sql.raw(" where ").if(filters)}${filters})`;
-      }
-      static buildCount(source, filters) {
-        return sql`select count(*) as count from ${source}${sql.raw(" where ").if(filters)}${filters}`;
-      }
-      then(onfulfilled, onrejected) {
-        return Promise.resolve(this.session.count(this.sql)).then(
-          onfulfilled,
-          onrejected
-        );
-      }
-      catch(onRejected) {
-        return this.then(void 0, onRejected);
-      }
-      finally(onFinally) {
-        return this.then(
-          (value) => {
-            onFinally?.();
-            return value;
-          },
-          (reason) => {
-            onFinally?.();
-            throw reason;
-          }
-        );
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/indexes.js
-function uniqueIndex(name2) {
-  return new IndexBuilderOn(name2, true);
-}
-var IndexBuilderOn, IndexBuilder, Index;
-var init_indexes = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/indexes.js"() {
-    init_entity();
-    IndexBuilderOn = class {
-      constructor(name2, unique) {
-        this.name = name2;
-        this.unique = unique;
-      }
-      static [entityKind] = "MySqlIndexBuilderOn";
-      on(...columns) {
-        return new IndexBuilder(this.name, columns, this.unique);
-      }
-    };
-    IndexBuilder = class {
-      static [entityKind] = "MySqlIndexBuilder";
-      /** @internal */
-      config;
-      constructor(name2, columns, unique) {
-        this.config = {
-          name: name2,
-          columns,
-          unique
-        };
-      }
-      using(using) {
-        this.config.using = using;
-        return this;
-      }
-      algorythm(algorythm) {
-        this.config.algorythm = algorythm;
-        return this;
-      }
-      lock(lock) {
-        this.config.lock = lock;
-        return this;
-      }
-      /** @internal */
-      build(table) {
-        return new Index(this.config, table);
-      }
-    };
-    Index = class {
-      static [entityKind] = "MySqlIndex";
-      config;
-      constructor(config3, table) {
-        this.config = { ...config3, table };
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/all.js
-function getMySqlColumnBuilders() {
-  return {
-    bigint: bigint4,
-    binary,
-    boolean: boolean4,
-    char,
-    customType,
-    date: date5,
-    datetime: datetime3,
-    decimal,
-    double,
-    mysqlEnum,
-    float,
-    int: int2,
-    json: json2,
-    mediumint,
-    real,
-    serial,
-    smallint,
-    text,
-    time: time3,
-    timestamp,
-    tinyint,
-    varbinary,
-    varchar,
-    year: year2,
-    longtext,
-    mediumtext,
-    tinytext
-  };
-}
-var init_all = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/columns/all.js"() {
-    init_bigint();
-    init_binary();
-    init_boolean();
-    init_char();
-    init_custom();
-    init_date();
-    init_datetime();
-    init_decimal();
-    init_double();
-    init_enum2();
-    init_float();
-    init_int();
-    init_json();
-    init_mediumint();
-    init_real();
-    init_serial();
-    init_smallint();
-    init_text();
-    init_time();
-    init_timestamp();
-    init_tinyint();
-    init_varbinary();
-    init_varchar();
-    init_year();
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/table.js
-function mysqlTableWithSchema(name2, columns, extraConfig, schema, baseName = name2) {
-  const rawTable = new MySqlTable(name2, schema, baseName);
-  const parsedColumns = typeof columns === "function" ? columns(getMySqlColumnBuilders()) : columns;
-  const builtColumns = Object.fromEntries(
-    Object.entries(parsedColumns).map(([name22, colBuilderBase]) => {
-      const colBuilder = colBuilderBase;
-      colBuilder.setName(name22);
-      const column = colBuilder.build(rawTable);
-      rawTable[InlineForeignKeys2].push(...colBuilder.buildForeignKeys(column, rawTable));
-      return [name22, column];
-    })
-  );
-  const table = Object.assign(rawTable, builtColumns);
-  table[Table.Symbol.Columns] = builtColumns;
-  table[Table.Symbol.ExtraConfigColumns] = builtColumns;
-  if (extraConfig) {
-    table[MySqlTable.Symbol.ExtraConfigBuilder] = extraConfig;
-  }
-  return table;
-}
-var InlineForeignKeys2, MySqlTable, mysqlTable;
-var init_table3 = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/table.js"() {
-    init_entity();
-    init_table();
-    init_all();
-    InlineForeignKeys2 = Symbol.for("drizzle:MySqlInlineForeignKeys");
-    MySqlTable = class extends Table {
-      static [entityKind] = "MySqlTable";
-      /** @internal */
-      static Symbol = Object.assign({}, Table.Symbol, {
-        InlineForeignKeys: InlineForeignKeys2
-      });
-      /** @internal */
-      [Table.Symbol.Columns];
-      /** @internal */
-      [InlineForeignKeys2] = [];
-      /** @internal */
-      [Table.Symbol.ExtraConfigBuilder] = void 0;
-    };
-    mysqlTable = (name2, columns, extraConfig) => {
-      return mysqlTableWithSchema(name2, columns, extraConfig, void 0, name2);
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/primary-keys.js
-var PrimaryKeyBuilder2, PrimaryKey2;
-var init_primary_keys2 = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/primary-keys.js"() {
-    init_entity();
-    init_table3();
-    PrimaryKeyBuilder2 = class {
-      static [entityKind] = "MySqlPrimaryKeyBuilder";
-      /** @internal */
-      columns;
-      /** @internal */
-      name;
-      constructor(columns, name2) {
-        this.columns = columns;
-        this.name = name2;
-      }
-      /** @internal */
-      build(table) {
-        return new PrimaryKey2(table, this.columns, this.name);
-      }
-    };
-    PrimaryKey2 = class {
-      constructor(table, columns, name2) {
-        this.table = table;
-        this.columns = columns;
-        this.name = name2;
-      }
-      static [entityKind] = "MySqlPrimaryKey";
-      columns;
-      name;
-      getName() {
-        return this.name ?? `${this.table[MySqlTable.Symbol.Name]}_${this.columns.map((column) => column.name).join("_")}_pk`;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/view-common.js
-var MySqlViewConfig;
-var init_view_common2 = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/view-common.js"() {
-    MySqlViewConfig = Symbol.for("drizzle:MySqlViewConfig");
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/utils.js
-function extractUsedTable(table) {
-  if (is2(table, MySqlTable)) {
-    return [`${table[Table.Symbol.BaseName]}`];
-  }
-  if (is2(table, Subquery)) {
-    return table._.usedTables ?? [];
-  }
-  if (is2(table, SQL)) {
-    return table.usedTables ?? [];
-  }
-  return [];
-}
-function convertIndexToString(indexes) {
-  return indexes.map((idx) => {
-    return typeof idx === "object" ? idx.config.name : idx;
-  });
-}
-function toArray2(value) {
-  return Array.isArray(value) ? value : [value];
-}
-var init_utils4 = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/utils.js"() {
-    init_entity();
-    init_drizzle_orm();
-    init_subquery();
-    init_table();
-    init_table3();
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/query-builders/delete.js
-var MySqlDeleteBase;
-var init_delete = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/query-builders/delete.js"() {
-    init_entity();
-    init_query_promise();
-    init_selection_proxy();
-    init_table();
-    init_utils4();
-    MySqlDeleteBase = class extends QueryPromise {
-      constructor(table, session, dialect, withList) {
-        super();
-        this.table = table;
-        this.session = session;
-        this.dialect = dialect;
-        this.config = { table, withList };
-      }
-      static [entityKind] = "MySqlDelete";
-      config;
-      /**
-       * Adds a `where` clause to the query.
-       *
-       * Calling this method will delete only those rows that fulfill a specified condition.
-       *
-       * See docs: {@link https://orm.drizzle.team/docs/delete}
-       *
-       * @param where the `where` clause.
-       *
-       * @example
-       * You can use conditional operators and `sql function` to filter the rows to be deleted.
-       *
-       * ```ts
-       * // Delete all cars with green color
-       * db.delete(cars).where(eq(cars.color, 'green'));
-       * // or
-       * db.delete(cars).where(sql`${cars.color} = 'green'`)
-       * ```
-       *
-       * You can logically combine conditional operators with `and()` and `or()` operators:
-       *
-       * ```ts
-       * // Delete all BMW cars with a green color
-       * db.delete(cars).where(and(eq(cars.color, 'green'), eq(cars.brand, 'BMW')));
-       *
-       * // Delete all cars with the green or blue color
-       * db.delete(cars).where(or(eq(cars.color, 'green'), eq(cars.color, 'blue')));
-       * ```
-       */
-      where(where) {
-        this.config.where = where;
-        return this;
-      }
-      orderBy(...columns) {
-        if (typeof columns[0] === "function") {
-          const orderBy = columns[0](
-            new Proxy(
-              this.config.table[Table.Symbol.Columns],
-              new SelectionProxyHandler({ sqlAliasedBehavior: "alias", sqlBehavior: "sql" })
-            )
-          );
-          const orderByArray = Array.isArray(orderBy) ? orderBy : [orderBy];
-          this.config.orderBy = orderByArray;
-        } else {
-          const orderByArray = columns;
-          this.config.orderBy = orderByArray;
-        }
-        return this;
-      }
-      limit(limit) {
-        this.config.limit = limit;
-        return this;
-      }
-      /** @internal */
-      getSQL() {
-        return this.dialect.buildDeleteQuery(this.config);
-      }
-      toSQL() {
-        const { typings: _typings, ...rest } = this.dialect.sqlToQuery(this.getSQL());
-        return rest;
-      }
-      prepare() {
-        return this.session.prepareQuery(
-          this.dialect.sqlToQuery(this.getSQL()),
-          this.config.returning,
-          void 0,
-          void 0,
-          void 0,
-          {
-            type: "delete",
-            tables: extractUsedTable(this.config.table)
-          }
-        );
-      }
-      execute = (placeholderValues) => {
-        return this.prepare().execute(placeholderValues);
-      };
-      createIterator = () => {
-        const self2 = this;
-        return async function* (placeholderValues) {
-          yield* self2.prepare().iterator(placeholderValues);
-        };
-      };
-      iterator = this.createIterator();
-      $dynamic() {
-        return this;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/casing.js
-function toSnakeCase(input) {
-  const words = input.replace(/['\u2019]/g, "").match(/[\da-z]+|[A-Z]+(?![a-z])|[A-Z][\da-z]+/g) ?? [];
-  return words.map((word) => word.toLowerCase()).join("_");
-}
-function toCamelCase2(input) {
-  const words = input.replace(/['\u2019]/g, "").match(/[\da-z]+|[A-Z]+(?![a-z])|[A-Z][\da-z]+/g) ?? [];
-  return words.reduce((acc, word, i) => {
-    const formattedWord = i === 0 ? word.toLowerCase() : `${word[0].toUpperCase()}${word.slice(1)}`;
-    return acc + formattedWord;
-  }, "");
-}
-function noopCase(input) {
-  return input;
-}
-var CasingCache;
-var init_casing = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/casing.js"() {
-    init_entity();
-    init_table();
-    CasingCache = class {
-      static [entityKind] = "CasingCache";
-      /** @internal */
-      cache = {};
-      cachedTables = {};
-      convert;
-      constructor(casing) {
-        this.convert = casing === "snake_case" ? toSnakeCase : casing === "camelCase" ? toCamelCase2 : noopCase;
-      }
-      getColumnCasing(column) {
-        if (!column.keyAsName) return column.name;
-        const schema = column.table[Table.Symbol.Schema] ?? "public";
-        const tableName = column.table[Table.Symbol.OriginalName];
-        const key = `${schema}.${tableName}.${column.name}`;
-        if (!this.cache[key]) {
-          this.cacheTable(column.table);
-        }
-        return this.cache[key];
-      }
-      cacheTable(table) {
-        const schema = table[Table.Symbol.Schema] ?? "public";
-        const tableName = table[Table.Symbol.OriginalName];
-        const tableKey = `${schema}.${tableName}`;
-        if (!this.cachedTables[tableKey]) {
-          for (const column of Object.values(table[Table.Symbol.Columns])) {
-            const columnKey = `${tableKey}.${column.name}`;
-            this.cache[columnKey] = this.convert(column.name);
-          }
-          this.cachedTables[tableKey] = true;
-        }
-      }
-      clearCache() {
-        this.cache = {};
-        this.cachedTables = {};
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/view-base.js
-var MySqlViewBase;
-var init_view_base = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/view-base.js"() {
-    init_entity();
-    init_sql();
-    MySqlViewBase = class extends View {
-      static [entityKind] = "MySqlViewBase";
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/dialect.js
-var MySqlDialect;
-var init_dialect = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/dialect.js"() {
-    init_alias();
-    init_casing();
-    init_column();
-    init_entity();
-    init_errors5();
-    init_relations();
-    init_expressions();
-    init_sql();
-    init_subquery();
-    init_table();
-    init_utils3();
-    init_view_common();
-    init_common2();
-    init_table3();
-    init_view_base();
-    MySqlDialect = class {
-      static [entityKind] = "MySqlDialect";
-      /** @internal */
-      casing;
-      constructor(config3) {
-        this.casing = new CasingCache(config3?.casing);
-      }
-      async migrate(migrations, session, config3) {
-        const migrationsTable = config3.migrationsTable ?? "__drizzle_migrations";
-        const migrationTableCreate = sql`
-			create table if not exists ${sql.identifier(migrationsTable)} (
-				id serial primary key,
-				hash text not null,
-				created_at bigint
-			)
-		`;
-        await session.execute(migrationTableCreate);
-        const dbMigrations = await session.all(
-          sql`select id, hash, created_at from ${sql.identifier(migrationsTable)} order by created_at desc limit 1`
-        );
-        const lastDbMigration = dbMigrations[0];
-        await session.transaction(async (tx) => {
-          for (const migration of migrations) {
-            if (!lastDbMigration || Number(lastDbMigration.created_at) < migration.folderMillis) {
-              for (const stmt of migration.sql) {
-                await tx.execute(sql.raw(stmt));
-              }
-              await tx.execute(
-                sql`insert into ${sql.identifier(migrationsTable)} (\`hash\`, \`created_at\`) values(${migration.hash}, ${migration.folderMillis})`
-              );
-            }
-          }
-        });
-      }
-      escapeName(name2) {
-        return `\`${name2}\``;
-      }
-      escapeParam(_num) {
-        return `?`;
-      }
-      escapeString(str) {
-        return `'${str.replace(/'/g, "''")}'`;
-      }
-      buildWithCTE(queries) {
-        if (!queries?.length) return void 0;
-        const withSqlChunks = [sql`with `];
-        for (const [i, w2] of queries.entries()) {
-          withSqlChunks.push(sql`${sql.identifier(w2._.alias)} as (${w2._.sql})`);
-          if (i < queries.length - 1) {
-            withSqlChunks.push(sql`, `);
-          }
-        }
-        withSqlChunks.push(sql` `);
-        return sql.join(withSqlChunks);
-      }
-      buildDeleteQuery({ table, where, returning, withList, limit, orderBy }) {
-        const withSql = this.buildWithCTE(withList);
-        const returningSql = returning ? sql` returning ${this.buildSelection(returning, { isSingleTable: true })}` : void 0;
-        const whereSql = where ? sql` where ${where}` : void 0;
-        const orderBySql = this.buildOrderBy(orderBy);
-        const limitSql = this.buildLimit(limit);
-        return sql`${withSql}delete from ${table}${whereSql}${orderBySql}${limitSql}${returningSql}`;
-      }
-      buildUpdateSet(table, set2) {
-        const tableColumns = table[Table.Symbol.Columns];
-        const columnNames = Object.keys(tableColumns).filter(
-          (colName) => set2[colName] !== void 0 || tableColumns[colName]?.onUpdateFn !== void 0
-        );
-        const setSize = columnNames.length;
-        return sql.join(columnNames.flatMap((colName, i) => {
-          const col = tableColumns[colName];
-          const value = set2[colName] ?? sql.param(col.onUpdateFn(), col);
-          const res = sql`${sql.identifier(this.casing.getColumnCasing(col))} = ${value}`;
-          if (i < setSize - 1) {
-            return [res, sql.raw(", ")];
-          }
-          return [res];
-        }));
-      }
-      buildUpdateQuery({ table, set: set2, where, returning, withList, limit, orderBy }) {
-        const withSql = this.buildWithCTE(withList);
-        const setSql = this.buildUpdateSet(table, set2);
-        const returningSql = returning ? sql` returning ${this.buildSelection(returning, { isSingleTable: true })}` : void 0;
-        const whereSql = where ? sql` where ${where}` : void 0;
-        const orderBySql = this.buildOrderBy(orderBy);
-        const limitSql = this.buildLimit(limit);
-        return sql`${withSql}update ${table} set ${setSql}${whereSql}${orderBySql}${limitSql}${returningSql}`;
-      }
-      /**
-       * Builds selection SQL with provided fields/expressions
-       *
-       * Examples:
-       *
-       * `select <selection> from`
-       *
-       * `insert ... returning <selection>`
-       *
-       * If `isSingleTable` is true, then columns won't be prefixed with table name
-       */
-      buildSelection(fields, { isSingleTable = false } = {}) {
-        const columnsLen = fields.length;
-        const chunks = fields.flatMap(({ field }, i) => {
-          const chunk = [];
-          if (is2(field, SQL.Aliased) && field.isSelectionField) {
-            chunk.push(sql.identifier(field.fieldAlias));
-          } else if (is2(field, SQL.Aliased) || is2(field, SQL)) {
-            const query = is2(field, SQL.Aliased) ? field.sql : field;
-            if (isSingleTable) {
-              chunk.push(
-                new SQL(
-                  query.queryChunks.map((c) => {
-                    if (is2(c, MySqlColumn)) {
-                      return sql.identifier(this.casing.getColumnCasing(c));
-                    }
-                    return c;
-                  })
-                )
-              );
-            } else {
-              chunk.push(query);
-            }
-            if (is2(field, SQL.Aliased)) {
-              chunk.push(sql` as ${sql.identifier(field.fieldAlias)}`);
-            }
-          } else if (is2(field, Column)) {
-            if (isSingleTable) {
-              chunk.push(sql.identifier(this.casing.getColumnCasing(field)));
-            } else {
-              chunk.push(field);
-            }
-          }
-          if (i < columnsLen - 1) {
-            chunk.push(sql`, `);
-          }
-          return chunk;
-        });
-        return sql.join(chunks);
-      }
-      buildLimit(limit) {
-        return typeof limit === "object" || typeof limit === "number" && limit >= 0 ? sql` limit ${limit}` : void 0;
-      }
-      buildOrderBy(orderBy) {
-        return orderBy && orderBy.length > 0 ? sql` order by ${sql.join(orderBy, sql`, `)}` : void 0;
-      }
-      buildIndex({
-        indexes,
-        indexFor
-      }) {
-        return indexes && indexes.length > 0 ? sql` ${sql.raw(indexFor)} INDEX (${sql.raw(indexes.join(`, `))})` : void 0;
-      }
-      buildSelectQuery({
-        withList,
-        fields,
-        fieldsFlat,
-        where,
-        having,
-        table,
-        joins,
-        orderBy,
-        groupBy,
-        limit,
-        offset,
-        lockingClause,
-        distinct,
-        setOperators,
-        useIndex,
-        forceIndex,
-        ignoreIndex
-      }) {
-        const fieldsList = fieldsFlat ?? orderSelectedFields(fields);
-        for (const f of fieldsList) {
-          if (is2(f.field, Column) && getTableName(f.field.table) !== (is2(table, Subquery) ? table._.alias : is2(table, MySqlViewBase) ? table[ViewBaseConfig].name : is2(table, SQL) ? void 0 : getTableName(table)) && !((table2) => joins?.some(
-            ({ alias }) => alias === (table2[Table.Symbol.IsAlias] ? getTableName(table2) : table2[Table.Symbol.BaseName])
-          ))(f.field.table)) {
-            const tableName = getTableName(f.field.table);
-            throw new Error(
-              `Your "${f.path.join("->")}" field references a column "${tableName}"."${f.field.name}", but the table "${tableName}" is not part of the query! Did you forget to join it?`
-            );
-          }
-        }
-        const isSingleTable = !joins || joins.length === 0;
-        const withSql = this.buildWithCTE(withList);
-        const distinctSql = distinct ? sql` distinct` : void 0;
-        const selection = this.buildSelection(fieldsList, { isSingleTable });
-        const tableSql = (() => {
-          if (is2(table, Table) && table[Table.Symbol.IsAlias]) {
-            return sql`${sql`${sql.identifier(table[Table.Symbol.Schema] ?? "")}.`.if(table[Table.Symbol.Schema])}${sql.identifier(table[Table.Symbol.OriginalName])} ${sql.identifier(table[Table.Symbol.Name])}`;
-          }
-          return table;
-        })();
-        const joinsArray = [];
-        if (joins) {
-          for (const [index, joinMeta] of joins.entries()) {
-            if (index === 0) {
-              joinsArray.push(sql` `);
-            }
-            const table2 = joinMeta.table;
-            const lateralSql = joinMeta.lateral ? sql` lateral` : void 0;
-            const onSql = joinMeta.on ? sql` on ${joinMeta.on}` : void 0;
-            if (is2(table2, MySqlTable)) {
-              const tableName = table2[MySqlTable.Symbol.Name];
-              const tableSchema = table2[MySqlTable.Symbol.Schema];
-              const origTableName = table2[MySqlTable.Symbol.OriginalName];
-              const alias = tableName === origTableName ? void 0 : joinMeta.alias;
-              const useIndexSql2 = this.buildIndex({ indexes: joinMeta.useIndex, indexFor: "USE" });
-              const forceIndexSql2 = this.buildIndex({ indexes: joinMeta.forceIndex, indexFor: "FORCE" });
-              const ignoreIndexSql2 = this.buildIndex({ indexes: joinMeta.ignoreIndex, indexFor: "IGNORE" });
-              joinsArray.push(
-                sql`${sql.raw(joinMeta.joinType)} join${lateralSql} ${tableSchema ? sql`${sql.identifier(tableSchema)}.` : void 0}${sql.identifier(origTableName)}${useIndexSql2}${forceIndexSql2}${ignoreIndexSql2}${alias && sql` ${sql.identifier(alias)}`}${onSql}`
-              );
-            } else if (is2(table2, View)) {
-              const viewName = table2[ViewBaseConfig].name;
-              const viewSchema = table2[ViewBaseConfig].schema;
-              const origViewName = table2[ViewBaseConfig].originalName;
-              const alias = viewName === origViewName ? void 0 : joinMeta.alias;
-              joinsArray.push(
-                sql`${sql.raw(joinMeta.joinType)} join${lateralSql} ${viewSchema ? sql`${sql.identifier(viewSchema)}.` : void 0}${sql.identifier(origViewName)}${alias && sql` ${sql.identifier(alias)}`}${onSql}`
-              );
-            } else {
-              joinsArray.push(
-                sql`${sql.raw(joinMeta.joinType)} join${lateralSql} ${table2}${onSql}`
-              );
-            }
-            if (index < joins.length - 1) {
-              joinsArray.push(sql` `);
-            }
-          }
-        }
-        const joinsSql = sql.join(joinsArray);
-        const whereSql = where ? sql` where ${where}` : void 0;
-        const havingSql = having ? sql` having ${having}` : void 0;
-        const orderBySql = this.buildOrderBy(orderBy);
-        const groupBySql = groupBy && groupBy.length > 0 ? sql` group by ${sql.join(groupBy, sql`, `)}` : void 0;
-        const limitSql = this.buildLimit(limit);
-        const offsetSql = offset ? sql` offset ${offset}` : void 0;
-        const useIndexSql = this.buildIndex({ indexes: useIndex, indexFor: "USE" });
-        const forceIndexSql = this.buildIndex({ indexes: forceIndex, indexFor: "FORCE" });
-        const ignoreIndexSql = this.buildIndex({ indexes: ignoreIndex, indexFor: "IGNORE" });
-        let lockingClausesSql;
-        if (lockingClause) {
-          const { config: config3, strength } = lockingClause;
-          lockingClausesSql = sql` for ${sql.raw(strength)}`;
-          if (config3.noWait) {
-            lockingClausesSql.append(sql` nowait`);
-          } else if (config3.skipLocked) {
-            lockingClausesSql.append(sql` skip locked`);
-          }
-        }
-        const finalQuery = sql`${withSql}select${distinctSql} ${selection} from ${tableSql}${useIndexSql}${forceIndexSql}${ignoreIndexSql}${joinsSql}${whereSql}${groupBySql}${havingSql}${orderBySql}${limitSql}${offsetSql}${lockingClausesSql}`;
-        if (setOperators.length > 0) {
-          return this.buildSetOperations(finalQuery, setOperators);
-        }
-        return finalQuery;
-      }
-      buildSetOperations(leftSelect, setOperators) {
-        const [setOperator, ...rest] = setOperators;
-        if (!setOperator) {
-          throw new Error("Cannot pass undefined values to any set operator");
-        }
-        if (rest.length === 0) {
-          return this.buildSetOperationQuery({ leftSelect, setOperator });
-        }
-        return this.buildSetOperations(
-          this.buildSetOperationQuery({ leftSelect, setOperator }),
-          rest
-        );
-      }
-      buildSetOperationQuery({
-        leftSelect,
-        setOperator: { type, isAll, rightSelect, limit, orderBy, offset }
-      }) {
-        const leftChunk = sql`(${leftSelect.getSQL()}) `;
-        const rightChunk = sql`(${rightSelect.getSQL()})`;
-        let orderBySql;
-        if (orderBy && orderBy.length > 0) {
-          const orderByValues = [];
-          for (const orderByUnit of orderBy) {
-            if (is2(orderByUnit, MySqlColumn)) {
-              orderByValues.push(sql.identifier(this.casing.getColumnCasing(orderByUnit)));
-            } else if (is2(orderByUnit, SQL)) {
-              for (let i = 0; i < orderByUnit.queryChunks.length; i++) {
-                const chunk = orderByUnit.queryChunks[i];
-                if (is2(chunk, MySqlColumn)) {
-                  orderByUnit.queryChunks[i] = sql.identifier(this.casing.getColumnCasing(chunk));
-                }
-              }
-              orderByValues.push(sql`${orderByUnit}`);
-            } else {
-              orderByValues.push(sql`${orderByUnit}`);
-            }
-          }
-          orderBySql = sql` order by ${sql.join(orderByValues, sql`, `)} `;
-        }
-        const limitSql = typeof limit === "object" || typeof limit === "number" && limit >= 0 ? sql` limit ${limit}` : void 0;
-        const operatorChunk = sql.raw(`${type} ${isAll ? "all " : ""}`);
-        const offsetSql = offset ? sql` offset ${offset}` : void 0;
-        return sql`${leftChunk}${operatorChunk}${rightChunk}${orderBySql}${limitSql}${offsetSql}`;
-      }
-      buildInsertQuery({ table, values: valuesOrSelect, ignore, onConflict, select }) {
-        const valuesSqlList = [];
-        const columns = table[Table.Symbol.Columns];
-        const colEntries = Object.entries(columns).filter(
-          ([_, col]) => !col.shouldDisableInsert()
-        );
-        const insertOrder = colEntries.map(([, column]) => sql.identifier(this.casing.getColumnCasing(column)));
-        const generatedIdsResponse = [];
-        if (select) {
-          const select2 = valuesOrSelect;
-          if (is2(select2, SQL)) {
-            valuesSqlList.push(select2);
-          } else {
-            valuesSqlList.push(select2.getSQL());
-          }
-        } else {
-          const values = valuesOrSelect;
-          valuesSqlList.push(sql.raw("values "));
-          for (const [valueIndex, value] of values.entries()) {
-            const generatedIds = {};
-            const valueList = [];
-            for (const [fieldName, col] of colEntries) {
-              const colValue = value[fieldName];
-              if (colValue === void 0 || is2(colValue, Param) && colValue.value === void 0) {
-                if (col.defaultFn !== void 0) {
-                  const defaultFnResult = col.defaultFn();
-                  generatedIds[fieldName] = defaultFnResult;
-                  const defaultValue = is2(defaultFnResult, SQL) ? defaultFnResult : sql.param(defaultFnResult, col);
-                  valueList.push(defaultValue);
-                } else if (!col.default && col.onUpdateFn !== void 0) {
-                  const onUpdateFnResult = col.onUpdateFn();
-                  const newValue = is2(onUpdateFnResult, SQL) ? onUpdateFnResult : sql.param(onUpdateFnResult, col);
-                  valueList.push(newValue);
-                } else {
-                  valueList.push(sql`default`);
-                }
-              } else {
-                if (col.defaultFn && is2(colValue, Param)) {
-                  generatedIds[fieldName] = colValue.value;
-                }
-                valueList.push(colValue);
-              }
-            }
-            generatedIdsResponse.push(generatedIds);
-            valuesSqlList.push(valueList);
-            if (valueIndex < values.length - 1) {
-              valuesSqlList.push(sql`, `);
-            }
-          }
-        }
-        const valuesSql = sql.join(valuesSqlList);
-        const ignoreSql = ignore ? sql` ignore` : void 0;
-        const onConflictSql = onConflict ? sql` on duplicate key ${onConflict}` : void 0;
-        return {
-          sql: sql`insert${ignoreSql} into ${table} ${insertOrder} ${valuesSql}${onConflictSql}`,
-          generatedIds: generatedIdsResponse
-        };
-      }
-      sqlToQuery(sql2, invokeSource) {
-        return sql2.toQuery({
-          casing: this.casing,
-          escapeName: this.escapeName,
-          escapeParam: this.escapeParam,
-          escapeString: this.escapeString,
-          invokeSource
-        });
-      }
-      buildRelationalQuery({
-        fullSchema,
-        schema,
-        tableNamesMap,
-        table,
-        tableConfig,
-        queryConfig: config3,
-        tableAlias,
-        nestedQueryRelation,
-        joinOn
-      }) {
-        let selection = [];
-        let limit, offset, orderBy, where;
-        const joins = [];
-        if (config3 === true) {
-          const selectionEntries = Object.entries(tableConfig.columns);
-          selection = selectionEntries.map(([key, value]) => ({
-            dbKey: value.name,
-            tsKey: key,
-            field: aliasedTableColumn(value, tableAlias),
-            relationTableTsKey: void 0,
-            isJson: false,
-            selection: []
-          }));
-        } else {
-          const aliasedColumns = Object.fromEntries(
-            Object.entries(tableConfig.columns).map(([key, value]) => [key, aliasedTableColumn(value, tableAlias)])
-          );
-          if (config3.where) {
-            const whereSql = typeof config3.where === "function" ? config3.where(aliasedColumns, getOperators()) : config3.where;
-            where = whereSql && mapColumnsInSQLToAlias(whereSql, tableAlias);
-          }
-          const fieldsSelection = [];
-          let selectedColumns = [];
-          if (config3.columns) {
-            let isIncludeMode = false;
-            for (const [field, value] of Object.entries(config3.columns)) {
-              if (value === void 0) {
-                continue;
-              }
-              if (field in tableConfig.columns) {
-                if (!isIncludeMode && value === true) {
-                  isIncludeMode = true;
-                }
-                selectedColumns.push(field);
-              }
-            }
-            if (selectedColumns.length > 0) {
-              selectedColumns = isIncludeMode ? selectedColumns.filter((c) => config3.columns?.[c] === true) : Object.keys(tableConfig.columns).filter((key) => !selectedColumns.includes(key));
-            }
-          } else {
-            selectedColumns = Object.keys(tableConfig.columns);
-          }
-          for (const field of selectedColumns) {
-            const column = tableConfig.columns[field];
-            fieldsSelection.push({ tsKey: field, value: column });
-          }
-          let selectedRelations = [];
-          if (config3.with) {
-            selectedRelations = Object.entries(config3.with).filter((entry) => !!entry[1]).map(([tsKey, queryConfig]) => ({ tsKey, queryConfig, relation: tableConfig.relations[tsKey] }));
-          }
-          let extras;
-          if (config3.extras) {
-            extras = typeof config3.extras === "function" ? config3.extras(aliasedColumns, { sql }) : config3.extras;
-            for (const [tsKey, value] of Object.entries(extras)) {
-              fieldsSelection.push({
-                tsKey,
-                value: mapColumnsInAliasedSQLToAlias(value, tableAlias)
-              });
-            }
-          }
-          for (const { tsKey, value } of fieldsSelection) {
-            selection.push({
-              dbKey: is2(value, SQL.Aliased) ? value.fieldAlias : tableConfig.columns[tsKey].name,
-              tsKey,
-              field: is2(value, Column) ? aliasedTableColumn(value, tableAlias) : value,
-              relationTableTsKey: void 0,
-              isJson: false,
-              selection: []
-            });
-          }
-          let orderByOrig = typeof config3.orderBy === "function" ? config3.orderBy(aliasedColumns, getOrderByOperators()) : config3.orderBy ?? [];
-          if (!Array.isArray(orderByOrig)) {
-            orderByOrig = [orderByOrig];
-          }
-          orderBy = orderByOrig.map((orderByValue) => {
-            if (is2(orderByValue, Column)) {
-              return aliasedTableColumn(orderByValue, tableAlias);
-            }
-            return mapColumnsInSQLToAlias(orderByValue, tableAlias);
-          });
-          limit = config3.limit;
-          offset = config3.offset;
-          for (const {
-            tsKey: selectedRelationTsKey,
-            queryConfig: selectedRelationConfigValue,
-            relation
-          } of selectedRelations) {
-            const normalizedRelation = normalizeRelation(schema, tableNamesMap, relation);
-            const relationTableName = getTableUniqueName(relation.referencedTable);
-            const relationTableTsName = tableNamesMap[relationTableName];
-            const relationTableAlias = `${tableAlias}_${selectedRelationTsKey}`;
-            const joinOn2 = and(
-              ...normalizedRelation.fields.map(
-                (field2, i) => eq(
-                  aliasedTableColumn(normalizedRelation.references[i], relationTableAlias),
-                  aliasedTableColumn(field2, tableAlias)
-                )
-              )
-            );
-            const builtRelation = this.buildRelationalQuery({
-              fullSchema,
-              schema,
-              tableNamesMap,
-              table: fullSchema[relationTableTsName],
-              tableConfig: schema[relationTableTsName],
-              queryConfig: is2(relation, One) ? selectedRelationConfigValue === true ? { limit: 1 } : { ...selectedRelationConfigValue, limit: 1 } : selectedRelationConfigValue,
-              tableAlias: relationTableAlias,
-              joinOn: joinOn2,
-              nestedQueryRelation: relation
-            });
-            const field = sql`${sql.identifier(relationTableAlias)}.${sql.identifier("data")}`.as(selectedRelationTsKey);
-            joins.push({
-              on: sql`true`,
-              table: new Subquery(builtRelation.sql, {}, relationTableAlias),
-              alias: relationTableAlias,
-              joinType: "left",
-              lateral: true
-            });
-            selection.push({
-              dbKey: selectedRelationTsKey,
-              tsKey: selectedRelationTsKey,
-              field,
-              relationTableTsKey: relationTableTsName,
-              isJson: true,
-              selection: builtRelation.selection
-            });
-          }
-        }
-        if (selection.length === 0) {
-          throw new DrizzleError({ message: `No fields selected for table "${tableConfig.tsName}" ("${tableAlias}")` });
-        }
-        let result;
-        where = and(joinOn, where);
-        if (nestedQueryRelation) {
-          let field = sql`json_array(${sql.join(
-            selection.map(
-              ({ field: field2, tsKey, isJson }) => isJson ? sql`${sql.identifier(`${tableAlias}_${tsKey}`)}.${sql.identifier("data")}` : is2(field2, SQL.Aliased) ? field2.sql : field2
-            ),
-            sql`, `
-          )})`;
-          if (is2(nestedQueryRelation, Many)) {
-            field = sql`coalesce(json_arrayagg(${field}), json_array())`;
-          }
-          const nestedSelection = [{
-            dbKey: "data",
-            tsKey: "data",
-            field: field.as("data"),
-            isJson: true,
-            relationTableTsKey: tableConfig.tsName,
-            selection
-          }];
-          const needsSubquery = limit !== void 0 || offset !== void 0 || (orderBy?.length ?? 0) > 0;
-          if (needsSubquery) {
-            result = this.buildSelectQuery({
-              table: aliasedTable(table, tableAlias),
-              fields: {},
-              fieldsFlat: [
-                {
-                  path: [],
-                  field: sql.raw("*")
-                },
-                ...(orderBy?.length ?? 0) > 0 ? [{
-                  path: [],
-                  field: sql`row_number() over (order by ${sql.join(orderBy, sql`, `)})`
-                }] : []
-              ],
-              where,
-              limit,
-              offset,
-              setOperators: []
-            });
-            where = void 0;
-            limit = void 0;
-            offset = void 0;
-            orderBy = void 0;
-          } else {
-            result = aliasedTable(table, tableAlias);
-          }
-          result = this.buildSelectQuery({
-            table: is2(result, MySqlTable) ? result : new Subquery(result, {}, tableAlias),
-            fields: {},
-            fieldsFlat: nestedSelection.map(({ field: field2 }) => ({
-              path: [],
-              field: is2(field2, Column) ? aliasedTableColumn(field2, tableAlias) : field2
-            })),
-            joins,
-            where,
-            limit,
-            offset,
-            orderBy,
-            setOperators: []
-          });
-        } else {
-          result = this.buildSelectQuery({
-            table: aliasedTable(table, tableAlias),
-            fields: {},
-            fieldsFlat: selection.map(({ field }) => ({
-              path: [],
-              field: is2(field, Column) ? aliasedTableColumn(field, tableAlias) : field
-            })),
-            joins,
-            where,
-            limit,
-            offset,
-            orderBy,
-            setOperators: []
-          });
-        }
-        return {
-          tableTsKey: tableConfig.tsName,
-          sql: result,
-          selection
-        };
-      }
-      buildRelationalQueryWithoutLateralSubqueries({
-        fullSchema,
-        schema,
-        tableNamesMap,
-        table,
-        tableConfig,
-        queryConfig: config3,
-        tableAlias,
-        nestedQueryRelation,
-        joinOn
-      }) {
-        let selection = [];
-        let limit, offset, orderBy = [], where;
-        if (config3 === true) {
-          const selectionEntries = Object.entries(tableConfig.columns);
-          selection = selectionEntries.map(([key, value]) => ({
-            dbKey: value.name,
-            tsKey: key,
-            field: aliasedTableColumn(value, tableAlias),
-            relationTableTsKey: void 0,
-            isJson: false,
-            selection: []
-          }));
-        } else {
-          const aliasedColumns = Object.fromEntries(
-            Object.entries(tableConfig.columns).map(([key, value]) => [key, aliasedTableColumn(value, tableAlias)])
-          );
-          if (config3.where) {
-            const whereSql = typeof config3.where === "function" ? config3.where(aliasedColumns, getOperators()) : config3.where;
-            where = whereSql && mapColumnsInSQLToAlias(whereSql, tableAlias);
-          }
-          const fieldsSelection = [];
-          let selectedColumns = [];
-          if (config3.columns) {
-            let isIncludeMode = false;
-            for (const [field, value] of Object.entries(config3.columns)) {
-              if (value === void 0) {
-                continue;
-              }
-              if (field in tableConfig.columns) {
-                if (!isIncludeMode && value === true) {
-                  isIncludeMode = true;
-                }
-                selectedColumns.push(field);
-              }
-            }
-            if (selectedColumns.length > 0) {
-              selectedColumns = isIncludeMode ? selectedColumns.filter((c) => config3.columns?.[c] === true) : Object.keys(tableConfig.columns).filter((key) => !selectedColumns.includes(key));
-            }
-          } else {
-            selectedColumns = Object.keys(tableConfig.columns);
-          }
-          for (const field of selectedColumns) {
-            const column = tableConfig.columns[field];
-            fieldsSelection.push({ tsKey: field, value: column });
-          }
-          let selectedRelations = [];
-          if (config3.with) {
-            selectedRelations = Object.entries(config3.with).filter((entry) => !!entry[1]).map(([tsKey, queryConfig]) => ({ tsKey, queryConfig, relation: tableConfig.relations[tsKey] }));
-          }
-          let extras;
-          if (config3.extras) {
-            extras = typeof config3.extras === "function" ? config3.extras(aliasedColumns, { sql }) : config3.extras;
-            for (const [tsKey, value] of Object.entries(extras)) {
-              fieldsSelection.push({
-                tsKey,
-                value: mapColumnsInAliasedSQLToAlias(value, tableAlias)
-              });
-            }
-          }
-          for (const { tsKey, value } of fieldsSelection) {
-            selection.push({
-              dbKey: is2(value, SQL.Aliased) ? value.fieldAlias : tableConfig.columns[tsKey].name,
-              tsKey,
-              field: is2(value, Column) ? aliasedTableColumn(value, tableAlias) : value,
-              relationTableTsKey: void 0,
-              isJson: false,
-              selection: []
-            });
-          }
-          let orderByOrig = typeof config3.orderBy === "function" ? config3.orderBy(aliasedColumns, getOrderByOperators()) : config3.orderBy ?? [];
-          if (!Array.isArray(orderByOrig)) {
-            orderByOrig = [orderByOrig];
-          }
-          orderBy = orderByOrig.map((orderByValue) => {
-            if (is2(orderByValue, Column)) {
-              return aliasedTableColumn(orderByValue, tableAlias);
-            }
-            return mapColumnsInSQLToAlias(orderByValue, tableAlias);
-          });
-          limit = config3.limit;
-          offset = config3.offset;
-          for (const {
-            tsKey: selectedRelationTsKey,
-            queryConfig: selectedRelationConfigValue,
-            relation
-          } of selectedRelations) {
-            const normalizedRelation = normalizeRelation(schema, tableNamesMap, relation);
-            const relationTableName = getTableUniqueName(relation.referencedTable);
-            const relationTableTsName = tableNamesMap[relationTableName];
-            const relationTableAlias = `${tableAlias}_${selectedRelationTsKey}`;
-            const joinOn2 = and(
-              ...normalizedRelation.fields.map(
-                (field2, i) => eq(
-                  aliasedTableColumn(normalizedRelation.references[i], relationTableAlias),
-                  aliasedTableColumn(field2, tableAlias)
-                )
-              )
-            );
-            const builtRelation = this.buildRelationalQueryWithoutLateralSubqueries({
-              fullSchema,
-              schema,
-              tableNamesMap,
-              table: fullSchema[relationTableTsName],
-              tableConfig: schema[relationTableTsName],
-              queryConfig: is2(relation, One) ? selectedRelationConfigValue === true ? { limit: 1 } : { ...selectedRelationConfigValue, limit: 1 } : selectedRelationConfigValue,
-              tableAlias: relationTableAlias,
-              joinOn: joinOn2,
-              nestedQueryRelation: relation
-            });
-            let fieldSql = sql`(${builtRelation.sql})`;
-            if (is2(relation, Many)) {
-              fieldSql = sql`coalesce(${fieldSql}, json_array())`;
-            }
-            const field = fieldSql.as(selectedRelationTsKey);
-            selection.push({
-              dbKey: selectedRelationTsKey,
-              tsKey: selectedRelationTsKey,
-              field,
-              relationTableTsKey: relationTableTsName,
-              isJson: true,
-              selection: builtRelation.selection
-            });
-          }
-        }
-        if (selection.length === 0) {
-          throw new DrizzleError({
-            message: `No fields selected for table "${tableConfig.tsName}" ("${tableAlias}"). You need to have at least one item in "columns", "with" or "extras". If you need to select all columns, omit the "columns" key or set it to undefined.`
-          });
-        }
-        let result;
-        where = and(joinOn, where);
-        if (nestedQueryRelation) {
-          let field = sql`json_array(${sql.join(
-            selection.map(
-              ({ field: field2 }) => is2(field2, MySqlColumn) ? sql.identifier(this.casing.getColumnCasing(field2)) : is2(field2, SQL.Aliased) ? field2.sql : field2
-            ),
-            sql`, `
-          )})`;
-          if (is2(nestedQueryRelation, Many)) {
-            field = sql`json_arrayagg(${field})`;
-          }
-          const nestedSelection = [{
-            dbKey: "data",
-            tsKey: "data",
-            field,
-            isJson: true,
-            relationTableTsKey: tableConfig.tsName,
-            selection
-          }];
-          const needsSubquery = limit !== void 0 || offset !== void 0 || orderBy.length > 0;
-          if (needsSubquery) {
-            result = this.buildSelectQuery({
-              table: aliasedTable(table, tableAlias),
-              fields: {},
-              fieldsFlat: [
-                {
-                  path: [],
-                  field: sql.raw("*")
-                },
-                ...orderBy.length > 0 ? [{
-                  path: [],
-                  field: sql`row_number() over (order by ${sql.join(orderBy, sql`, `)})`
-                }] : []
-              ],
-              where,
-              limit,
-              offset,
-              setOperators: []
-            });
-            where = void 0;
-            limit = void 0;
-            offset = void 0;
-            orderBy = void 0;
-          } else {
-            result = aliasedTable(table, tableAlias);
-          }
-          result = this.buildSelectQuery({
-            table: is2(result, MySqlTable) ? result : new Subquery(result, {}, tableAlias),
-            fields: {},
-            fieldsFlat: nestedSelection.map(({ field: field2 }) => ({
-              path: [],
-              field: is2(field2, Column) ? aliasedTableColumn(field2, tableAlias) : field2
-            })),
-            where,
-            limit,
-            offset,
-            orderBy,
-            setOperators: []
-          });
-        } else {
-          result = this.buildSelectQuery({
-            table: aliasedTable(table, tableAlias),
-            fields: {},
-            fieldsFlat: selection.map(({ field }) => ({
-              path: [],
-              field: is2(field, Column) ? aliasedTableColumn(field, tableAlias) : field
-            })),
-            where,
-            limit,
-            offset,
-            orderBy,
-            setOperators: []
-          });
-        }
-        return {
-          tableTsKey: tableConfig.tsName,
-          sql: result,
-          selection
-        };
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/query-builders/query-builder.js
-var TypedQueryBuilder;
-var init_query_builder = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/query-builders/query-builder.js"() {
-    init_entity();
-    TypedQueryBuilder = class {
-      static [entityKind] = "TypedQueryBuilder";
-      /** @internal */
-      getSelectedFields() {
-        return this._.selectedFields;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/query-builders/select.js
-function createSetOperator(type, isAll) {
-  return (leftSelect, rightSelect, ...restSelects) => {
-    const setOperators = [rightSelect, ...restSelects].map((select) => ({
-      type,
-      isAll,
-      rightSelect: select
-    }));
-    for (const setOperator of setOperators) {
-      if (!haveSameKeys(leftSelect.getSelectedFields(), setOperator.rightSelect.getSelectedFields())) {
-        throw new Error(
-          "Set operator error (union / intersect / except): selected fields are not the same or are in a different order"
-        );
-      }
-    }
-    return leftSelect.addSetOperators(setOperators);
-  };
-}
-var MySqlSelectBuilder, MySqlSelectQueryBuilderBase, MySqlSelectBase, getMySqlSetOperators, union2, unionAll, intersect, intersectAll, except, exceptAll;
-var init_select2 = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/query-builders/select.js"() {
-    init_entity();
-    init_table3();
-    init_query_builder();
-    init_query_promise();
-    init_selection_proxy();
-    init_sql();
-    init_subquery();
-    init_table();
-    init_utils3();
-    init_view_common();
-    init_utils4();
-    init_view_base();
-    MySqlSelectBuilder = class {
-      static [entityKind] = "MySqlSelectBuilder";
-      fields;
-      session;
-      dialect;
-      withList = [];
-      distinct;
-      constructor(config3) {
-        this.fields = config3.fields;
-        this.session = config3.session;
-        this.dialect = config3.dialect;
-        if (config3.withList) {
-          this.withList = config3.withList;
-        }
-        this.distinct = config3.distinct;
-      }
-      from(source, onIndex) {
-        const isPartialSelect = !!this.fields;
-        let fields;
-        if (this.fields) {
-          fields = this.fields;
-        } else if (is2(source, Subquery)) {
-          fields = Object.fromEntries(
-            Object.keys(source._.selectedFields).map((key) => [key, source[key]])
-          );
-        } else if (is2(source, MySqlViewBase)) {
-          fields = source[ViewBaseConfig].selectedFields;
-        } else if (is2(source, SQL)) {
-          fields = {};
-        } else {
-          fields = getTableColumns(source);
-        }
-        let useIndex = [];
-        let forceIndex = [];
-        let ignoreIndex = [];
-        if (is2(source, MySqlTable) && onIndex && typeof onIndex !== "string") {
-          if (onIndex.useIndex) {
-            useIndex = convertIndexToString(toArray2(onIndex.useIndex));
-          }
-          if (onIndex.forceIndex) {
-            forceIndex = convertIndexToString(toArray2(onIndex.forceIndex));
-          }
-          if (onIndex.ignoreIndex) {
-            ignoreIndex = convertIndexToString(toArray2(onIndex.ignoreIndex));
-          }
-        }
-        return new MySqlSelectBase(
-          {
-            table: source,
-            fields,
-            isPartialSelect,
-            session: this.session,
-            dialect: this.dialect,
-            withList: this.withList,
-            distinct: this.distinct,
-            useIndex,
-            forceIndex,
-            ignoreIndex
-          }
-        );
-      }
-    };
-    MySqlSelectQueryBuilderBase = class extends TypedQueryBuilder {
-      static [entityKind] = "MySqlSelectQueryBuilder";
-      _;
-      config;
-      joinsNotNullableMap;
-      tableName;
-      isPartialSelect;
-      /** @internal */
-      session;
-      dialect;
-      cacheConfig = void 0;
-      usedTables = /* @__PURE__ */ new Set();
-      constructor({ table, fields, isPartialSelect, session, dialect, withList, distinct, useIndex, forceIndex, ignoreIndex }) {
-        super();
-        this.config = {
-          withList,
-          table,
-          fields: { ...fields },
-          distinct,
-          setOperators: [],
-          useIndex,
-          forceIndex,
-          ignoreIndex
-        };
-        this.isPartialSelect = isPartialSelect;
-        this.session = session;
-        this.dialect = dialect;
-        this._ = {
-          selectedFields: fields,
-          config: this.config
-        };
-        this.tableName = getTableLikeName(table);
-        this.joinsNotNullableMap = typeof this.tableName === "string" ? { [this.tableName]: true } : {};
-        for (const item of extractUsedTable(table)) this.usedTables.add(item);
-      }
-      /** @internal */
-      getUsedTables() {
-        return [...this.usedTables];
-      }
-      createJoin(joinType, lateral) {
-        return (table, a, b2) => {
-          const isCrossJoin = joinType === "cross";
-          let on2 = isCrossJoin ? void 0 : a;
-          const onIndex = isCrossJoin ? a : b2;
-          const baseTableName = this.tableName;
-          const tableName = getTableLikeName(table);
-          for (const item of extractUsedTable(table)) this.usedTables.add(item);
-          if (typeof tableName === "string" && this.config.joins?.some((join2) => join2.alias === tableName)) {
-            throw new Error(`Alias "${tableName}" is already used in this query`);
-          }
-          if (!this.isPartialSelect) {
-            if (Object.keys(this.joinsNotNullableMap).length === 1 && typeof baseTableName === "string") {
-              this.config.fields = {
-                [baseTableName]: this.config.fields
-              };
-            }
-            if (typeof tableName === "string" && !is2(table, SQL)) {
-              const selection = is2(table, Subquery) ? table._.selectedFields : is2(table, View) ? table[ViewBaseConfig].selectedFields : table[Table.Symbol.Columns];
-              this.config.fields[tableName] = selection;
-            }
-          }
-          if (typeof on2 === "function") {
-            on2 = on2(
-              new Proxy(
-                this.config.fields,
-                new SelectionProxyHandler({ sqlAliasedBehavior: "sql", sqlBehavior: "sql" })
-              )
-            );
-          }
-          if (!this.config.joins) {
-            this.config.joins = [];
-          }
-          let useIndex = [];
-          let forceIndex = [];
-          let ignoreIndex = [];
-          if (is2(table, MySqlTable) && onIndex && typeof onIndex !== "string") {
-            if (onIndex.useIndex) {
-              useIndex = convertIndexToString(toArray2(onIndex.useIndex));
-            }
-            if (onIndex.forceIndex) {
-              forceIndex = convertIndexToString(toArray2(onIndex.forceIndex));
-            }
-            if (onIndex.ignoreIndex) {
-              ignoreIndex = convertIndexToString(toArray2(onIndex.ignoreIndex));
-            }
-          }
-          this.config.joins.push({ on: on2, table, joinType, alias: tableName, useIndex, forceIndex, ignoreIndex, lateral });
-          if (typeof tableName === "string") {
-            switch (joinType) {
-              case "left": {
-                this.joinsNotNullableMap[tableName] = false;
-                break;
-              }
-              case "right": {
-                this.joinsNotNullableMap = Object.fromEntries(
-                  Object.entries(this.joinsNotNullableMap).map(([key]) => [key, false])
-                );
-                this.joinsNotNullableMap[tableName] = true;
-                break;
-              }
-              case "cross":
-              case "inner": {
-                this.joinsNotNullableMap[tableName] = true;
-                break;
-              }
-            }
-          }
-          return this;
-        };
-      }
-      /**
-       * Executes a `left join` operation by adding another table to the current query.
-       *
-       * Calling this method associates each row of the table with the corresponding row from the joined table, if a match is found. If no matching row exists, it sets all columns of the joined table to null.
-       *
-       * See docs: {@link https://orm.drizzle.team/docs/joins#left-join}
-       *
-       * @param table the table to join.
-       * @param on the `on` clause.
-       * @param onIndex index hint.
-       *
-       * @example
-       *
-       * ```ts
-       * // Select all users and their pets
-       * const usersWithPets: { user: User; pets: Pet | null; }[] = await db.select()
-       *   .from(users)
-       *   .leftJoin(pets, eq(users.id, pets.ownerId))
-       *
-       * // Select userId and petId
-       * const usersIdsAndPetIds: { userId: number; petId: number | null; }[] = await db.select({
-       *   userId: users.id,
-       *   petId: pets.id,
-       * })
-       *   .from(users)
-       *   .leftJoin(pets, eq(users.id, pets.ownerId))
-       *
-       * // Select userId and petId with use index hint
-       * const usersIdsAndPetIds: { userId: number; petId: number | null; }[] = await db.select({
-       *   userId: users.id,
-       *   petId: pets.id,
-       * })
-       *   .from(users)
-       *   .leftJoin(pets, eq(users.id, pets.ownerId), {
-       *     useIndex: ['pets_owner_id_index']
-       * })
-       * ```
-       */
-      leftJoin = this.createJoin("left", false);
-      /**
-       * Executes a `left join lateral` operation by adding subquery to the current query.
-       *
-       * A `lateral` join allows the right-hand expression to refer to columns from the left-hand side.
-       *
-       * Calling this method associates each row of the table with the corresponding row from the joined table, if a match is found. If no matching row exists, it sets all columns of the joined table to null.
-       *
-       * See docs: {@link https://orm.drizzle.team/docs/joins#left-join-lateral}
-       *
-       * @param table the subquery to join.
-       * @param on the `on` clause.
-       */
-      leftJoinLateral = this.createJoin("left", true);
-      /**
-       * Executes a `right join` operation by adding another table to the current query.
-       *
-       * Calling this method associates each row of the joined table with the corresponding row from the main table, if a match is found. If no matching row exists, it sets all columns of the main table to null.
-       *
-       * See docs: {@link https://orm.drizzle.team/docs/joins#right-join}
-       *
-       * @param table the table to join.
-       * @param on the `on` clause.
-       * @param onIndex index hint.
-       *
-       * @example
-       *
-       * ```ts
-       * // Select all users and their pets
-       * const usersWithPets: { user: User | null; pets: Pet; }[] = await db.select()
-       *   .from(users)
-       *   .rightJoin(pets, eq(users.id, pets.ownerId))
-       *
-       * // Select userId and petId
-       * const usersIdsAndPetIds: { userId: number | null; petId: number; }[] = await db.select({
-       *   userId: users.id,
-       *   petId: pets.id,
-       * })
-       *   .from(users)
-       *   .rightJoin(pets, eq(users.id, pets.ownerId))
-       *
-       * // Select userId and petId with use index hint
-       * const usersIdsAndPetIds: { userId: number; petId: number | null; }[] = await db.select({
-       *   userId: users.id,
-       *   petId: pets.id,
-       * })
-       *   .from(users)
-       *   .leftJoin(pets, eq(users.id, pets.ownerId), {
-       *     useIndex: ['pets_owner_id_index']
-       * })
-       * ```
-       */
-      rightJoin = this.createJoin("right", false);
-      /**
-       * Executes an `inner join` operation, creating a new table by combining rows from two tables that have matching values.
-       *
-       * Calling this method retrieves rows that have corresponding entries in both joined tables. Rows without matching entries in either table are excluded, resulting in a table that includes only matching pairs.
-       *
-       * See docs: {@link https://orm.drizzle.team/docs/joins#inner-join}
-       *
-       * @param table the table to join.
-       * @param on the `on` clause.
-       * @param onIndex index hint.
-       *
-       * @example
-       *
-       * ```ts
-       * // Select all users and their pets
-       * const usersWithPets: { user: User; pets: Pet; }[] = await db.select()
-       *   .from(users)
-       *   .innerJoin(pets, eq(users.id, pets.ownerId))
-       *
-       * // Select userId and petId
-       * const usersIdsAndPetIds: { userId: number; petId: number; }[] = await db.select({
-       *   userId: users.id,
-       *   petId: pets.id,
-       * })
-       *   .from(users)
-       *   .innerJoin(pets, eq(users.id, pets.ownerId))
-       *
-       * // Select userId and petId with use index hint
-       * const usersIdsAndPetIds: { userId: number; petId: number | null; }[] = await db.select({
-       *   userId: users.id,
-       *   petId: pets.id,
-       * })
-       *   .from(users)
-       *   .leftJoin(pets, eq(users.id, pets.ownerId), {
-       *     useIndex: ['pets_owner_id_index']
-       * })
-       * ```
-       */
-      innerJoin = this.createJoin("inner", false);
-      /**
-       * Executes an `inner join lateral` operation, creating a new table by combining rows from two queries that have matching values.
-       *
-       * A `lateral` join allows the right-hand expression to refer to columns from the left-hand side.
-       *
-       * Calling this method retrieves rows that have corresponding entries in both joined tables. Rows without matching entries in either table are excluded, resulting in a table that includes only matching pairs.
-       *
-       * See docs: {@link https://orm.drizzle.team/docs/joins#inner-join-lateral}
-       *
-       * @param table the subquery to join.
-       * @param on the `on` clause.
-       */
-      innerJoinLateral = this.createJoin("inner", true);
-      /**
-       * Executes a `cross join` operation by combining rows from two tables into a new table.
-       *
-       * Calling this method retrieves all rows from both main and joined tables, merging all rows from each table.
-       *
-       * See docs: {@link https://orm.drizzle.team/docs/joins#cross-join}
-       *
-       * @param table the table to join.
-       * @param onIndex index hint.
-       *
-       * @example
-       *
-       * ```ts
-       * // Select all users, each user with every pet
-       * const usersWithPets: { user: User; pets: Pet; }[] = await db.select()
-       *   .from(users)
-       *   .crossJoin(pets)
-       *
-       * // Select userId and petId
-       * const usersIdsAndPetIds: { userId: number; petId: number; }[] = await db.select({
-       *   userId: users.id,
-       *   petId: pets.id,
-       * })
-       *   .from(users)
-       *   .crossJoin(pets)
-       *
-       * // Select userId and petId with use index hint
-       * const usersIdsAndPetIds: { userId: number; petId: number; }[] = await db.select({
-       *   userId: users.id,
-       *   petId: pets.id,
-       * })
-       *   .from(users)
-       *   .crossJoin(pets, {
-       *     useIndex: ['pets_owner_id_index']
-       * })
-       * ```
-       */
-      crossJoin = this.createJoin("cross", false);
-      /**
-       * Executes a `cross join lateral` operation by combining rows from two queries into a new table.
-       *
-       * A `lateral` join allows the right-hand expression to refer to columns from the left-hand side.
-       *
-       * Calling this method retrieves all rows from both main and joined queries, merging all rows from each query.
-       *
-       * See docs: {@link https://orm.drizzle.team/docs/joins#cross-join-lateral}
-       *
-       * @param table the query to join.
-       */
-      crossJoinLateral = this.createJoin("cross", true);
-      createSetOperator(type, isAll) {
-        return (rightSelection) => {
-          const rightSelect = typeof rightSelection === "function" ? rightSelection(getMySqlSetOperators()) : rightSelection;
-          if (!haveSameKeys(this.getSelectedFields(), rightSelect.getSelectedFields())) {
-            throw new Error(
-              "Set operator error (union / intersect / except): selected fields are not the same or are in a different order"
-            );
-          }
-          this.config.setOperators.push({ type, isAll, rightSelect });
-          return this;
-        };
-      }
-      /**
-       * Adds `union` set operator to the query.
-       *
-       * Calling this method will combine the result sets of the `select` statements and remove any duplicate rows that appear across them.
-       *
-       * See docs: {@link https://orm.drizzle.team/docs/set-operations#union}
-       *
-       * @example
-       *
-       * ```ts
-       * // Select all unique names from customers and users tables
-       * await db.select({ name: users.name })
-       *   .from(users)
-       *   .union(
-       *     db.select({ name: customers.name }).from(customers)
-       *   );
-       * // or
-       * import { union } from 'drizzle-orm/mysql-core'
-       *
-       * await union(
-       *   db.select({ name: users.name }).from(users),
-       *   db.select({ name: customers.name }).from(customers)
-       * );
-       * ```
-       */
-      union = this.createSetOperator("union", false);
-      /**
-       * Adds `union all` set operator to the query.
-       *
-       * Calling this method will combine the result-set of the `select` statements and keep all duplicate rows that appear across them.
-       *
-       * See docs: {@link https://orm.drizzle.team/docs/set-operations#union-all}
-       *
-       * @example
-       *
-       * ```ts
-       * // Select all transaction ids from both online and in-store sales
-       * await db.select({ transaction: onlineSales.transactionId })
-       *   .from(onlineSales)
-       *   .unionAll(
-       *     db.select({ transaction: inStoreSales.transactionId }).from(inStoreSales)
-       *   );
-       * // or
-       * import { unionAll } from 'drizzle-orm/mysql-core'
-       *
-       * await unionAll(
-       *   db.select({ transaction: onlineSales.transactionId }).from(onlineSales),
-       *   db.select({ transaction: inStoreSales.transactionId }).from(inStoreSales)
-       * );
-       * ```
-       */
-      unionAll = this.createSetOperator("union", true);
-      /**
-       * Adds `intersect` set operator to the query.
-       *
-       * Calling this method will retain only the rows that are present in both result sets and eliminate duplicates.
-       *
-       * See docs: {@link https://orm.drizzle.team/docs/set-operations#intersect}
-       *
-       * @example
-       *
-       * ```ts
-       * // Select course names that are offered in both departments A and B
-       * await db.select({ courseName: depA.courseName })
-       *   .from(depA)
-       *   .intersect(
-       *     db.select({ courseName: depB.courseName }).from(depB)
-       *   );
-       * // or
-       * import { intersect } from 'drizzle-orm/mysql-core'
-       *
-       * await intersect(
-       *   db.select({ courseName: depA.courseName }).from(depA),
-       *   db.select({ courseName: depB.courseName }).from(depB)
-       * );
-       * ```
-       */
-      intersect = this.createSetOperator("intersect", false);
-      /**
-       * Adds `intersect all` set operator to the query.
-       *
-       * Calling this method will retain only the rows that are present in both result sets including all duplicates.
-       *
-       * See docs: {@link https://orm.drizzle.team/docs/set-operations#intersect-all}
-       *
-       * @example
-       *
-       * ```ts
-       * // Select all products and quantities that are ordered by both regular and VIP customers
-       * await db.select({
-       *   productId: regularCustomerOrders.productId,
-       *   quantityOrdered: regularCustomerOrders.quantityOrdered
-       * })
-       * .from(regularCustomerOrders)
-       * .intersectAll(
-       *   db.select({
-       *     productId: vipCustomerOrders.productId,
-       *     quantityOrdered: vipCustomerOrders.quantityOrdered
-       *   })
-       *   .from(vipCustomerOrders)
-       * );
-       * // or
-       * import { intersectAll } from 'drizzle-orm/mysql-core'
-       *
-       * await intersectAll(
-       *   db.select({
-       *     productId: regularCustomerOrders.productId,
-       *     quantityOrdered: regularCustomerOrders.quantityOrdered
-       *   })
-       *   .from(regularCustomerOrders),
-       *   db.select({
-       *     productId: vipCustomerOrders.productId,
-       *     quantityOrdered: vipCustomerOrders.quantityOrdered
-       *   })
-       *   .from(vipCustomerOrders)
-       * );
-       * ```
-       */
-      intersectAll = this.createSetOperator("intersect", true);
-      /**
-       * Adds `except` set operator to the query.
-       *
-       * Calling this method will retrieve all unique rows from the left query, except for the rows that are present in the result set of the right query.
-       *
-       * See docs: {@link https://orm.drizzle.team/docs/set-operations#except}
-       *
-       * @example
-       *
-       * ```ts
-       * // Select all courses offered in department A but not in department B
-       * await db.select({ courseName: depA.courseName })
-       *   .from(depA)
-       *   .except(
-       *     db.select({ courseName: depB.courseName }).from(depB)
-       *   );
-       * // or
-       * import { except } from 'drizzle-orm/mysql-core'
-       *
-       * await except(
-       *   db.select({ courseName: depA.courseName }).from(depA),
-       *   db.select({ courseName: depB.courseName }).from(depB)
-       * );
-       * ```
-       */
-      except = this.createSetOperator("except", false);
-      /**
-       * Adds `except all` set operator to the query.
-       *
-       * Calling this method will retrieve all rows from the left query, except for the rows that are present in the result set of the right query.
-       *
-       * See docs: {@link https://orm.drizzle.team/docs/set-operations#except-all}
-       *
-       * @example
-       *
-       * ```ts
-       * // Select all products that are ordered by regular customers but not by VIP customers
-       * await db.select({
-       *   productId: regularCustomerOrders.productId,
-       *   quantityOrdered: regularCustomerOrders.quantityOrdered,
-       * })
-       * .from(regularCustomerOrders)
-       * .exceptAll(
-       *   db.select({
-       *     productId: vipCustomerOrders.productId,
-       *     quantityOrdered: vipCustomerOrders.quantityOrdered,
-       *   })
-       *   .from(vipCustomerOrders)
-       * );
-       * // or
-       * import { exceptAll } from 'drizzle-orm/mysql-core'
-       *
-       * await exceptAll(
-       *   db.select({
-       *     productId: regularCustomerOrders.productId,
-       *     quantityOrdered: regularCustomerOrders.quantityOrdered
-       *   })
-       *   .from(regularCustomerOrders),
-       *   db.select({
-       *     productId: vipCustomerOrders.productId,
-       *     quantityOrdered: vipCustomerOrders.quantityOrdered
-       *   })
-       *   .from(vipCustomerOrders)
-       * );
-       * ```
-       */
-      exceptAll = this.createSetOperator("except", true);
-      /** @internal */
-      addSetOperators(setOperators) {
-        this.config.setOperators.push(...setOperators);
-        return this;
-      }
-      /**
-       * Adds a `where` clause to the query.
-       *
-       * Calling this method will select only those rows that fulfill a specified condition.
-       *
-       * See docs: {@link https://orm.drizzle.team/docs/select#filtering}
-       *
-       * @param where the `where` clause.
-       *
-       * @example
-       * You can use conditional operators and `sql function` to filter the rows to be selected.
-       *
-       * ```ts
-       * // Select all cars with green color
-       * await db.select().from(cars).where(eq(cars.color, 'green'));
-       * // or
-       * await db.select().from(cars).where(sql`${cars.color} = 'green'`)
-       * ```
-       *
-       * You can logically combine conditional operators with `and()` and `or()` operators:
-       *
-       * ```ts
-       * // Select all BMW cars with a green color
-       * await db.select().from(cars).where(and(eq(cars.color, 'green'), eq(cars.brand, 'BMW')));
-       *
-       * // Select all cars with the green or blue color
-       * await db.select().from(cars).where(or(eq(cars.color, 'green'), eq(cars.color, 'blue')));
-       * ```
-       */
-      where(where) {
-        if (typeof where === "function") {
-          where = where(
-            new Proxy(
-              this.config.fields,
-              new SelectionProxyHandler({ sqlAliasedBehavior: "sql", sqlBehavior: "sql" })
-            )
-          );
-        }
-        this.config.where = where;
-        return this;
-      }
-      /**
-       * Adds a `having` clause to the query.
-       *
-       * Calling this method will select only those rows that fulfill a specified condition. It is typically used with aggregate functions to filter the aggregated data based on a specified condition.
-       *
-       * See docs: {@link https://orm.drizzle.team/docs/select#aggregations}
-       *
-       * @param having the `having` clause.
-       *
-       * @example
-       *
-       * ```ts
-       * // Select all brands with more than one car
-       * await db.select({
-       * 	brand: cars.brand,
-       * 	count: sql<number>`cast(count(${cars.id}) as int)`,
-       * })
-       *   .from(cars)
-       *   .groupBy(cars.brand)
-       *   .having(({ count }) => gt(count, 1));
-       * ```
-       */
-      having(having) {
-        if (typeof having === "function") {
-          having = having(
-            new Proxy(
-              this.config.fields,
-              new SelectionProxyHandler({ sqlAliasedBehavior: "sql", sqlBehavior: "sql" })
-            )
-          );
-        }
-        this.config.having = having;
-        return this;
-      }
-      groupBy(...columns) {
-        if (typeof columns[0] === "function") {
-          const groupBy = columns[0](
-            new Proxy(
-              this.config.fields,
-              new SelectionProxyHandler({ sqlAliasedBehavior: "alias", sqlBehavior: "sql" })
-            )
-          );
-          this.config.groupBy = Array.isArray(groupBy) ? groupBy : [groupBy];
-        } else {
-          this.config.groupBy = columns;
-        }
-        return this;
-      }
-      orderBy(...columns) {
-        if (typeof columns[0] === "function") {
-          const orderBy = columns[0](
-            new Proxy(
-              this.config.fields,
-              new SelectionProxyHandler({ sqlAliasedBehavior: "alias", sqlBehavior: "sql" })
-            )
-          );
-          const orderByArray = Array.isArray(orderBy) ? orderBy : [orderBy];
-          if (this.config.setOperators.length > 0) {
-            this.config.setOperators.at(-1).orderBy = orderByArray;
-          } else {
-            this.config.orderBy = orderByArray;
-          }
-        } else {
-          const orderByArray = columns;
-          if (this.config.setOperators.length > 0) {
-            this.config.setOperators.at(-1).orderBy = orderByArray;
-          } else {
-            this.config.orderBy = orderByArray;
-          }
-        }
-        return this;
-      }
-      /**
-       * Adds a `limit` clause to the query.
-       *
-       * Calling this method will set the maximum number of rows that will be returned by this query.
-       *
-       * See docs: {@link https://orm.drizzle.team/docs/select#limit--offset}
-       *
-       * @param limit the `limit` clause.
-       *
-       * @example
-       *
-       * ```ts
-       * // Get the first 10 people from this query.
-       * await db.select().from(people).limit(10);
-       * ```
-       */
-      limit(limit) {
-        if (this.config.setOperators.length > 0) {
-          this.config.setOperators.at(-1).limit = limit;
-        } else {
-          this.config.limit = limit;
-        }
-        return this;
-      }
-      /**
-       * Adds an `offset` clause to the query.
-       *
-       * Calling this method will skip a number of rows when returning results from this query.
-       *
-       * See docs: {@link https://orm.drizzle.team/docs/select#limit--offset}
-       *
-       * @param offset the `offset` clause.
-       *
-       * @example
-       *
-       * ```ts
-       * // Get the 10th-20th people from this query.
-       * await db.select().from(people).offset(10).limit(10);
-       * ```
-       */
-      offset(offset) {
-        if (this.config.setOperators.length > 0) {
-          this.config.setOperators.at(-1).offset = offset;
-        } else {
-          this.config.offset = offset;
-        }
-        return this;
-      }
-      /**
-       * Adds a `for` clause to the query.
-       *
-       * Calling this method will specify a lock strength for this query that controls how strictly it acquires exclusive access to the rows being queried.
-       *
-       * See docs: {@link https://dev.mysql.com/doc/refman/8.0/en/innodb-locking-reads.html}
-       *
-       * @param strength the lock strength.
-       * @param config the lock configuration.
-       */
-      for(strength, config3 = {}) {
-        this.config.lockingClause = { strength, config: config3 };
-        return this;
-      }
-      /** @internal */
-      getSQL() {
-        return this.dialect.buildSelectQuery(this.config);
-      }
-      toSQL() {
-        const { typings: _typings, ...rest } = this.dialect.sqlToQuery(this.getSQL());
-        return rest;
-      }
-      as(alias) {
-        const usedTables = [];
-        usedTables.push(...extractUsedTable(this.config.table));
-        if (this.config.joins) {
-          for (const it2 of this.config.joins) usedTables.push(...extractUsedTable(it2.table));
-        }
-        return new Proxy(
-          new Subquery(this.getSQL(), this.config.fields, alias, false, [...new Set(usedTables)]),
-          new SelectionProxyHandler({ alias, sqlAliasedBehavior: "alias", sqlBehavior: "error" })
-        );
-      }
-      /** @internal */
-      getSelectedFields() {
-        return new Proxy(
-          this.config.fields,
-          new SelectionProxyHandler({ alias: this.tableName, sqlAliasedBehavior: "alias", sqlBehavior: "error" })
-        );
-      }
-      $dynamic() {
-        return this;
-      }
-      $withCache(config3) {
-        this.cacheConfig = config3 === void 0 ? { config: {}, enable: true, autoInvalidate: true } : config3 === false ? { enable: false } : { enable: true, autoInvalidate: true, ...config3 };
-        return this;
-      }
-    };
-    MySqlSelectBase = class extends MySqlSelectQueryBuilderBase {
-      static [entityKind] = "MySqlSelect";
-      prepare() {
-        if (!this.session) {
-          throw new Error("Cannot execute a query on a query builder. Please use a database instance instead.");
-        }
-        const fieldsList = orderSelectedFields(this.config.fields);
-        const query = this.session.prepareQuery(this.dialect.sqlToQuery(this.getSQL()), fieldsList, void 0, void 0, void 0, {
-          type: "select",
-          tables: [...this.usedTables]
-        }, this.cacheConfig);
-        query.joinsNotNullableMap = this.joinsNotNullableMap;
-        return query;
-      }
-      execute = (placeholderValues) => {
-        return this.prepare().execute(placeholderValues);
-      };
-      createIterator = () => {
-        const self2 = this;
-        return async function* (placeholderValues) {
-          yield* self2.prepare().iterator(placeholderValues);
-        };
-      };
-      iterator = this.createIterator();
-    };
-    applyMixins(MySqlSelectBase, [QueryPromise]);
-    getMySqlSetOperators = () => ({
-      union: union2,
-      unionAll,
-      intersect,
-      intersectAll,
-      except,
-      exceptAll
-    });
-    union2 = createSetOperator("union", false);
-    unionAll = createSetOperator("union", true);
-    intersect = createSetOperator("intersect", false);
-    intersectAll = createSetOperator("intersect", true);
-    except = createSetOperator("except", false);
-    exceptAll = createSetOperator("except", true);
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/query-builders/query-builder.js
-var QueryBuilder;
-var init_query_builder2 = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/query-builders/query-builder.js"() {
-    init_entity();
-    init_dialect();
-    init_selection_proxy();
-    init_subquery();
-    init_select2();
-    QueryBuilder = class {
-      static [entityKind] = "MySqlQueryBuilder";
-      dialect;
-      dialectConfig;
-      constructor(dialect) {
-        this.dialect = is2(dialect, MySqlDialect) ? dialect : void 0;
-        this.dialectConfig = is2(dialect, MySqlDialect) ? void 0 : dialect;
-      }
-      $with = (alias, selection) => {
-        const queryBuilder = this;
-        const as2 = (qb) => {
-          if (typeof qb === "function") {
-            qb = qb(queryBuilder);
-          }
-          return new Proxy(
-            new WithSubquery(
-              qb.getSQL(),
-              selection ?? ("getSelectedFields" in qb ? qb.getSelectedFields() ?? {} : {}),
-              alias,
-              true
-            ),
-            new SelectionProxyHandler({ alias, sqlAliasedBehavior: "alias", sqlBehavior: "error" })
-          );
-        };
-        return { as: as2 };
-      };
-      with(...queries) {
-        const self2 = this;
-        function select(fields) {
-          return new MySqlSelectBuilder({
-            fields: fields ?? void 0,
-            session: void 0,
-            dialect: self2.getDialect(),
-            withList: queries
-          });
-        }
-        function selectDistinct(fields) {
-          return new MySqlSelectBuilder({
-            fields: fields ?? void 0,
-            session: void 0,
-            dialect: self2.getDialect(),
-            withList: queries,
-            distinct: true
-          });
-        }
-        return { select, selectDistinct };
-      }
-      select(fields) {
-        return new MySqlSelectBuilder({ fields: fields ?? void 0, session: void 0, dialect: this.getDialect() });
-      }
-      selectDistinct(fields) {
-        return new MySqlSelectBuilder({
-          fields: fields ?? void 0,
-          session: void 0,
-          dialect: this.getDialect(),
-          distinct: true
-        });
-      }
-      // Lazy load dialect to avoid circular dependency
-      getDialect() {
-        if (!this.dialect) {
-          this.dialect = new MySqlDialect(this.dialectConfig);
-        }
-        return this.dialect;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/query-builders/insert.js
-var MySqlInsertBuilder, MySqlInsertBase;
-var init_insert = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/query-builders/insert.js"() {
-    init_entity();
-    init_query_promise();
-    init_sql();
-    init_table();
-    init_utils3();
-    init_utils4();
-    init_query_builder2();
-    MySqlInsertBuilder = class {
-      constructor(table, session, dialect) {
-        this.table = table;
-        this.session = session;
-        this.dialect = dialect;
-      }
-      static [entityKind] = "MySqlInsertBuilder";
-      shouldIgnore = false;
-      ignore() {
-        this.shouldIgnore = true;
-        return this;
-      }
-      values(values) {
-        values = Array.isArray(values) ? values : [values];
-        if (values.length === 0) {
-          throw new Error("values() must be called with at least one value");
-        }
-        const mappedValues = values.map((entry) => {
-          const result = {};
-          const cols = this.table[Table.Symbol.Columns];
-          for (const colKey of Object.keys(entry)) {
-            const colValue = entry[colKey];
-            result[colKey] = is2(colValue, SQL) ? colValue : new Param(colValue, cols[colKey]);
-          }
-          return result;
-        });
-        return new MySqlInsertBase(this.table, mappedValues, this.shouldIgnore, this.session, this.dialect);
-      }
-      select(selectQuery) {
-        const select = typeof selectQuery === "function" ? selectQuery(new QueryBuilder()) : selectQuery;
-        if (!is2(select, SQL) && !haveSameKeys(this.table[Columns], select._.selectedFields)) {
-          throw new Error(
-            "Insert select error: selected fields are not the same or are in a different order compared to the table definition"
-          );
-        }
-        return new MySqlInsertBase(this.table, select, this.shouldIgnore, this.session, this.dialect, true);
-      }
-    };
-    MySqlInsertBase = class extends QueryPromise {
-      constructor(table, values, ignore, session, dialect, select) {
-        super();
-        this.session = session;
-        this.dialect = dialect;
-        this.config = { table, values, select, ignore };
-      }
-      static [entityKind] = "MySqlInsert";
-      config;
-      cacheConfig;
-      /**
-       * Adds an `on duplicate key update` clause to the query.
-       *
-       * Calling this method will update the row if any unique index conflicts. MySQL will automatically determine the conflict target based on the primary key and unique indexes.
-       *
-       * See docs: {@link https://orm.drizzle.team/docs/insert#on-duplicate-key-update}
-       *
-       * @param config The `set` clause
-       *
-       * @example
-       * ```ts
-       * await db.insert(cars)
-       *   .values({ id: 1, brand: 'BMW'})
-       *   .onDuplicateKeyUpdate({ set: { brand: 'Porsche' }});
-       * ```
-       *
-       * While MySQL does not directly support doing nothing on conflict, you can perform a no-op by setting any column's value to itself and achieve the same effect:
-       *
-       * ```ts
-       * import { sql } from 'drizzle-orm';
-       *
-       * await db.insert(cars)
-       *   .values({ id: 1, brand: 'BMW' })
-       *   .onDuplicateKeyUpdate({ set: { id: sql`id` } });
-       * ```
-       */
-      onDuplicateKeyUpdate(config3) {
-        const setSql = this.dialect.buildUpdateSet(this.config.table, mapUpdateSet(this.config.table, config3.set));
-        this.config.onConflict = sql`update ${setSql}`;
-        return this;
-      }
-      $returningId() {
-        const returning = [];
-        for (const [key, value] of Object.entries(this.config.table[Table.Symbol.Columns])) {
-          if (value.primary) {
-            returning.push({ field: value, path: [key] });
-          }
-        }
-        this.config.returning = returning;
-        return this;
-      }
-      /** @internal */
-      getSQL() {
-        return this.dialect.buildInsertQuery(this.config).sql;
-      }
-      toSQL() {
-        const { typings: _typings, ...rest } = this.dialect.sqlToQuery(this.getSQL());
-        return rest;
-      }
-      prepare() {
-        const { sql: sql2, generatedIds } = this.dialect.buildInsertQuery(this.config);
-        return this.session.prepareQuery(
-          this.dialect.sqlToQuery(sql2),
-          void 0,
-          void 0,
-          generatedIds,
-          this.config.returning,
-          {
-            type: "insert",
-            tables: extractUsedTable(this.config.table)
-          },
-          this.cacheConfig
-        );
-      }
-      execute = (placeholderValues) => {
-        return this.prepare().execute(placeholderValues);
-      };
-      createIterator = () => {
-        const self2 = this;
-        return async function* (placeholderValues) {
-          yield* self2.prepare().iterator(placeholderValues);
-        };
-      };
-      iterator = this.createIterator();
-      $dynamic() {
-        return this;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/query-builders/select.types.js
-var init_select_types = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/query-builders/select.types.js"() {
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/query-builders/update.js
-var MySqlUpdateBuilder, MySqlUpdateBase;
-var init_update = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/query-builders/update.js"() {
-    init_entity();
-    init_query_promise();
-    init_selection_proxy();
-    init_table();
-    init_utils3();
-    init_utils4();
-    MySqlUpdateBuilder = class {
-      constructor(table, session, dialect, withList) {
-        this.table = table;
-        this.session = session;
-        this.dialect = dialect;
-        this.withList = withList;
-      }
-      static [entityKind] = "MySqlUpdateBuilder";
-      set(values) {
-        return new MySqlUpdateBase(this.table, mapUpdateSet(this.table, values), this.session, this.dialect, this.withList);
-      }
-    };
-    MySqlUpdateBase = class extends QueryPromise {
-      constructor(table, set2, session, dialect, withList) {
-        super();
-        this.session = session;
-        this.dialect = dialect;
-        this.config = { set: set2, table, withList };
-      }
-      static [entityKind] = "MySqlUpdate";
-      config;
-      cacheConfig;
-      /**
-       * Adds a 'where' clause to the query.
-       *
-       * Calling this method will update only those rows that fulfill a specified condition.
-       *
-       * See docs: {@link https://orm.drizzle.team/docs/update}
-       *
-       * @param where the 'where' clause.
-       *
-       * @example
-       * You can use conditional operators and `sql function` to filter the rows to be updated.
-       *
-       * ```ts
-       * // Update all cars with green color
-       * db.update(cars).set({ color: 'red' })
-       *   .where(eq(cars.color, 'green'));
-       * // or
-       * db.update(cars).set({ color: 'red' })
-       *   .where(sql`${cars.color} = 'green'`)
-       * ```
-       *
-       * You can logically combine conditional operators with `and()` and `or()` operators:
-       *
-       * ```ts
-       * // Update all BMW cars with a green color
-       * db.update(cars).set({ color: 'red' })
-       *   .where(and(eq(cars.color, 'green'), eq(cars.brand, 'BMW')));
-       *
-       * // Update all cars with the green or blue color
-       * db.update(cars).set({ color: 'red' })
-       *   .where(or(eq(cars.color, 'green'), eq(cars.color, 'blue')));
-       * ```
-       */
-      where(where) {
-        this.config.where = where;
-        return this;
-      }
-      orderBy(...columns) {
-        if (typeof columns[0] === "function") {
-          const orderBy = columns[0](
-            new Proxy(
-              this.config.table[Table.Symbol.Columns],
-              new SelectionProxyHandler({ sqlAliasedBehavior: "alias", sqlBehavior: "sql" })
-            )
-          );
-          const orderByArray = Array.isArray(orderBy) ? orderBy : [orderBy];
-          this.config.orderBy = orderByArray;
-        } else {
-          const orderByArray = columns;
-          this.config.orderBy = orderByArray;
-        }
-        return this;
-      }
-      limit(limit) {
-        this.config.limit = limit;
-        return this;
-      }
-      /** @internal */
-      getSQL() {
-        return this.dialect.buildUpdateQuery(this.config);
-      }
-      toSQL() {
-        const { typings: _typings, ...rest } = this.dialect.sqlToQuery(this.getSQL());
-        return rest;
-      }
-      prepare() {
-        return this.session.prepareQuery(
-          this.dialect.sqlToQuery(this.getSQL()),
-          void 0,
-          void 0,
-          void 0,
-          this.config.returning,
-          {
-            type: "insert",
-            tables: extractUsedTable(this.config.table)
-          },
-          this.cacheConfig
-        );
-      }
-      execute = (placeholderValues) => {
-        return this.prepare().execute(placeholderValues);
-      };
-      createIterator = () => {
-        const self2 = this;
-        return async function* (placeholderValues) {
-          yield* self2.prepare().iterator(placeholderValues);
-        };
-      };
-      iterator = this.createIterator();
-      $dynamic() {
-        return this;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/query-builders/index.js
-var init_query_builders = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/query-builders/index.js"() {
-    init_delete();
-    init_insert();
-    init_query_builder2();
-    init_select2();
-    init_select_types();
-    init_update();
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/query-builders/query.js
-var RelationalQueryBuilder, MySqlRelationalQuery;
-var init_query = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/query-builders/query.js"() {
-    init_entity();
-    init_query_promise();
-    init_relations();
-    RelationalQueryBuilder = class {
-      constructor(fullSchema, schema, tableNamesMap, table, tableConfig, dialect, session, mode) {
-        this.fullSchema = fullSchema;
-        this.schema = schema;
-        this.tableNamesMap = tableNamesMap;
-        this.table = table;
-        this.tableConfig = tableConfig;
-        this.dialect = dialect;
-        this.session = session;
-        this.mode = mode;
-      }
-      static [entityKind] = "MySqlRelationalQueryBuilder";
-      findMany(config3) {
-        return new MySqlRelationalQuery(
-          this.fullSchema,
-          this.schema,
-          this.tableNamesMap,
-          this.table,
-          this.tableConfig,
-          this.dialect,
-          this.session,
-          config3 ? config3 : {},
-          "many",
-          this.mode
-        );
-      }
-      findFirst(config3) {
-        return new MySqlRelationalQuery(
-          this.fullSchema,
-          this.schema,
-          this.tableNamesMap,
-          this.table,
-          this.tableConfig,
-          this.dialect,
-          this.session,
-          config3 ? { ...config3, limit: 1 } : { limit: 1 },
-          "first",
-          this.mode
-        );
-      }
-    };
-    MySqlRelationalQuery = class extends QueryPromise {
-      constructor(fullSchema, schema, tableNamesMap, table, tableConfig, dialect, session, config3, queryMode, mode) {
-        super();
-        this.fullSchema = fullSchema;
-        this.schema = schema;
-        this.tableNamesMap = tableNamesMap;
-        this.table = table;
-        this.tableConfig = tableConfig;
-        this.dialect = dialect;
-        this.session = session;
-        this.config = config3;
-        this.queryMode = queryMode;
-        this.mode = mode;
-      }
-      static [entityKind] = "MySqlRelationalQuery";
-      prepare() {
-        const { query, builtQuery } = this._toSQL();
-        return this.session.prepareQuery(
-          builtQuery,
-          void 0,
-          (rawRows) => {
-            const rows = rawRows.map((row) => mapRelationalRow(this.schema, this.tableConfig, row, query.selection));
-            if (this.queryMode === "first") {
-              return rows[0];
-            }
-            return rows;
-          }
-        );
-      }
-      _getQuery() {
-        const query = this.mode === "planetscale" ? this.dialect.buildRelationalQueryWithoutLateralSubqueries({
-          fullSchema: this.fullSchema,
-          schema: this.schema,
-          tableNamesMap: this.tableNamesMap,
-          table: this.table,
-          tableConfig: this.tableConfig,
-          queryConfig: this.config,
-          tableAlias: this.tableConfig.tsName
-        }) : this.dialect.buildRelationalQuery({
-          fullSchema: this.fullSchema,
-          schema: this.schema,
-          tableNamesMap: this.tableNamesMap,
-          table: this.table,
-          tableConfig: this.tableConfig,
-          queryConfig: this.config,
-          tableAlias: this.tableConfig.tsName
-        });
-        return query;
-      }
-      _toSQL() {
-        const query = this._getQuery();
-        const builtQuery = this.dialect.sqlToQuery(query.sql);
-        return { builtQuery, query };
-      }
-      /** @internal */
-      getSQL() {
-        return this._getQuery().sql;
-      }
-      toSQL() {
-        return this._toSQL().builtQuery;
-      }
-      execute() {
-        return this.prepare().execute();
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/db.js
-var MySqlDatabase;
-var init_db2 = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/db.js"() {
-    init_entity();
-    init_selection_proxy();
-    init_sql();
-    init_subquery();
-    init_count();
-    init_query_builders();
-    init_query();
-    MySqlDatabase = class {
-      constructor(dialect, session, schema, mode) {
-        this.dialect = dialect;
-        this.session = session;
-        this.mode = mode;
-        this._ = schema ? {
-          schema: schema.schema,
-          fullSchema: schema.fullSchema,
-          tableNamesMap: schema.tableNamesMap
-        } : {
-          schema: void 0,
-          fullSchema: {},
-          tableNamesMap: {}
-        };
-        this.query = {};
-        if (this._.schema) {
-          for (const [tableName, columns] of Object.entries(this._.schema)) {
-            this.query[tableName] = new RelationalQueryBuilder(
-              schema.fullSchema,
-              this._.schema,
-              this._.tableNamesMap,
-              schema.fullSchema[tableName],
-              columns,
-              dialect,
-              session,
-              this.mode
-            );
-          }
-        }
-        this.$cache = { invalidate: async (_params) => {
-        } };
-      }
-      static [entityKind] = "MySqlDatabase";
-      query;
-      /**
-       * Creates a subquery that defines a temporary named result set as a CTE.
-       *
-       * It is useful for breaking down complex queries into simpler parts and for reusing the result set in subsequent parts of the query.
-       *
-       * See docs: {@link https://orm.drizzle.team/docs/select#with-clause}
-       *
-       * @param alias The alias for the subquery.
-       *
-       * Failure to provide an alias will result in a DrizzleTypeError, preventing the subquery from being referenced in other queries.
-       *
-       * @example
-       *
-       * ```ts
-       * // Create a subquery with alias 'sq' and use it in the select query
-       * const sq = db.$with('sq').as(db.select().from(users).where(eq(users.id, 42)));
-       *
-       * const result = await db.with(sq).select().from(sq);
-       * ```
-       *
-       * To select arbitrary SQL values as fields in a CTE and reference them in other CTEs or in the main query, you need to add aliases to them:
-       *
-       * ```ts
-       * // Select an arbitrary SQL value as a field in a CTE and reference it in the main query
-       * const sq = db.$with('sq').as(db.select({
-       *   name: sql<string>`upper(${users.name})`.as('name'),
-       * })
-       * .from(users));
-       *
-       * const result = await db.with(sq).select({ name: sq.name }).from(sq);
-       * ```
-       */
-      $with = (alias, selection) => {
-        const self2 = this;
-        const as2 = (qb) => {
-          if (typeof qb === "function") {
-            qb = qb(new QueryBuilder(self2.dialect));
-          }
-          return new Proxy(
-            new WithSubquery(
-              qb.getSQL(),
-              selection ?? ("getSelectedFields" in qb ? qb.getSelectedFields() ?? {} : {}),
-              alias,
-              true
-            ),
-            new SelectionProxyHandler({ alias, sqlAliasedBehavior: "alias", sqlBehavior: "error" })
-          );
-        };
-        return { as: as2 };
-      };
-      $count(source, filters) {
-        return new MySqlCountBuilder({ source, filters, session: this.session });
-      }
-      $cache;
-      /**
-       * Incorporates a previously defined CTE (using `$with`) into the main query.
-       *
-       * This method allows the main query to reference a temporary named result set.
-       *
-       * See docs: {@link https://orm.drizzle.team/docs/select#with-clause}
-       *
-       * @param queries The CTEs to incorporate into the main query.
-       *
-       * @example
-       *
-       * ```ts
-       * // Define a subquery 'sq' as a CTE using $with
-       * const sq = db.$with('sq').as(db.select().from(users).where(eq(users.id, 42)));
-       *
-       * // Incorporate the CTE 'sq' into the main query and select from it
-       * const result = await db.with(sq).select().from(sq);
-       * ```
-       */
-      with(...queries) {
-        const self2 = this;
-        function select(fields) {
-          return new MySqlSelectBuilder({
-            fields: fields ?? void 0,
-            session: self2.session,
-            dialect: self2.dialect,
-            withList: queries
-          });
-        }
-        function selectDistinct(fields) {
-          return new MySqlSelectBuilder({
-            fields: fields ?? void 0,
-            session: self2.session,
-            dialect: self2.dialect,
-            withList: queries,
-            distinct: true
-          });
-        }
-        function update(table) {
-          return new MySqlUpdateBuilder(table, self2.session, self2.dialect, queries);
-        }
-        function delete_(table) {
-          return new MySqlDeleteBase(table, self2.session, self2.dialect, queries);
-        }
-        return { select, selectDistinct, update, delete: delete_ };
-      }
-      select(fields) {
-        return new MySqlSelectBuilder({ fields: fields ?? void 0, session: this.session, dialect: this.dialect });
-      }
-      selectDistinct(fields) {
-        return new MySqlSelectBuilder({
-          fields: fields ?? void 0,
-          session: this.session,
-          dialect: this.dialect,
-          distinct: true
-        });
-      }
-      /**
-       * Creates an update query.
-       *
-       * Calling this method without `.where()` clause will update all rows in a table. The `.where()` clause specifies which rows should be updated.
-       *
-       * Use `.set()` method to specify which values to update.
-       *
-       * See docs: {@link https://orm.drizzle.team/docs/update}
-       *
-       * @param table The table to update.
-       *
-       * @example
-       *
-       * ```ts
-       * // Update all rows in the 'cars' table
-       * await db.update(cars).set({ color: 'red' });
-       *
-       * // Update rows with filters and conditions
-       * await db.update(cars).set({ color: 'red' }).where(eq(cars.brand, 'BMW'));
-       * ```
-       */
-      update(table) {
-        return new MySqlUpdateBuilder(table, this.session, this.dialect);
-      }
-      /**
-       * Creates an insert query.
-       *
-       * Calling this method will create new rows in a table. Use `.values()` method to specify which values to insert.
-       *
-       * See docs: {@link https://orm.drizzle.team/docs/insert}
-       *
-       * @param table The table to insert into.
-       *
-       * @example
-       *
-       * ```ts
-       * // Insert one row
-       * await db.insert(cars).values({ brand: 'BMW' });
-       *
-       * // Insert multiple rows
-       * await db.insert(cars).values([{ brand: 'BMW' }, { brand: 'Porsche' }]);
-       * ```
-       */
-      insert(table) {
-        return new MySqlInsertBuilder(table, this.session, this.dialect);
-      }
-      /**
-       * Creates a delete query.
-       *
-       * Calling this method without `.where()` clause will delete all rows in a table. The `.where()` clause specifies which rows should be deleted.
-       *
-       * See docs: {@link https://orm.drizzle.team/docs/delete}
-       *
-       * @param table The table to delete from.
-       *
-       * @example
-       *
-       * ```ts
-       * // Delete all rows in the 'cars' table
-       * await db.delete(cars);
-       *
-       * // Delete rows with filters and conditions
-       * await db.delete(cars).where(eq(cars.color, 'green'));
-       * ```
-       */
-      delete(table) {
-        return new MySqlDeleteBase(table, this.session, this.dialect);
-      }
-      execute(query) {
-        return this.session.execute(typeof query === "string" ? sql.raw(query) : query.getSQL());
-      }
-      transaction(transaction, config3) {
-        return this.session.transaction(transaction, config3);
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/view.js
-function mysqlViewWithSchema(name2, selection, schema) {
-  if (selection) {
-    return new ManualViewBuilder(name2, selection, schema);
-  }
-  return new ViewBuilder(name2, schema);
-}
-var ViewBuilderCore, ViewBuilder, ManualViewBuilder, MySqlView;
-var init_view = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/view.js"() {
-    init_entity();
-    init_selection_proxy();
-    init_utils3();
-    init_query_builder2();
-    init_table3();
-    init_view_base();
-    init_view_common2();
-    ViewBuilderCore = class {
-      constructor(name2, schema) {
-        this.name = name2;
-        this.schema = schema;
-      }
-      static [entityKind] = "MySqlViewBuilder";
-      config = {};
-      algorithm(algorithm) {
-        this.config.algorithm = algorithm;
-        return this;
-      }
-      sqlSecurity(sqlSecurity) {
-        this.config.sqlSecurity = sqlSecurity;
-        return this;
-      }
-      withCheckOption(withCheckOption) {
-        this.config.withCheckOption = withCheckOption ?? "cascaded";
-        return this;
-      }
-    };
-    ViewBuilder = class extends ViewBuilderCore {
-      static [entityKind] = "MySqlViewBuilder";
-      as(qb) {
-        if (typeof qb === "function") {
-          qb = qb(new QueryBuilder());
-        }
-        const selectionProxy = new SelectionProxyHandler({
-          alias: this.name,
-          sqlBehavior: "error",
-          sqlAliasedBehavior: "alias",
-          replaceOriginalName: true
-        });
-        const aliasedSelection = new Proxy(qb.getSelectedFields(), selectionProxy);
-        return new Proxy(
-          new MySqlView({
-            mysqlConfig: this.config,
-            config: {
-              name: this.name,
-              schema: this.schema,
-              selectedFields: aliasedSelection,
-              query: qb.getSQL().inlineParams()
-            }
-          }),
-          selectionProxy
-        );
-      }
-    };
-    ManualViewBuilder = class extends ViewBuilderCore {
-      static [entityKind] = "MySqlManualViewBuilder";
-      columns;
-      constructor(name2, columns, schema) {
-        super(name2, schema);
-        this.columns = getTableColumns(mysqlTable(name2, columns));
-      }
-      existing() {
-        return new Proxy(
-          new MySqlView({
-            mysqlConfig: void 0,
-            config: {
-              name: this.name,
-              schema: this.schema,
-              selectedFields: this.columns,
-              query: void 0
-            }
-          }),
-          new SelectionProxyHandler({
-            alias: this.name,
-            sqlBehavior: "error",
-            sqlAliasedBehavior: "alias",
-            replaceOriginalName: true
-          })
-        );
-      }
-      as(query) {
-        return new Proxy(
-          new MySqlView({
-            mysqlConfig: this.config,
-            config: {
-              name: this.name,
-              schema: this.schema,
-              selectedFields: this.columns,
-              query: query.inlineParams()
-            }
-          }),
-          new SelectionProxyHandler({
-            alias: this.name,
-            sqlBehavior: "error",
-            sqlAliasedBehavior: "alias",
-            replaceOriginalName: true
-          })
-        );
-      }
-    };
-    MySqlView = class extends MySqlViewBase {
-      static [entityKind] = "MySqlView";
-      [MySqlViewConfig];
-      constructor({ mysqlConfig, config: config3 }) {
-        super(config3);
-        this[MySqlViewConfig] = mysqlConfig;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/schema.js
-var MySqlSchema;
-var init_schema = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/schema.js"() {
-    init_entity();
-    init_table3();
-    init_view();
-    MySqlSchema = class {
-      constructor(schemaName) {
-        this.schemaName = schemaName;
-      }
-      static [entityKind] = "MySqlSchema";
-      table = (name2, columns, extraConfig) => {
-        return mysqlTableWithSchema(name2, columns, extraConfig, this.schemaName);
-      };
-      view = (name2, columns) => {
-        return mysqlViewWithSchema(name2, columns, this.schemaName);
-      };
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/cache/core/cache.js
-async function hashQuery(sql2, params) {
-  const dataToHash = `${sql2}-${JSON.stringify(params)}`;
-  const encoder2 = new TextEncoder();
-  const data = encoder2.encode(dataToHash);
-  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-  const hashArray = [...new Uint8Array(hashBuffer)];
-  const hashHex = hashArray.map((b2) => b2.toString(16).padStart(2, "0")).join("");
-  return hashHex;
-}
-var Cache, NoopCache;
-var init_cache = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/cache/core/cache.js"() {
-    init_entity();
-    Cache = class {
-      static [entityKind] = "Cache";
-    };
-    NoopCache = class extends Cache {
-      strategy() {
-        return "all";
-      }
-      static [entityKind] = "NoopCache";
-      async get(_key) {
-        return void 0;
-      }
-      async put(_hashedQuery, _response, _tables, _config) {
-      }
-      async onMutate(_params) {
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/session.js
-var MySqlPreparedQuery, MySqlSession, MySqlTransaction;
-var init_session = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/session.js"() {
-    init_cache();
-    init_entity();
-    init_errors5();
-    init_sql();
-    init_db2();
-    MySqlPreparedQuery = class {
-      constructor(cache2, queryMetadata, cacheConfig) {
-        this.cache = cache2;
-        this.queryMetadata = queryMetadata;
-        this.cacheConfig = cacheConfig;
-        if (cache2 && cache2.strategy() === "all" && cacheConfig === void 0) {
-          this.cacheConfig = { enable: true, autoInvalidate: true };
-        }
-        if (!this.cacheConfig?.enable) {
-          this.cacheConfig = void 0;
-        }
-      }
-      static [entityKind] = "MySqlPreparedQuery";
-      /** @internal */
-      async queryWithCache(queryString, params, query) {
-        if (this.cache === void 0 || is2(this.cache, NoopCache) || this.queryMetadata === void 0) {
-          try {
-            return await query();
-          } catch (e) {
-            throw new DrizzleQueryError(queryString, params, e);
-          }
-        }
-        if (this.cacheConfig && !this.cacheConfig.enable) {
-          try {
-            return await query();
-          } catch (e) {
-            throw new DrizzleQueryError(queryString, params, e);
-          }
-        }
-        if ((this.queryMetadata.type === "insert" || this.queryMetadata.type === "update" || this.queryMetadata.type === "delete") && this.queryMetadata.tables.length > 0) {
-          try {
-            const [res] = await Promise.all([
-              query(),
-              this.cache.onMutate({ tables: this.queryMetadata.tables })
-            ]);
-            return res;
-          } catch (e) {
-            throw new DrizzleQueryError(queryString, params, e);
-          }
-        }
-        if (!this.cacheConfig) {
-          try {
-            return await query();
-          } catch (e) {
-            throw new DrizzleQueryError(queryString, params, e);
-          }
-        }
-        if (this.queryMetadata.type === "select") {
-          const fromCache = await this.cache.get(
-            this.cacheConfig.tag ?? await hashQuery(queryString, params),
-            this.queryMetadata.tables,
-            this.cacheConfig.tag !== void 0,
-            this.cacheConfig.autoInvalidate
-          );
-          if (fromCache === void 0) {
-            let result;
-            try {
-              result = await query();
-            } catch (e) {
-              throw new DrizzleQueryError(queryString, params, e);
-            }
-            await this.cache.put(
-              this.cacheConfig.tag ?? await hashQuery(queryString, params),
-              result,
-              // make sure we send tables that were used in a query only if user wants to invalidate it on each write
-              this.cacheConfig.autoInvalidate ? this.queryMetadata.tables : [],
-              this.cacheConfig.tag !== void 0,
-              this.cacheConfig.config
-            );
-            return result;
-          }
-          return fromCache;
-        }
-        try {
-          return await query();
-        } catch (e) {
-          throw new DrizzleQueryError(queryString, params, e);
-        }
-      }
-      /** @internal */
-      joinsNotNullableMap;
-    };
-    MySqlSession = class {
-      constructor(dialect) {
-        this.dialect = dialect;
-      }
-      static [entityKind] = "MySqlSession";
-      execute(query) {
-        return this.prepareQuery(
-          this.dialect.sqlToQuery(query),
-          void 0
-        ).execute();
-      }
-      async count(sql2) {
-        const res = await this.execute(sql2);
-        return Number(
-          res[0][0]["count"]
-        );
-      }
-      getSetTransactionSQL(config3) {
-        const parts = [];
-        if (config3.isolationLevel) {
-          parts.push(`isolation level ${config3.isolationLevel}`);
-        }
-        return parts.length ? sql`set transaction ${sql.raw(parts.join(" "))}` : void 0;
-      }
-      getStartTransactionSQL(config3) {
-        const parts = [];
-        if (config3.withConsistentSnapshot) {
-          parts.push("with consistent snapshot");
-        }
-        if (config3.accessMode) {
-          parts.push(config3.accessMode);
-        }
-        return parts.length ? sql`start transaction ${sql.raw(parts.join(" "))}` : void 0;
-      }
-    };
-    MySqlTransaction = class extends MySqlDatabase {
-      constructor(dialect, session, schema, nestedIndex, mode) {
-        super(dialect, session, schema, mode);
-        this.schema = schema;
-        this.nestedIndex = nestedIndex;
-      }
-      static [entityKind] = "MySqlTransaction";
-      rollback() {
-        throw new TransactionRollbackError();
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/subquery.js
-var init_subquery2 = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/subquery.js"() {
-  }
-});
-
-// node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/index.js
-var init_mysql_core = __esm({
-  "node_modules/.pnpm/drizzle-orm@0.44.6_@electri_9b6b0acbf5b0cf2cbcae8fcbb74499ef/node_modules/drizzle-orm/mysql-core/index.js"() {
-    init_alias2();
-    init_checks3();
-    init_columns();
-    init_db2();
-    init_dialect();
-    init_foreign_keys2();
-    init_indexes();
-    init_primary_keys2();
-    init_query_builders();
-    init_schema();
-    init_session();
-    init_subquery2();
-    init_table3();
-    init_unique_constraint2();
-    init_utils4();
-    init_view_common2();
-    init_view();
-  }
-});
-
-// drizzle/schema.ts
-var schema_exports = {};
-__export(schema_exports, {
-  applicationStageEvents: () => applicationStageEvents,
-  applications: () => applications,
-  applicationsJobProfileUniqueIdx: () => applicationsJobProfileUniqueIdx,
-  candidateProfiles: () => candidateProfiles,
-  candidateSkills: () => candidateSkills,
-  companies: () => companies,
-  companyMembers: () => companyMembers,
-  digestRuns: () => digestRuns,
-  digestSent: () => digestSent,
-  education: () => education,
-  emailSendLog: () => emailSendLog,
-  jobSkills: () => jobSkills,
-  jobs: () => jobs,
-  locations: () => locations,
-  messages: () => messages,
-  notificationPreferences: () => notificationPreferences,
-  notificationQueue: () => notificationQueue,
-  notifications: () => notifications,
-  profileDrafts: () => profileDrafts,
-  profileViews: () => profileViews,
-  reports: () => reports,
-  resumeSuggestions: () => resumeSuggestions,
-  savedSearches: () => savedSearches,
-  skillAliases: () => skillAliases,
-  skills: () => skills,
-  unsubscribeTokens: () => unsubscribeTokens,
-  users: () => users,
-  workExperiences: () => workExperiences
-});
-var users, candidateProfiles, locations, skills, skillAliases, candidateSkills, workExperiences, education, resumeSuggestions, profileDrafts, companies, companyMembers, jobs, jobSkills, applications, applicationsJobProfileUniqueIdx, applicationStageEvents, profileViews, messages, reports, savedSearches, notificationPreferences, unsubscribeTokens, notifications, notificationQueue, emailSendLog, digestRuns, digestSent;
-var init_schema2 = __esm({
-  "drizzle/schema.ts"() {
-    "use strict";
-    init_mysql_core();
-    users = mysqlTable("users", {
-      id: int2("id").autoincrement().primaryKey(),
-      openId: varchar("openId", { length: 64 }).notNull().unique(),
-      name: text("name"),
-      email: varchar("email", { length: 320 }),
-      loginMethod: varchar("loginMethod", { length: 64 }),
-      role: mysqlEnum("role", ["user", "admin"]).default("user").notNull(),
-      userType: mysqlEnum("userType", ["candidate", "employer", "both"]).default("candidate").notNull(),
-      createdAt: timestamp("createdAt").defaultNow().notNull(),
-      updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-      lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull()
-    });
-    candidateProfiles = mysqlTable("candidateProfiles", {
-      id: int2("id").autoincrement().primaryKey(),
-      userId: int2("userId").notNull().unique(),
-      headline: varchar("headline", { length: 160 }),
-      summary: text("summary"),
-      currentTitle: varchar("currentTitle", { length: 120 }),
-      yearsOfExperience: smallint("yearsOfExperience"),
-      locationId: int2("locationId"),
-      remotePolicy: mysqlEnum("remotePolicy", ["onsite", "hybrid", "remote", "flexible"]),
-      desiredSalaryMin: decimal("desiredSalaryMin", { precision: 12, scale: 2 }),
-      desiredSalaryMax: decimal("desiredSalaryMax", { precision: 12, scale: 2 }),
-      resumeUrl: varchar("resumeUrl", { length: 512 }),
-      resumeFileName: varchar("resumeFileName", { length: 255 }),
-      active: boolean4("active").default(true).notNull(),
-      createdAt: timestamp("createdAt").defaultNow().notNull(),
-      updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull()
-    });
-    locations = mysqlTable("locations", {
-      id: int2("id").autoincrement().primaryKey(),
-      city: varchar("city", { length: 100 }),
-      region: varchar("region", { length: 100 }),
-      country: varchar("country", { length: 80 }).notNull(),
-      displayName: varchar("displayName", { length: 200 }).notNull(),
-      /** Geographic coordinates for geo-distance ranking. Nullable for unknown rows. */
-      latitude: decimal("latitude", { precision: 10, scale: 7 }),
-      longitude: decimal("longitude", { precision: 10, scale: 7 })
-    });
-    skills = mysqlTable("skills", {
-      id: int2("id").autoincrement().primaryKey(),
-      name: varchar("name", { length: 100 }).notNull().unique(),
-      slug: varchar("slug", { length: 120 }).notNull().unique(),
-      category: varchar("category", { length: 80 }).notNull(),
-      createdAt: timestamp("createdAt").defaultNow().notNull()
-    });
-    skillAliases = mysqlTable("skillAliases", {
-      id: int2("id").autoincrement().primaryKey(),
-      alias: varchar("alias", { length: 100 }).notNull().unique(),
-      skillId: int2("skillId").notNull()
-    });
-    candidateSkills = mysqlTable("candidateSkills", {
-      id: int2("id").autoincrement().primaryKey(),
-      profileId: int2("profileId").notNull(),
-      skillId: int2("skillId").notNull(),
-      proficiency: mysqlEnum("proficiency", ["beginner", "intermediate", "advanced", "expert"]).notNull(),
-      years: smallint("years").default(0).notNull(),
-      createdAt: timestamp("createdAt").defaultNow().notNull()
-    });
-    workExperiences = mysqlTable("workExperiences", {
-      id: int2("id").autoincrement().primaryKey(),
-      profileId: int2("profileId").notNull(),
-      title: varchar("title", { length: 160 }).notNull(),
-      company: varchar("company", { length: 160 }).notNull(),
-      startDate: date5("startDate"),
-      endDate: date5("endDate"),
-      current: boolean4("current").default(false).notNull(),
-      description: text("description")
-    });
-    education = mysqlTable("education", {
-      id: int2("id").autoincrement().primaryKey(),
-      profileId: int2("profileId").notNull(),
-      institution: varchar("institution", { length: 200 }).notNull(),
-      degree: varchar("degree", { length: 160 }).notNull(),
-      fieldOfStudy: varchar("fieldOfStudy", { length: 160 }),
-      startYear: smallint("startYear"),
-      endYear: smallint("endYear")
-    });
-    resumeSuggestions = mysqlTable("resumeSuggestions", {
-      id: int2("id").autoincrement().primaryKey(),
-      profileId: int2("profileId").notNull(),
-      kind: mysqlEnum("kind", ["workExperience", "education", "skill"]).notNull(),
-      status: mysqlEnum("status", ["pending", "confirmed", "rejected"]).default("pending").notNull(),
-      data: json2("data").notNull(),
-      createdAt: timestamp("createdAt").defaultNow().notNull()
-    });
-    profileDrafts = mysqlTable("profileDrafts", {
-      id: int2("id").autoincrement().primaryKey(),
-      userId: int2("userId").notNull().unique(),
-      currentStep: smallint("currentStep").default(0).notNull(),
-      stepData: json2("stepData").notNull(),
-      updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull()
-    });
-    companies = mysqlTable("companies", {
-      id: int2("id").autoincrement().primaryKey(),
-      name: varchar("name", { length: 160 }).notNull().unique(),
-      description: text("description"),
-      industry: varchar("industry", { length: 100 }),
-      website: varchar("website", { length: 320 }),
-      size: mysqlEnum("size", ["1-10", "11-50", "51-200", "201-1000", "1000+"]),
-      locationId: int2("locationId"),
-      createdAt: timestamp("createdAt").defaultNow().notNull(),
-      updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull()
-    });
-    companyMembers = mysqlTable("companyMembers", {
-      id: int2("id").autoincrement().primaryKey(),
-      userId: int2("userId").notNull(),
-      companyId: int2("companyId").notNull(),
-      role: mysqlEnum("role", ["owner", "member"]).default("member").notNull(),
-      createdAt: timestamp("createdAt").defaultNow().notNull()
-    });
-    jobs = mysqlTable("jobs", {
-      id: int2("id").autoincrement().primaryKey(),
-      companyId: int2("companyId").notNull(),
-      title: varchar("title", { length: 160 }).notNull(),
-      description: text("description").notNull(),
-      seniority: mysqlEnum("seniority", ["junior", "mid", "senior", "lead", "staff"]).notNull(),
-      employmentType: mysqlEnum("employmentType", ["full-time", "part-time", "contract", "internship"]).default("full-time").notNull(),
-      salaryMin: decimal("salaryMin", { precision: 12, scale: 2 }),
-      salaryMax: decimal("salaryMax", { precision: 12, scale: 2 }),
-      locationId: int2("locationId"),
-      remotePolicy: mysqlEnum("remotePolicy", ["onsite", "hybrid", "remote", "flexible"]).notNull(),
-      published: boolean4("published").default(false).notNull(),
-      applicationCount: int2("applicationCount").default(0).notNull(),
-      createdAt: timestamp("createdAt").defaultNow().notNull(),
-      updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull()
-    });
-    jobSkills = mysqlTable("jobSkills", {
-      id: int2("id").autoincrement().primaryKey(),
-      jobId: int2("jobId").notNull(),
-      skillId: int2("skillId").notNull(),
-      weight: mysqlEnum("weight", ["required", "preferred"]).notNull()
-    });
-    applications = mysqlTable("applications", {
-      id: int2("id").autoincrement().primaryKey(),
-      jobId: int2("jobId").notNull(),
-      profileId: int2("profileId").notNull(),
-      /** Status is derived from the latest row in applicationStageEvents; kept as a denormalised cache. */
-      status: mysqlEnum("status", ["applied", "screening", "interview", "offered", "accepted", "rejected", "withdrawn"]).default("applied").notNull(),
-      coverNote: text("coverNote"),
-      createdAt: timestamp("createdAt").defaultNow().notNull(),
-      updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull()
-    });
-    applicationsJobProfileUniqueIdx = uniqueIndex("applications_job_profile_uq").on(
-      applications.jobId,
-      applications.profileId
-    );
-    applicationStageEvents = mysqlTable("applicationStageEvents", {
-      id: int2("id").autoincrement().primaryKey(),
-      applicationId: int2("applicationId").notNull(),
-      fromStatus: mysqlEnum("fromStatus", ["none", "applied", "screening", "interview", "offered", "accepted", "rejected", "withdrawn"]).default("none").notNull(),
-      toStatus: mysqlEnum("toStatus", ["applied", "screening", "interview", "offered", "accepted", "rejected", "withdrawn"]).notNull(),
-      note: text("note"),
-      actorUserId: int2("actorUserId").notNull(),
-      createdAt: timestamp("createdAt").defaultNow().notNull()
-    });
-    profileViews = mysqlTable("profileViews", {
-      id: int2("id").autoincrement().primaryKey(),
-      employerUserId: int2("employerUserId").notNull(),
-      profileId: int2("profileId").notNull(),
-      createdAt: timestamp("createdAt").defaultNow().notNull()
-    });
-    messages = mysqlTable("messages", {
-      id: int2("id").autoincrement().primaryKey(),
-      applicationId: int2("applicationId").notNull(),
-      senderUserId: int2("senderUserId").notNull(),
-      text: text("text").notNull(),
-      readAt: timestamp("readAt"),
-      createdAt: timestamp("createdAt").defaultNow().notNull()
-    });
-    reports = mysqlTable("reports", {
-      id: int2("id").autoincrement().primaryKey(),
-      targetType: mysqlEnum("targetType", ["job", "profile"]).notNull(),
-      targetId: int2("targetId").notNull(),
-      reporterUserId: int2("reporterUserId").notNull(),
-      reason: varchar("reason", { length: 500 }).notNull(),
-      status: mysqlEnum("status", ["pending", "resolved", "dismissed"]).default("pending").notNull(),
-      createdAt: timestamp("createdAt").defaultNow().notNull()
-    });
-    savedSearches = mysqlTable("savedSearches", {
-      id: int2("id").autoincrement().primaryKey(),
-      userId: int2("userId").notNull(),
-      name: varchar("name", { length: 120 }).notNull(),
-      query: json2("query").notNull(),
-      createdAt: timestamp("createdAt").defaultNow().notNull(),
-      updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull()
-    });
-    notificationPreferences = mysqlTable("notificationPreferences", {
-      id: int2("id").autoincrement().primaryKey(),
-      userId: int2("userId").notNull(),
-      channel: mysqlEnum("channel", ["in_app", "email"]).notNull(),
-      eventType: varchar("eventType", { length: 60 }).notNull(),
-      enabled: boolean4("enabled").default(true).notNull(),
-      updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull()
-    });
-    unsubscribeTokens = mysqlTable("unsubscribeTokens", {
-      id: int2("id").autoincrement().primaryKey(),
-      userId: int2("userId").notNull(),
-      channel: mysqlEnum("channel", ["in_app", "email"]).notNull(),
-      token: varchar("token", { length: 128 }).notNull().unique(),
-      usedAt: timestamp("usedAt"),
-      createdAt: timestamp("createdAt").defaultNow().notNull()
-    });
-    notifications = mysqlTable("notifications", {
-      id: int2("id").autoincrement().primaryKey(),
-      userId: int2("userId").notNull(),
-      type: varchar("type", { length: 60 }).notNull(),
-      payload: json2("payload"),
-      readAt: timestamp("readAt"),
-      createdAt: timestamp("createdAt").defaultNow().notNull()
-    });
-    notificationQueue = mysqlTable("notificationQueue", {
-      id: int2("id").autoincrement().primaryKey(),
-      jobKey: varchar("jobKey", { length: 255 }).notNull().unique(),
-      channel: mysqlEnum("channel", ["in_app", "email"]).notNull(),
-      recipientUserId: int2("recipientUserId").notNull(),
-      eventType: varchar("eventType", { length: 60 }).notNull(),
-      subject: varchar("subject", { length: 255 }),
-      payload: json2("payload").notNull(),
-      status: mysqlEnum("status", ["pending", "processing", "sent", "failed", "dead"]).default("pending").notNull(),
-      retryCount: int2("retryCount").default(0).notNull(),
-      backoffUntil: timestamp("backoffUntil"),
-      lastError: text("lastError"),
-      createdAt: timestamp("createdAt").defaultNow().notNull(),
-      updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull()
-    });
-    emailSendLog = mysqlTable("emailSendLog", {
-      id: int2("id").autoincrement().primaryKey(),
-      queueId: int2("queueId"),
-      recipientUserId: int2("recipientUserId"),
-      recipientEmail: varchar("recipientEmail", { length: 320 }),
-      subject: varchar("subject", { length: 255 }),
-      outcome: mysqlEnum("outcome", ["sent", "skipped_no_email", "transport_error", "logged_only"]).notNull(),
-      providerResponse: text("providerResponse"),
-      createdAt: timestamp("createdAt").defaultNow().notNull()
-    });
-    digestRuns = mysqlTable("digestRuns", {
-      id: int2("id").autoincrement().primaryKey(),
-      savedSearchId: int2("savedSearchId").notNull(),
-      userId: int2("userId").notNull(),
-      frequency: mysqlEnum("frequency", ["daily", "weekly"]).notNull(),
-      windowStart: timestamp("windowStart").notNull(),
-      windowEnd: timestamp("windowEnd").notNull(),
-      status: mysqlEnum("status", ["running", "completed", "failed"]).default("running").notNull(),
-      jobsSent: int2("jobsSent").default(0).notNull(),
-      createdAt: timestamp("createdAt").defaultNow().notNull()
-    });
-    digestSent = mysqlTable("digestSent", {
-      id: int2("id").autoincrement().primaryKey(),
-      digestRunId: int2("digestRunId").notNull(),
-      jobId: int2("jobId").notNull(),
-      createdAt: timestamp("createdAt").defaultNow().notNull()
-    });
   }
 });
 
@@ -63149,10 +55704,10 @@ function getColorValues(colors) {
   const span = document.createElement("span");
   span.style.visibility = "hidden";
   document.body.append(span);
-  for (const name2 of colors.keys()) {
-    span.style.color = name2;
+  for (const name of colors.keys()) {
+    span.style.color = name;
     const computedColor = window.getComputedStyle(span).color;
-    colors.set(name2, getRGB(computedColor));
+    colors.set(name, getRGB(computedColor));
   }
   span.remove();
 }
@@ -63203,8 +55758,8 @@ function setLayerDimensions(div, viewport, mustFlip = false, mustRotate = true) 
   }
 }
 function bindEvents(obj, element, names) {
-  for (const name2 of names) {
-    element.addEventListener(name2, obj[name2].bind(obj));
+  for (const name of names) {
+    element.addEventListener(name, obj[name].bind(obj));
   }
 }
 function opacityToHex(opacity) {
@@ -63367,7 +55922,7 @@ function convertBlackAndWhiteToRGBA({
   dest = new Uint32Array(dest.buffer);
   let destPos = 0;
   for (let i = 0; i < height; i++) {
-    for (const max2 = srcPos + widthInSource; srcPos < max2; srcPos++) {
+    for (const max = srcPos + widthInSource; srcPos < max; srcPos++) {
       const elem2 = srcPos < srcLength ? src[srcPos] : 255;
       dest[destPos++] = elem2 & 128 ? oneMapping : zeroMapping;
       dest[destPos++] = elem2 & 64 ? oneMapping : zeroMapping;
@@ -63546,44 +56101,44 @@ function compileType3Glyph(imgData) {
       mask >>= 1;
     }
   }
-  let count2 = 0;
+  let count = 0;
   pos = 0;
   if (data[pos] !== 0) {
     points[0] = 1;
-    ++count2;
+    ++count;
   }
   for (j2 = 1; j2 < width; j2++) {
     if (data[pos] !== data[pos + 1]) {
       points[j2] = data[pos] ? 2 : 1;
-      ++count2;
+      ++count;
     }
     pos++;
   }
   if (data[pos] !== 0) {
     points[j2] = 2;
-    ++count2;
+    ++count;
   }
   for (i = 1; i < height; i++) {
     pos = i * lineSize;
     j0 = i * width1;
     if (data[pos - lineSize] !== data[pos]) {
       points[j0] = data[pos] ? 1 : 8;
-      ++count2;
+      ++count;
     }
-    let sum2 = (data[pos] ? 4 : 0) + (data[pos - lineSize] ? 8 : 0);
+    let sum = (data[pos] ? 4 : 0) + (data[pos - lineSize] ? 8 : 0);
     for (j2 = 1; j2 < width; j2++) {
-      sum2 = (sum2 >> 2) + (data[pos + 1] ? 4 : 0) + (data[pos - lineSize + 1] ? 8 : 0);
-      if (POINT_TYPES[sum2]) {
-        points[j0 + j2] = POINT_TYPES[sum2];
-        ++count2;
+      sum = (sum >> 2) + (data[pos + 1] ? 4 : 0) + (data[pos - lineSize + 1] ? 8 : 0);
+      if (POINT_TYPES[sum]) {
+        points[j0 + j2] = POINT_TYPES[sum];
+        ++count;
       }
       pos++;
     }
     if (data[pos - lineSize] !== data[pos]) {
       points[j0 + j2] = data[pos] ? 2 : 4;
-      ++count2;
+      ++count;
     }
-    if (count2 > POINT_TO_PROCESS_LIMIT) {
+    if (count > POINT_TO_PROCESS_LIMIT) {
       return null;
     }
   }
@@ -63591,25 +56146,25 @@ function compileType3Glyph(imgData) {
   j0 = i * width1;
   if (data[pos] !== 0) {
     points[j0] = 8;
-    ++count2;
+    ++count;
   }
   for (j2 = 1; j2 < width; j2++) {
     if (data[pos] !== data[pos + 1]) {
       points[j0 + j2] = data[pos] ? 4 : 8;
-      ++count2;
+      ++count;
     }
     pos++;
   }
   if (data[pos] !== 0) {
     points[j0 + j2] = 4;
-    ++count2;
+    ++count;
   }
-  if (count2 > POINT_TO_PROCESS_LIMIT) {
+  if (count > POINT_TO_PROCESS_LIMIT) {
     return null;
   }
   const steps = new Int32Array([0, width1, -1, 0, -width1, 0, 0, 0, 1]);
   const path = new Path2D();
-  for (i = 0; count2 && i <= height; i++) {
+  for (i = 0; count && i <= height; i++) {
     let p = i * width1;
     const end = p + width;
     while (p < end && !points[p]) {
@@ -63636,7 +56191,7 @@ function compileType3Glyph(imgData) {
       }
       path.lineTo(p % width1, p / width1 | 0);
       if (!points[p]) {
-        --count2;
+        --count;
       }
     } while (p0 !== p);
     --i;
@@ -63949,19 +56504,19 @@ function getFilenameFromContentDispositionHeader(contentDisposition) {
     if (!value.startsWith("=?") || /[\x00-\x19\x80-\xff]/.test(value)) {
       return value;
     }
-    return value.replaceAll(/=\?([\w-]*)\?([QqBb])\?((?:[^?]|\?(?!=))*)\?=/g, function(matches, charset, encoding, text2) {
+    return value.replaceAll(/=\?([\w-]*)\?([QqBb])\?((?:[^?]|\?(?!=))*)\?=/g, function(matches, charset, encoding, text) {
       if (encoding === "q" || encoding === "Q") {
-        text2 = text2.replaceAll("_", " ");
-        text2 = text2.replaceAll(/=([0-9a-fA-F]{2})/g, function(match, hex3) {
+        text = text.replaceAll("_", " ");
+        text = text.replaceAll(/=([0-9a-fA-F]{2})/g, function(match, hex3) {
           return String.fromCharCode(parseInt(hex3, 16));
         });
-        return textdecode(charset, text2);
+        return textdecode(charset, text);
       }
       try {
-        text2 = atob(text2);
+        text = atob(text);
       } catch {
       }
-      return textdecode(charset, text2);
+      return textdecode(charset, text);
     });
   }
   return "";
@@ -64322,7 +56877,7 @@ function getRectDims(rect) {
     height: rect[3] - rect[1]
   };
 }
-var __webpack_modules__, __webpack_module_cache__, __webpack_exports__, es_array_push, es_array_buffer_detached, es_array_buffer_transfer, es_array_buffer_transfer_to_fixed_length, es_typed_array_to_reversed, es_typed_array_to_sorted, es_typed_array_with, web_url_search_params_delete, web_url_search_params_has, web_url_search_params_size, isNodeJS, IDENTITY_MATRIX, FONT_IDENTITY_MATRIX, MAX_IMAGE_SIZE_TO_CACHE, LINE_FACTOR, LINE_DESCENT_FACTOR, BASELINE_FACTOR, RenderingIntentFlag, AnnotationMode, AnnotationEditorPrefix, AnnotationEditorType, AnnotationEditorParamsType, PermissionFlag, TextRenderingMode, util_ImageKind, AnnotationType, AnnotationBorderStyleType, VerbosityLevel, CMapCompressionType, OPS, PasswordResponses, verbosity, BaseException, PasswordException, UnknownErrorException, InvalidPDFException, MissingPDFException, UnexpectedResponseException, FormatError, AbortException, util_FeatureTest, hexNumbers, Util, NormalizeRegex, NormalizationMap, AnnotationPrefix, FontRenderOps, es_promise_with_resolvers, esnext_iterator_map, esnext_set_difference_v2, esnext_set_intersection_v2, esnext_set_is_disjoint_from_v2, esnext_set_is_subset_of_v2, esnext_set_is_superset_of_v2, esnext_set_symmetric_difference_v2, esnext_set_union_v2, web_dom_exception_stack, esnext_iterator_constructor, esnext_iterator_drop, esnext_iterator_every, esnext_iterator_some, esnext_json_parse, esnext_iterator_filter, BaseFilterFactory, BaseCanvasFactory, BaseCMapReaderFactory, BaseStandardFontDataFactory, BaseSVGFactory, SVG_NS, PixelsPerInch, DOMFilterFactory, DOMCanvasFactory, DOMCMapReaderFactory, DOMStandardFontDataFactory, DOMSVGFactory, PageViewport, RenderingCancelledException, StatTimer, pdfDateStringRegex, PDFDateString, EditorToolbar, HighlightToolbar, IdManager, ImageManager, CommandManager, KeyboardManager, ColorManager, AnnotationEditorUIManager, AltText, AnnotationEditor, FakeEditor, SEED, MASK_HIGH, MASK_LOW, MurmurHash3_64, SerializableEmpty, AnnotationStorage, PrintAnnotationStorage, FontLoader, FontFaceObject, packageCapability, packageMap, NodePackages, node_utils_fetchData, NodeFilterFactory, NodeCanvasFactory, NodeCMapReaderFactory, NodeStandardFontDataFactory, PathType, BaseShadingPattern, RadialAxialShadingPattern, MeshShadingPattern, DummyShadingPattern, PaintType, TilingPattern, MIN_FONT_SIZE, MAX_FONT_SIZE, EXECUTION_TIME, EXECUTION_STEPS, MAX_SIZE_TO_COMPILE, FULL_CHUNK_HEIGHT, CachedCanvases, CanvasExtraState, LINE_CAP_STYLES, LINE_JOIN_STYLES, NORMAL_CLIP, EO_CLIP, CanvasGraphics, GlobalWorkerOptions, CallbackKind, StreamKind, MessageHandler, Metadata, INTERNAL, OptionalContentGroup, OptionalContentConfig, PDFDataTransportStream, PDFDataTransportStreamReader, PDFDataTransportStreamRangeReader, PDFFetchStream, PDFFetchStreamReader, PDFFetchStreamRangeReader, OK_RESPONSE, PARTIAL_CONTENT_RESPONSE, NetworkManager, PDFNetworkStream, PDFNetworkStreamFullRequestReader, PDFNetworkStreamRangeRequestReader, fileUriRegex, PDFNodeStream, BaseFullReader, BaseRangeReader, PDFNodeStreamFullReader, PDFNodeStreamRangeReader, PDFNodeStreamFsFullReader, PDFNodeStreamFsRangeReader, MAX_TEXT_DIVS_TO_RENDER, DEFAULT_FONT_SIZE, DEFAULT_FONT_ASCENT, TextLayer, XfaText, DEFAULT_RANGE_CHUNK_SIZE, RENDERING_CANCELLED_TIMEOUT, DELAYED_CLEANUP_TIMEOUT, DefaultCanvasFactory, DefaultCMapReaderFactory, DefaultFilterFactory, DefaultStandardFontDataFactory, PDFDocumentLoadingTask, PDFDataRangeTransport, PDFDocumentProxy, PDFPageProxy, LoopbackPort, PDFWorkerUtil, PDFWorker, WorkerTransport, INITIAL_DATA, PDFObjects, RenderTask, InternalRenderTask, version3, build, esnext_iterator_flat_map, ColorConverters, XfaLayer, DEFAULT_TAB_INDEX, annotation_layer_DEFAULT_FONT_SIZE, GetElementsByNameSet, AnnotationElementFactory, AnnotationElement, LinkAnnotationElement, TextAnnotationElement, WidgetAnnotationElement, TextWidgetAnnotationElement, SignatureWidgetAnnotationElement, CheckboxWidgetAnnotationElement, RadioButtonWidgetAnnotationElement, PushButtonWidgetAnnotationElement, ChoiceWidgetAnnotationElement, PopupAnnotationElement, PopupElement, FreeTextAnnotationElement, LineAnnotationElement, SquareAnnotationElement, CircleAnnotationElement, PolylineAnnotationElement, PolygonAnnotationElement, CaretAnnotationElement, InkAnnotationElement, HighlightAnnotationElement, UnderlineAnnotationElement, SquigglyAnnotationElement, StrikeOutAnnotationElement, StampAnnotationElement, FileAttachmentAnnotationElement, AnnotationLayer, EOL_PATTERN, FreeTextEditor, Outliner, Outline, HighlightOutline, FreeOutliner, FreeHighlightOutline, ColorPicker, HighlightEditor, InkEditor, StampEditor, AnnotationEditorLayer, DrawLayer, __webpack_exports__AbortException, __webpack_exports__AnnotationEditorLayer, __webpack_exports__AnnotationEditorParamsType, __webpack_exports__AnnotationEditorType, __webpack_exports__AnnotationEditorUIManager, __webpack_exports__AnnotationLayer, __webpack_exports__AnnotationMode, __webpack_exports__CMapCompressionType, __webpack_exports__ColorPicker, __webpack_exports__DOMSVGFactory, __webpack_exports__DrawLayer, __webpack_exports__FeatureTest, __webpack_exports__GlobalWorkerOptions, __webpack_exports__ImageKind, __webpack_exports__InvalidPDFException, __webpack_exports__MissingPDFException, __webpack_exports__OPS, __webpack_exports__Outliner, __webpack_exports__PDFDataRangeTransport, __webpack_exports__PDFDateString, __webpack_exports__PDFWorker, __webpack_exports__PasswordResponses, __webpack_exports__PermissionFlag, __webpack_exports__PixelsPerInch, __webpack_exports__RenderingCancelledException, __webpack_exports__TextLayer, __webpack_exports__UnexpectedResponseException, __webpack_exports__Util, __webpack_exports__VerbosityLevel, __webpack_exports__XfaLayer, __webpack_exports__build, __webpack_exports__createValidAbsoluteUrl, __webpack_exports__fetchData, __webpack_exports__getDocument, __webpack_exports__getFilenameFromUrl, __webpack_exports__getPdfFilenameFromUrl, __webpack_exports__getXfaPageViewport, __webpack_exports__isDataScheme, __webpack_exports__isPdfFile, __webpack_exports__noContextMenu, __webpack_exports__normalizeUnicode, __webpack_exports__renderTextLayer, __webpack_exports__setLayerDimensions, __webpack_exports__shadow, __webpack_exports__updateTextLayer, __webpack_exports__version;
+var __webpack_modules__, __webpack_module_cache__, __webpack_exports__, es_array_push, es_array_buffer_detached, es_array_buffer_transfer, es_array_buffer_transfer_to_fixed_length, es_typed_array_to_reversed, es_typed_array_to_sorted, es_typed_array_with, web_url_search_params_delete, web_url_search_params_has, web_url_search_params_size, isNodeJS, IDENTITY_MATRIX, FONT_IDENTITY_MATRIX, MAX_IMAGE_SIZE_TO_CACHE, LINE_FACTOR, LINE_DESCENT_FACTOR, BASELINE_FACTOR, RenderingIntentFlag, AnnotationMode, AnnotationEditorPrefix, AnnotationEditorType, AnnotationEditorParamsType, PermissionFlag, TextRenderingMode, util_ImageKind, AnnotationType, AnnotationBorderStyleType, VerbosityLevel, CMapCompressionType, OPS, PasswordResponses, verbosity, BaseException, PasswordException, UnknownErrorException, InvalidPDFException, MissingPDFException, UnexpectedResponseException, FormatError, AbortException, util_FeatureTest, hexNumbers, Util, NormalizeRegex, NormalizationMap, AnnotationPrefix, FontRenderOps, es_promise_with_resolvers, esnext_iterator_map, esnext_set_difference_v2, esnext_set_intersection_v2, esnext_set_is_disjoint_from_v2, esnext_set_is_subset_of_v2, esnext_set_is_superset_of_v2, esnext_set_symmetric_difference_v2, esnext_set_union_v2, web_dom_exception_stack, esnext_iterator_constructor, esnext_iterator_drop, esnext_iterator_every, esnext_iterator_some, esnext_json_parse, esnext_iterator_filter, BaseFilterFactory, BaseCanvasFactory, BaseCMapReaderFactory, BaseStandardFontDataFactory, BaseSVGFactory, SVG_NS, PixelsPerInch, DOMFilterFactory, DOMCanvasFactory, DOMCMapReaderFactory, DOMStandardFontDataFactory, DOMSVGFactory, PageViewport, RenderingCancelledException, StatTimer, pdfDateStringRegex, PDFDateString, EditorToolbar, HighlightToolbar, IdManager, ImageManager, CommandManager, KeyboardManager, ColorManager, AnnotationEditorUIManager, AltText, AnnotationEditor, FakeEditor, SEED, MASK_HIGH, MASK_LOW, MurmurHash3_64, SerializableEmpty, AnnotationStorage, PrintAnnotationStorage, FontLoader, FontFaceObject, packageCapability, packageMap, NodePackages, node_utils_fetchData, NodeFilterFactory, NodeCanvasFactory, NodeCMapReaderFactory, NodeStandardFontDataFactory, PathType, BaseShadingPattern, RadialAxialShadingPattern, MeshShadingPattern, DummyShadingPattern, PaintType, TilingPattern, MIN_FONT_SIZE, MAX_FONT_SIZE, EXECUTION_TIME, EXECUTION_STEPS, MAX_SIZE_TO_COMPILE, FULL_CHUNK_HEIGHT, CachedCanvases, CanvasExtraState, LINE_CAP_STYLES, LINE_JOIN_STYLES, NORMAL_CLIP, EO_CLIP, CanvasGraphics, GlobalWorkerOptions, CallbackKind, StreamKind, MessageHandler, Metadata, INTERNAL, OptionalContentGroup, OptionalContentConfig, PDFDataTransportStream, PDFDataTransportStreamReader, PDFDataTransportStreamRangeReader, PDFFetchStream, PDFFetchStreamReader, PDFFetchStreamRangeReader, OK_RESPONSE, PARTIAL_CONTENT_RESPONSE, NetworkManager, PDFNetworkStream, PDFNetworkStreamFullRequestReader, PDFNetworkStreamRangeRequestReader, fileUriRegex, PDFNodeStream, BaseFullReader, BaseRangeReader, PDFNodeStreamFullReader, PDFNodeStreamRangeReader, PDFNodeStreamFsFullReader, PDFNodeStreamFsRangeReader, MAX_TEXT_DIVS_TO_RENDER, DEFAULT_FONT_SIZE, DEFAULT_FONT_ASCENT, TextLayer, XfaText, DEFAULT_RANGE_CHUNK_SIZE, RENDERING_CANCELLED_TIMEOUT, DELAYED_CLEANUP_TIMEOUT, DefaultCanvasFactory, DefaultCMapReaderFactory, DefaultFilterFactory, DefaultStandardFontDataFactory, PDFDocumentLoadingTask, PDFDataRangeTransport, PDFDocumentProxy, PDFPageProxy, LoopbackPort, PDFWorkerUtil, PDFWorker, WorkerTransport, INITIAL_DATA, PDFObjects, RenderTask, InternalRenderTask, version2, build, esnext_iterator_flat_map, ColorConverters, XfaLayer, DEFAULT_TAB_INDEX, annotation_layer_DEFAULT_FONT_SIZE, GetElementsByNameSet, AnnotationElementFactory, AnnotationElement, LinkAnnotationElement, TextAnnotationElement, WidgetAnnotationElement, TextWidgetAnnotationElement, SignatureWidgetAnnotationElement, CheckboxWidgetAnnotationElement, RadioButtonWidgetAnnotationElement, PushButtonWidgetAnnotationElement, ChoiceWidgetAnnotationElement, PopupAnnotationElement, PopupElement, FreeTextAnnotationElement, LineAnnotationElement, SquareAnnotationElement, CircleAnnotationElement, PolylineAnnotationElement, PolygonAnnotationElement, CaretAnnotationElement, InkAnnotationElement, HighlightAnnotationElement, UnderlineAnnotationElement, SquigglyAnnotationElement, StrikeOutAnnotationElement, StampAnnotationElement, FileAttachmentAnnotationElement, AnnotationLayer, EOL_PATTERN, FreeTextEditor, Outliner, Outline, HighlightOutline, FreeOutliner, FreeHighlightOutline, ColorPicker, HighlightEditor, InkEditor, StampEditor, AnnotationEditorLayer, DrawLayer, __webpack_exports__AbortException, __webpack_exports__AnnotationEditorLayer, __webpack_exports__AnnotationEditorParamsType, __webpack_exports__AnnotationEditorType, __webpack_exports__AnnotationEditorUIManager, __webpack_exports__AnnotationLayer, __webpack_exports__AnnotationMode, __webpack_exports__CMapCompressionType, __webpack_exports__ColorPicker, __webpack_exports__DOMSVGFactory, __webpack_exports__DrawLayer, __webpack_exports__FeatureTest, __webpack_exports__GlobalWorkerOptions, __webpack_exports__ImageKind, __webpack_exports__InvalidPDFException, __webpack_exports__MissingPDFException, __webpack_exports__OPS, __webpack_exports__Outliner, __webpack_exports__PDFDataRangeTransport, __webpack_exports__PDFDateString, __webpack_exports__PDFWorker, __webpack_exports__PasswordResponses, __webpack_exports__PermissionFlag, __webpack_exports__PixelsPerInch, __webpack_exports__RenderingCancelledException, __webpack_exports__TextLayer, __webpack_exports__UnexpectedResponseException, __webpack_exports__Util, __webpack_exports__VerbosityLevel, __webpack_exports__XfaLayer, __webpack_exports__build, __webpack_exports__createValidAbsoluteUrl, __webpack_exports__fetchData, __webpack_exports__getDocument, __webpack_exports__getFilenameFromUrl, __webpack_exports__getPdfFilenameFromUrl, __webpack_exports__getXfaPageViewport, __webpack_exports__isDataScheme, __webpack_exports__isPdfFile, __webpack_exports__noContextMenu, __webpack_exports__normalizeUnicode, __webpack_exports__renderTextLayer, __webpack_exports__setLayerDimensions, __webpack_exports__shadow, __webpack_exports__updateTextLayer, __webpack_exports__version;
 var init_pdf = __esm({
   "node_modules/.pnpm/pdfjs-dist@4.4.168/node_modules/pdfjs-dist/legacy/build/pdf.mjs"() {
     __webpack_modules__ = {
@@ -64442,7 +56997,7 @@ var init_pdf = __esm({
           var ArrayBuffer2 = global2.ArrayBuffer;
           var DataView2 = global2.DataView;
           var TypeError2 = global2.TypeError;
-          var min2 = Math.min;
+          var min = Math.min;
           var ArrayBufferPrototype = ArrayBuffer2.prototype;
           var DataViewPrototype = DataView2.prototype;
           var slice = uncurryThis(ArrayBufferPrototype.slice);
@@ -64467,7 +57022,7 @@ var init_pdf = __esm({
               newBuffer = new ArrayBuffer2(newByteLength, options);
               var a = new DataView2(arrayBuffer);
               var b2 = new DataView2(newBuffer);
-              var copyLength = min2(newByteLength, byteLength);
+              var copyLength = min(newByteLength, byteLength);
               for (var i = 0; i < copyLength; i++) setInt8(b2, i, getInt8(a, i));
             }
             if (!PROPER_STRUCTURED_CLONE_TRANSFER) detachTransferable(arrayBuffer);
@@ -64527,7 +57082,7 @@ var init_pdf = __esm({
             BigInt64Array: 8,
             BigUint64Array: 8
           };
-          var isView2 = function isView3(it2) {
+          var isView = function isView2(it2) {
             if (!isObject4(it2)) return false;
             var klass = classof(it2);
             return klass === "DataView" || hasOwn(TypedArrayConstructorsList, klass) || hasOwn(BigIntArrayConstructorsList, klass);
@@ -64641,7 +57196,7 @@ var init_pdf = __esm({
             exportTypedArrayMethod,
             exportTypedArrayStaticMethod,
             getTypedArrayConstructor,
-            isView: isView2,
+            isView,
             isTypedArray: isTypedArray2,
             TypedArray,
             TypedArrayPrototype
@@ -64898,10 +57453,10 @@ var init_pdf = __esm({
         ((module2, __unused_webpack_exports, __webpack_require__2) => {
           var makeBuiltIn = __webpack_require__2(283);
           var defineProperty = __webpack_require__2(4913);
-          module2.exports = function(target, name2, descriptor) {
-            if (descriptor.get) makeBuiltIn(descriptor.get, name2, { getter: true });
-            if (descriptor.set) makeBuiltIn(descriptor.set, name2, { setter: true });
-            return defineProperty.f(target, name2, descriptor);
+          module2.exports = function(target, name, descriptor) {
+            if (descriptor.get) makeBuiltIn(descriptor.get, name, { getter: true });
+            if (descriptor.set) makeBuiltIn(descriptor.set, name, { setter: true });
+            return defineProperty.f(target, name, descriptor);
           };
         })
       ),
@@ -64916,8 +57471,8 @@ var init_pdf = __esm({
           module2.exports = function(O, key, value, options) {
             if (!options) options = {};
             var simple = options.enumerable;
-            var name2 = options.name !== void 0 ? options.name : key;
-            if (isCallable(value)) makeBuiltIn(value, name2, options);
+            var name = options.name !== void 0 ? options.name : key;
+            if (isCallable(value)) makeBuiltIn(value, name, options);
             if (options.global) {
               if (simple) O[key] = value;
               else defineGlobalProperty(key, value);
@@ -65115,19 +57670,19 @@ var init_pdf = __esm({
           var Deno2 = global2.Deno;
           var versions = process2 && process2.versions || Deno2 && Deno2.version;
           var v8 = versions && versions.v8;
-          var match, version4;
+          var match, version3;
           if (v8) {
             match = v8.split(".");
-            version4 = match[0] > 0 && match[0] < 4 ? 1 : +(match[0] + match[1]);
+            version3 = match[0] > 0 && match[0] < 4 ? 1 : +(match[0] + match[1]);
           }
-          if (!version4 && userAgent) {
+          if (!version3 && userAgent) {
             match = userAgent.match(/Edge\/(\d+)/);
             if (!match || match[1] >= 74) {
               match = userAgent.match(/Chrome\/(\d+)/);
-              if (match) version4 = +match[1];
+              if (match) version3 = +match[1];
             }
           }
-          module2.exports = version4;
+          module2.exports = version3;
         })
       ),
       /***/
@@ -65416,10 +57971,10 @@ var init_pdf = __esm({
           var INVALID_SIZE = "Invalid size";
           var $RangeError = RangeError;
           var $TypeError = TypeError;
-          var max2 = Math.max;
+          var max = Math.max;
           var SetRecord = function(set2, intSize) {
             this.set = set2;
-            this.size = max2(intSize, 0);
+            this.size = max(intSize, 0);
             this.has = aCallable(set2.has);
             this.keys = aCallable(set2.keys);
           };
@@ -66026,15 +58581,15 @@ var init_pdf = __esm({
             }, "length", { value: 8 }).length !== 8;
           });
           var TEMPLATE = String(String).split("String");
-          var makeBuiltIn = module2.exports = function(value, name2, options) {
-            if (stringSlice($String(name2), 0, 7) === "Symbol(") {
-              name2 = "[" + replace($String(name2), /^Symbol\(([^)]*)\).*$/, "$1") + "]";
+          var makeBuiltIn = module2.exports = function(value, name, options) {
+            if (stringSlice($String(name), 0, 7) === "Symbol(") {
+              name = "[" + replace($String(name), /^Symbol\(([^)]*)\).*$/, "$1") + "]";
             }
-            if (options && options.getter) name2 = "get " + name2;
-            if (options && options.setter) name2 = "set " + name2;
-            if (!hasOwn(value, "name") || CONFIGURABLE_FUNCTION_NAME && value.name !== name2) {
-              if (DESCRIPTORS) defineProperty(value, "name", { value: name2, configurable: true });
-              else value.name = name2;
+            if (options && options.getter) name = "get " + name;
+            if (options && options.setter) name = "set " + name;
+            if (!hasOwn(value, "name") || CONFIGURABLE_FUNCTION_NAME && value.name !== name) {
+              if (DESCRIPTORS) defineProperty(value, "name", { value: name, configurable: true });
+              else value.name = name;
             }
             if (CONFIGURABLE_LENGTH && options && hasOwn(options, "arity") && value.length !== options.arity) {
               defineProperty(value, "length", { value: options.arity });
@@ -66047,7 +58602,7 @@ var init_pdf = __esm({
             }
             var state = enforceInternalState(value);
             if (!hasOwn(state, "source")) {
-              state.source = join2(TEMPLATE, typeof name2 == "string" ? name2 : "");
+              state.source = join2(TEMPLATE, typeof name == "string" ? name : "");
             }
             return value;
           };
@@ -66684,12 +59239,12 @@ var init_pdf = __esm({
               }
             };
           };
-          module2.exports = function(name2) {
+          module2.exports = function(name) {
             var Set2 = getBuiltIn("Set");
             try {
-              new Set2()[name2](createSetLike(0));
+              new Set2()[name](createSetLike(0));
               try {
-                new Set2()[name2](createSetLike(-1));
+                new Set2()[name](createSetLike(-1));
                 return false;
               } catch (error210) {
                 return true;
@@ -66744,7 +59299,7 @@ var init_pdf = __esm({
           var clone2 = __webpack_require__2(9286);
           var getSetRecord = __webpack_require__2(3789);
           var iterateSimple = __webpack_require__2(507);
-          module2.exports = function union3(other) {
+          module2.exports = function union2(other) {
             var O = aSet(this);
             var keysIter = getSetRecord(other).getIterator();
             var result = clone2(O);
@@ -66834,11 +59389,11 @@ var init_pdf = __esm({
         /***/
         ((module2, __unused_webpack_exports, __webpack_require__2) => {
           var toIntegerOrInfinity = __webpack_require__2(1291);
-          var max2 = Math.max;
-          var min2 = Math.min;
+          var max = Math.max;
+          var min = Math.min;
           module2.exports = function(index, length) {
             var integer2 = toIntegerOrInfinity(index);
-            return integer2 < 0 ? max2(integer2 + length, 0) : min2(integer2, length);
+            return integer2 < 0 ? max(integer2 + length, 0) : min(integer2, length);
           };
         })
       ),
@@ -66898,10 +59453,10 @@ var init_pdf = __esm({
         /***/
         ((module2, __unused_webpack_exports, __webpack_require__2) => {
           var toIntegerOrInfinity = __webpack_require__2(1291);
-          var min2 = Math.min;
+          var min = Math.min;
           module2.exports = function(argument) {
             var len = toIntegerOrInfinity(argument);
-            return len > 0 ? min2(len, 9007199254740991) : 0;
+            return len > 0 ? min(len, 9007199254740991) : 0;
           };
         })
       ),
@@ -66996,9 +59551,9 @@ var init_pdf = __esm({
         /***/
         ((module2, __unused_webpack_exports, __webpack_require__2) => {
           var IS_NODE = __webpack_require__2(9088);
-          module2.exports = function(name2) {
+          module2.exports = function(name) {
             try {
-              if (IS_NODE) return Function('return require("' + name2 + '")')();
+              if (IS_NODE) return Function('return require("' + name + '")')();
             } catch (error46) {
             }
           };
@@ -67088,11 +59643,11 @@ var init_pdf = __esm({
           var Symbol2 = global2.Symbol;
           var WellKnownSymbolsStore = shared("wks");
           var createWellKnownSymbol = USE_SYMBOL_AS_UID ? Symbol2["for"] || Symbol2 : Symbol2 && Symbol2.withoutSetter || uid;
-          module2.exports = function(name2) {
-            if (!hasOwn(WellKnownSymbolsStore, name2)) {
-              WellKnownSymbolsStore[name2] = NATIVE_SYMBOL && hasOwn(Symbol2, name2) ? Symbol2[name2] : createWellKnownSymbol("Symbol." + name2);
+          module2.exports = function(name) {
+            if (!hasOwn(WellKnownSymbolsStore, name)) {
+              WellKnownSymbolsStore[name] = NATIVE_SYMBOL && hasOwn(Symbol2, name) ? Symbol2[name] : createWellKnownSymbol("Symbol." + name);
             }
-            return WellKnownSymbolsStore[name2];
+            return WellKnownSymbolsStore[name];
           };
         })
       ),
@@ -67277,10 +59832,10 @@ var init_pdf = __esm({
         /***/
         ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__2) => {
           var $2 = __webpack_require__2(6518);
-          var union3 = __webpack_require__2(4204);
+          var union2 = __webpack_require__2(4204);
           var setMethodAcceptSetLike = __webpack_require__2(4916);
           $2({ target: "Set", proto: true, real: true, forced: !setMethodAcceptSetLike("union") }, {
-            union: union3
+            union: union2
           });
         })
       ),
@@ -67625,8 +60180,8 @@ var init_pdf = __esm({
             }
             return isCallable(reviver) ? internalize({ "": value }, "", reviver, root) : value;
           };
-          var internalize = function(holder, name2, reviver, node) {
-            var val = holder[name2];
+          var internalize = function(holder, name, reviver, node) {
+            var val = holder[name];
             var unmodified = node && val === node.value;
             var context = unmodified && typeof node.source == "string" ? { source: node.source } : {};
             var elementRecordsLen, keys, len, i, P2;
@@ -67648,7 +60203,7 @@ var init_pdf = __esm({
                 }
               }
             }
-            return call(reviver, holder, name2, val, context);
+            return call(reviver, holder, name, val, context);
           };
           var internalizeProperty = function(object2, key, value) {
             if (DESCRIPTORS) {
@@ -67809,8 +60364,8 @@ var init_pdf = __esm({
             return 1 / nativeParse("-0 	") !== -Infinity;
           });
           $2({ target: "JSON", stat: true, forced: NO_SOURCE_SUPPORT }, {
-            parse: function parse3(text2, reviver) {
-              return PROPER_BASE_PARSE && !isCallable(reviver) ? nativeParse(text2) : $parse(text2, reviver);
+            parse: function parse3(text, reviver) {
+              return PROPER_BASE_PARSE && !isCallable(reviver) ? nativeParse(text) : $parse(text, reviver);
             }
           });
         })
@@ -67888,8 +60443,8 @@ var init_pdf = __esm({
             anInstance(this, DOMExceptionPrototype);
             var argumentsLength = arguments.length;
             var message2 = normalizeStringArgument(argumentsLength < 1 ? void 0 : arguments[0]);
-            var name2 = normalizeStringArgument(argumentsLength < 2 ? void 0 : arguments[1], "Error");
-            var that = new NativeDOMException(message2, name2);
+            var name = normalizeStringArgument(argumentsLength < 2 ? void 0 : arguments[1], "Error");
+            var that = new NativeDOMException(message2, name);
             var error46 = new Error2(message2);
             error46.name = DOM_EXCEPTION;
             defineProperty(that, "stack", createPropertyDescriptor(1, clearErrorStack(error46.stack, 1)));
@@ -67940,16 +60495,16 @@ var init_pdf = __esm({
           params["delete"]("a", 1);
           params["delete"]("b", void 0);
           if (params + "" !== "a=2") {
-            defineBuiltIn(URLSearchParamsPrototype, "delete", function(name2) {
+            defineBuiltIn(URLSearchParamsPrototype, "delete", function(name) {
               var length = arguments.length;
               var $value = length < 2 ? void 0 : arguments[1];
-              if (length && $value === void 0) return $delete(this, name2);
+              if (length && $value === void 0) return $delete(this, name);
               var entries = [];
               forEach2(this, function(v, k2) {
                 push(entries, { key: k2, value: v });
               });
               validateArgumentsLength(length, 1);
-              var key = toString3(name2);
+              var key = toString3(name);
               var value = toString3($value);
               var index = 0;
               var dindex = 0;
@@ -67985,11 +60540,11 @@ var init_pdf = __esm({
           var $has = uncurryThis(URLSearchParamsPrototype.has);
           var params = new $URLSearchParams("a=1");
           if (params.has("a", 2) || !params.has("a", void 0)) {
-            defineBuiltIn(URLSearchParamsPrototype, "has", function has(name2) {
+            defineBuiltIn(URLSearchParamsPrototype, "has", function has(name) {
               var length = arguments.length;
               var $value = length < 2 ? void 0 : arguments[1];
-              if (length && $value === void 0) return $has(this, name2);
-              var values = getAll(this, name2);
+              if (length && $value === void 0) return $has(this, name);
+              var values = getAll(this, name);
               validateArgumentsLength(length, 1);
               var value = toString3($value);
               var index = 0;
@@ -68013,11 +60568,11 @@ var init_pdf = __esm({
           if (DESCRIPTORS && !("size" in URLSearchParamsPrototype)) {
             defineBuiltInAccessor(URLSearchParamsPrototype, "size", {
               get: function size() {
-                var count2 = 0;
+                var count = 0;
                 forEach2(this, function() {
-                  count2++;
+                  count++;
                 });
-                return count2;
+                return count;
               },
               configurable: true,
               enumerable: true
@@ -68224,7 +60779,7 @@ var init_pdf = __esm({
       ),
       version: () => (
         /* reexport */
-        version3
+        version2
       )
     });
     es_array_push = __webpack_require__(4114);
@@ -68451,12 +61006,12 @@ var init_pdf = __esm({
     };
     verbosity = VerbosityLevel.WARNINGS;
     BaseException = (function BaseExceptionClosure() {
-      function BaseException2(message2, name2) {
+      function BaseException2(message2, name) {
         if (this.constructor === BaseException2) {
           unreachable("Cannot initialize BaseException.");
         }
         this.message = message2;
-        this.name = name2;
+        this.name = name;
       }
       BaseException2.prototype = new Error();
       BaseException2.constructor = BaseException2;
@@ -68790,15 +61345,15 @@ var init_pdf = __esm({
         this.isCompressed = isCompressed;
       }
       async fetch({
-        name: name2
+        name
       }) {
         if (!this.baseUrl) {
           throw new Error('The CMap "baseUrl" parameter must be specified, ensure that the "cMapUrl" and "cMapPacked" API parameters are provided.');
         }
-        if (!name2) {
+        if (!name) {
           throw new Error("CMap name must be specified.");
         }
-        const url3 = this.baseUrl + name2 + (this.isCompressed ? ".bcmap" : "");
+        const url3 = this.baseUrl + name + (this.isCompressed ? ".bcmap" : "");
         const compressionType = this.isCompressed ? CMapCompressionType.BINARY : CMapCompressionType.NONE;
         return this._fetchData(url3, compressionType).catch((reason) => {
           throw new Error(`Unable to load ${this.isCompressed ? "binary " : ""}CMap at: ${url3}`);
@@ -69325,37 +61880,37 @@ var init_pdf = __esm({
     StatTimer = class {
       started = /* @__PURE__ */ Object.create(null);
       times = [];
-      time(name2) {
-        if (name2 in this.started) {
-          warn(`Timer is already running for ${name2}`);
+      time(name) {
+        if (name in this.started) {
+          warn(`Timer is already running for ${name}`);
         }
-        this.started[name2] = Date.now();
+        this.started[name] = Date.now();
       }
-      timeEnd(name2) {
-        if (!(name2 in this.started)) {
-          warn(`Timer has not been started for ${name2}`);
+      timeEnd(name) {
+        if (!(name in this.started)) {
+          warn(`Timer has not been started for ${name}`);
         }
         this.times.push({
-          name: name2,
-          start: this.started[name2],
+          name,
+          start: this.started[name],
           end: Date.now()
         });
-        delete this.started[name2];
+        delete this.started[name];
       }
       toString() {
         const outBuf = [];
         let longest = 0;
         for (const {
-          name: name2
+          name
         } of this.times) {
-          longest = Math.max(name2.length, longest);
+          longest = Math.max(name.length, longest);
         }
         for (const {
-          name: name2,
+          name,
           start,
           end
         } of this.times) {
-          outBuf.push(`${name2.padEnd(longest)} ${end - start}ms
+          outBuf.push(`${name.padEnd(longest)} ${end - start}ms
 `);
         }
         return outBuf.join("");
@@ -69371,7 +61926,7 @@ var init_pdf = __esm({
         if (!matches) {
           return null;
         }
-        const year3 = parseInt(matches[1], 10);
+        const year2 = parseInt(matches[1], 10);
         let month = parseInt(matches[2], 10);
         month = month >= 1 && month <= 12 ? month - 1 : 0;
         let day2 = parseInt(matches[3], 10);
@@ -69394,7 +61949,7 @@ var init_pdf = __esm({
           hour2 -= offsetHour;
           minute2 -= offsetMinute;
         }
-        return new Date(Date.UTC(year3, month, day2, hour2, minute2, second));
+        return new Date(Date.UTC(year2, month, day2, hour2, minute2, second));
       }
     };
     EditorToolbar = class _EditorToolbar {
@@ -69659,11 +62214,11 @@ var init_pdf = __esm({
       async getFromFile(file2) {
         const {
           lastModified,
-          name: name2,
+          name,
           size,
           type
         } = file2;
-        return this.#get(`${lastModified}_${name2}_${size}_${type}`, file2);
+        return this.#get(`${lastModified}_${name}_${size}_${type}`, file2);
       }
       async getFromUrl(url3) {
         return this.#get(url3, url3);
@@ -69881,17 +62436,17 @@ var init_pdf = __esm({
         if (!window.matchMedia("(forced-colors: active)").matches) {
           return rgb;
         }
-        for (const [name2, RGB] of this._colors) {
+        for (const [name, RGB] of this._colors) {
           if (RGB.every((x2, i) => x2 === rgb[i])) {
-            return _ColorManager._colorsMapping.get(name2);
+            return _ColorManager._colorsMapping.get(name);
           }
         }
         return rgb;
       }
-      getHexCode(name2) {
-        const rgb = this._colors.get(name2);
+      getHexCode(name) {
+        const rgb = this._colors.get(name);
         if (!rgb) {
-          return name2;
+          return name;
         }
         return Util.makeHexColor(...rgb);
       }
@@ -70150,7 +62705,7 @@ var init_pdf = __esm({
           focusNode,
           focusOffset
         } = selection;
-        const text2 = selection.toString();
+        const text = selection.toString();
         const anchorElement = this.#getAnchorElementForSelection(selection);
         const textLayer = anchorElement.closest(".textLayer");
         const boxes = this.getSelectionBoxes(textLayer);
@@ -70177,7 +62732,7 @@ var init_pdf = __esm({
               anchorOffset,
               focusNode,
               focusOffset,
-              text: text2
+              text
             });
             break;
           }
@@ -70491,14 +63046,14 @@ var init_pdf = __esm({
         }
       }
       onEditingAction({
-        name: name2
+        name
       }) {
-        switch (name2) {
+        switch (name) {
           case "undo":
           case "redo":
           case "delete":
           case "selectAll":
-            this[name2]();
+            this[name]();
             break;
           case "highlightSelection":
             this.highlightSelection("context_menu");
@@ -71754,12 +64309,12 @@ var init_pdf = __esm({
         this.#resizersDiv.classList.add("resizers");
         const classes = this._willKeepAspectRatio ? ["topLeft", "topRight", "bottomRight", "bottomLeft"] : ["topLeft", "topMiddle", "topRight", "middleRight", "bottomRight", "bottomMiddle", "bottomLeft", "middleLeft"];
         const signal = this._uiManager._signal;
-        for (const name2 of classes) {
+        for (const name of classes) {
           const div = document.createElement("div");
           this.#resizersDiv.append(div);
-          div.classList.add("resizer", name2);
-          div.setAttribute("data-resizer-name", name2);
-          div.addEventListener("pointerdown", this.#resizerPointerdown.bind(this, name2), {
+          div.classList.add("resizer", name);
+          div.setAttribute("data-resizer-name", name);
+          div.addEventListener("pointerdown", this.#resizerPointerdown.bind(this, name), {
             signal
           });
           div.addEventListener("contextmenu", noContextMenu, {
@@ -71769,7 +64324,7 @@ var init_pdf = __esm({
         }
         this.div.prepend(this.#resizersDiv);
       }
-      #resizerPointerdown(name2, event) {
+      #resizerPointerdown(name, event) {
         event.preventDefault();
         const {
           isMac
@@ -71778,7 +64333,7 @@ var init_pdf = __esm({
           return;
         }
         this.#altText?.toggle(false);
-        const boundResizerPointermove = this.#resizerPointermove.bind(this, name2);
+        const boundResizerPointermove = this.#resizerPointermove.bind(this, name);
         const savedDraggable = this._isDraggable;
         this._isDraggable = false;
         const signal = this._uiManager._signal;
@@ -71848,7 +64403,7 @@ var init_pdf = __esm({
           mustExec: true
         });
       }
-      #resizerPointermove(name2, event) {
+      #resizerPointermove(name, event) {
         const [parentWidth, parentHeight] = this.parentDimensions;
         const savedX = this.x;
         const savedY = this.y;
@@ -71865,7 +64420,7 @@ var init_pdf = __esm({
         let getOpposite;
         let isDiagonal = false;
         let isHorizontal = false;
-        switch (name2) {
+        switch (name) {
           case "topLeft":
             isDiagonal = true;
             getPoint = (w2, h) => [0, 0];
@@ -72244,7 +64799,7 @@ var init_pdf = __esm({
           const boundResizerBlur = this.#resizerBlur.bind(this);
           const signal = this._uiManager._signal;
           for (const div of this.#allResizerDivs) {
-            const name2 = div.getAttribute("data-resizer-name");
+            const name = div.getAttribute("data-resizer-name");
             div.setAttribute("role", "spinbutton");
             div.addEventListener("keydown", boundResizerKeydown, {
               signal
@@ -72252,10 +64807,10 @@ var init_pdf = __esm({
             div.addEventListener("blur", boundResizerBlur, {
               signal
             });
-            div.addEventListener("focus", this.#resizerFocus.bind(this, name2), {
+            div.addEventListener("focus", this.#resizerFocus.bind(this, name), {
               signal
             });
-            _AnnotationEditor._l10nPromise.get(`pdfjs-editor-resizer-label-${name2}`).then((msg) => div.setAttribute("aria-label", msg));
+            _AnnotationEditor._l10nPromise.get(`pdfjs-editor-resizer-label-${name}`).then((msg) => div.setAttribute("aria-label", msg));
           }
         }
         const first = this.#allResizerDivs[0];
@@ -72280,8 +64835,8 @@ var init_pdf = __esm({
           let i = 0;
           for (const child of children) {
             const div = this.#allResizerDivs[i++];
-            const name2 = div.getAttribute("data-resizer-name");
-            _AnnotationEditor._l10nPromise.get(`pdfjs-editor-resizer-label-${name2}`).then((msg) => child.setAttribute("aria-label", msg));
+            const name = div.getAttribute("data-resizer-name");
+            _AnnotationEditor._l10nPromise.get(`pdfjs-editor-resizer-label-${name}`).then((msg) => child.setAttribute("aria-label", msg));
           }
         }
         this.#setResizerTabIndex(0);
@@ -72300,8 +64855,8 @@ var init_pdf = __esm({
           this.#stopResizing();
         }
       }
-      #resizerFocus(name2) {
-        this.#focusedResizerName = this.#isResizerEnabledForKeyboard ? name2 : "";
+      #resizerFocus(name) {
+        this.#focusedResizerName = this.#isResizerEnabledForKeyboard ? name : "";
       }
       #setResizerTabIndex(value) {
         if (!this.#allResizerDivs) {
@@ -72728,8 +65283,8 @@ var init_pdf = __esm({
               counters = /* @__PURE__ */ new Map();
               map2.set(key, counters);
             }
-            const count2 = counters.get(val) ?? 0;
-            counters.set(val, count2 + 1);
+            const count = counters.get(val) ?? 0;
+            counters.set(val, count + 1);
           }
         }
         for (const [type, editor] of typeToEditor) {
@@ -72917,20 +65472,20 @@ var init_pdf = __esm({
         canvas.height = 1;
         const ctx = canvas.getContext("2d");
         let called = 0;
-        function isFontReady(name2, callback) {
+        function isFontReady(name, callback) {
           if (++called > 30) {
             warn("Load test font never loaded.");
             callback();
             return;
           }
-          ctx.font = "30px " + name2;
+          ctx.font = "30px " + name;
           ctx.fillText(".", 0, 20);
           const imageData = ctx.getImageData(0, 0, 1, 1);
           if (imageData.data[3] > 0) {
             callback();
             return;
           }
-          setTimeout(isFontReady.bind(null, name2, callback));
+          setTimeout(isFontReady.bind(null, name, callback));
         }
         const loadTestFontId = `lt${Date.now()}${this.loadTestFontId++}`;
         let data = this._loadTestFont;
@@ -72954,10 +65509,10 @@ var init_pdf = __esm({
         div.style.width = div.style.height = "10px";
         div.style.position = "absolute";
         div.style.top = div.style.left = "0px";
-        for (const name2 of [font.loadedName, loadTestFontId]) {
+        for (const name of [font.loadedName, loadTestFontId]) {
           const span = this._document.createElement("span");
           span.textContent = "Hi";
-          span.style.fontFamily = name2;
+          span.style.fontFamily = name;
           div.append(span);
         }
         this._document.body.append(div);
@@ -73167,8 +65722,8 @@ var init_pdf = __esm({
       static get promise() {
         return packageCapability.promise;
       }
-      static get(name2) {
-        return packageMap?.get(name2);
+      static get(name) {
+        return packageMap?.get(name);
       }
     };
     node_utils_fetchData = function(url3) {
@@ -73597,8 +66152,8 @@ var init_pdf = __esm({
         return box;
       }
       updateClipFromPath() {
-        const intersect2 = Util.intersect(this.clipBox, this.getPathBoundingBox());
-        this.startNewPathAndClipBox(intersect2 || [0, 0, 0, 0]);
+        const intersect = Util.intersect(this.clipBox, this.getPathBoundingBox());
+        this.startNewPathAndClipBox(intersect || [0, 0, 0, 0]);
       }
       isEmptyClip() {
         return this.minX === Infinity;
@@ -74224,8 +66779,8 @@ var init_pdf = __esm({
           ctx.fillStyle = fillColor.getPattern(ctx, this, getCurrentTransformInverse(ctx), PathType.FILL);
           needRestore = true;
         }
-        const intersect2 = this.current.getClippedPathBoundingBox();
-        if (this.contentVisible && intersect2 !== null) {
+        const intersect = this.current.getClippedPathBoundingBox();
+        if (this.contentVisible && intersect !== null) {
           if (this.pendingEOFill) {
             ctx.fill("evenodd");
             this.pendingEOFill = false;
@@ -74237,7 +66792,7 @@ var init_pdf = __esm({
           ctx.restore();
         }
         if (consumePath) {
-          this.consumePath(intersect2);
+          this.consumePath(intersect);
         }
       }
       eoFill() {
@@ -74329,8 +66884,8 @@ var init_pdf = __esm({
         if (fontObj.isType3Font) {
           return;
         }
-        const name2 = fontObj.loadedName || "sans-serif";
-        const typeface = fontObj.systemFontInfo?.css || `"${name2}", ${fontObj.fallbackName}`;
+        const name = fontObj.loadedName || "sans-serif";
+        const typeface = fontObj.systemFontInfo?.css || `"${name}", ${fontObj.fallbackName}`;
         let bold = "normal";
         if (fontObj.black) {
           bold = "900";
@@ -74869,9 +67424,9 @@ var init_pdf = __esm({
         if (!this.contentVisible) {
           return;
         }
-        const count2 = img.count;
+        const count = img.count;
         img = this.getObject(img.data, img);
-        img.count = count2;
+        img.count = count;
         const ctx = this.ctx;
         const glyph = this.processingType3;
         if (glyph) {
@@ -75626,14 +68181,14 @@ var init_pdf = __esm({
       getRaw() {
         return this.#data;
       }
-      get(name2) {
-        return this.#metadataMap.get(name2) ?? null;
+      get(name) {
+        return this.#metadataMap.get(name) ?? null;
       }
       getAll() {
         return objectFromMap(this.#metadataMap);
       }
-      has(name2) {
-        return this.#metadataMap.has(name2);
+      has(name) {
+        return this.#metadataMap.has(name);
       }
     };
     INTERNAL = Symbol("INTERNAL");
@@ -75643,13 +68198,13 @@ var init_pdf = __esm({
       #userSet = false;
       #visible = true;
       constructor(renderingIntent, {
-        name: name2,
+        name,
         intent,
         usage
       }) {
         this.#isDisplay = !!(renderingIntent & RenderingIntentFlag.DISPLAY);
         this.#isPrint = !!(renderingIntent & RenderingIntentFlag.PRINT);
-        this.name = name2;
+        this.name = name;
         this.intent = intent;
         this.usage = usage;
       }
@@ -76205,7 +68760,7 @@ var init_pdf = __esm({
           }
           this._reader = response.body.getReader();
           this._headersCapability.resolve();
-          const getResponseHeader = (name2) => response.headers.get(name2);
+          const getResponseHeader = (name) => response.headers.get(name);
           const {
             allowRangeRequests,
             suggestedLength
@@ -76505,7 +69060,7 @@ var init_pdf = __esm({
       _onHeadersReceived() {
         const fullRequestXhrId = this._fullRequestId;
         const fullRequestXhr = this._manager.getRequestXhr(fullRequestXhrId);
-        const getResponseHeader = (name2) => fullRequestXhr.getResponseHeader(name2);
+        const getResponseHeader = (name) => fullRequestXhr.getResponseHeader(name);
         const {
           allowRangeRequests,
           suggestedLength
@@ -76923,7 +69478,7 @@ var init_pdf = __esm({
           }
           this._headersCapability.resolve();
           this._setReadableStream(response);
-          const getResponseHeader = (name2) => this._readableStream.headers[name2.toLowerCase()];
+          const getResponseHeader = (name) => this._readableStream.headers[name.toLowerCase()];
           const {
             allowRangeRequests,
             suggestedLength
@@ -77400,10 +69955,10 @@ var init_pdf = __esm({
             return;
           }
           let str = null;
-          const name2 = node.name;
-          if (name2 === "#text") {
+          const name = node.name;
+          if (name === "#text") {
             str = node.value;
-          } else if (!_XfaText.shouldBuildText(name2)) {
+          } else if (!_XfaText.shouldBuildText(name)) {
             return;
           } else if (node?.attributes?.textContent) {
             str = node.attributes.textContent;
@@ -77425,8 +69980,8 @@ var init_pdf = __esm({
         walk(xfa);
         return output;
       }
-      static shouldBuildText(name2) {
-        return !(name2 === "textarea" || name2 === "input" || name2 === "option" || name2 === "select");
+      static shouldBuildText(name) {
+        return !(name === "textarea" || name === "input" || name === "option" || name === "select");
       }
     };
     DEFAULT_RANGE_CHUNK_SIZE = 65536;
@@ -78094,10 +70649,10 @@ var init_pdf = __esm({
           }
         });
       }
-      addEventListener(name2, listener) {
+      addEventListener(name, listener) {
         this.#listeners.add(listener);
       }
-      removeEventListener(name2, listener) {
+      removeEventListener(name, listener) {
         this.#listeners.delete(listener);
       }
       terminate() {
@@ -78136,11 +70691,11 @@ var init_pdf = __esm({
     PDFWorker = class _PDFWorker {
       static #workerPorts;
       constructor({
-        name: name2 = null,
+        name = null,
         port = null,
         verbosity: verbosity2 = getVerbosityLevel()
       } = {}) {
-        this.name = name2;
+        this.name = name;
         this.destroyed = false;
         this.verbosity = verbosity2;
         this._readyCapability = Promise.withResolvers();
@@ -78352,13 +70907,13 @@ var init_pdf = __esm({
         this.downloadInfoCapability = Promise.withResolvers();
         this.setupMessageHandler();
       }
-      #cacheSimpleMethod(name2, data = null) {
-        const cachedPromise = this.#methodPromises.get(name2);
+      #cacheSimpleMethod(name, data = null) {
+        const cachedPromise = this.#methodPromises.get(name);
         if (cachedPromise) {
           return cachedPromise;
         }
-        const promise2 = this.messageHandler.sendWithPromise(name2, data);
-        this.#methodPromises.set(name2, promise2);
+        const promise2 = this.messageHandler.sendWithPromise(name, data);
+        this.#methodPromises.set(name, promise2);
         return promise2;
       }
       get annotationStorage() {
@@ -78836,17 +71391,17 @@ var init_pdf = __esm({
         return this.messageHandler.sendWithPromise("GetPermissions", null);
       }
       getMetadata() {
-        const name2 = "GetMetadata", cachedPromise = this.#methodPromises.get(name2);
+        const name = "GetMetadata", cachedPromise = this.#methodPromises.get(name);
         if (cachedPromise) {
           return cachedPromise;
         }
-        const promise2 = this.messageHandler.sendWithPromise(name2, null).then((results) => ({
+        const promise2 = this.messageHandler.sendWithPromise(name, null).then((results) => ({
           info: results[0],
           metadata: results[1] ? new Metadata(results[1]) : null,
           contentDispositionFilename: this._fullReader?.filename ?? null,
           contentLength: this._fullReader?.contentLength ?? null
         }));
-        this.#methodPromises.set(name2, promise2);
+        this.#methodPromises.set(name, promise2);
         return promise2;
       }
       getMarkInfo() {
@@ -79096,7 +71651,7 @@ var init_pdf = __esm({
         }
       }
     };
-    version3 = "4.4.168";
+    version2 = "4.4.168";
     build = "19fbc8998";
     esnext_iterator_flat_map = __webpack_require__(670);
     ColorConverters = class {
@@ -79316,15 +71871,15 @@ var init_pdf = __esm({
             continue;
           }
           const {
-            name: name2
+            name
           } = child;
-          if (name2 === "#text") {
+          if (name === "#text") {
             const node = document.createTextNode(child.value);
             textDivs.push(node);
             html.append(node);
             continue;
           }
-          const childHtml = child?.attributes?.xmlns ? document.createElementNS(child.attributes.xmlns, name2) : document.createElement(name2);
+          const childHtml = child?.attributes?.xmlns ? document.createElementNS(child.attributes.xmlns, name) : document.createElement(name);
           html.append(childHtml);
           if (child.attributes) {
             this.setAttributes({
@@ -79339,7 +71894,7 @@ var init_pdf = __esm({
             stack.push([child, -1, childHtml]);
           } else if (child.value) {
             const node = document.createTextNode(child.value);
-            if (isNotForRichText && XfaText.shouldBuildText(name2)) {
+            if (isNotForRichText && XfaText.shouldBuildText(name)) {
               textDivs.push(node);
             }
             childHtml.append(node);
@@ -79719,8 +72274,8 @@ var init_pdf = __esm({
       }
       _dispatchEventFromSandbox(actions, jsEvent) {
         const commonActions = this._commonActions;
-        for (const name2 of Object.keys(jsEvent.detail)) {
-          const action = actions[name2] || commonActions[name2];
+        for (const name of Object.keys(jsEvent.detail)) {
+          const action = actions[name] || commonActions[name];
           action?.(jsEvent);
         }
       }
@@ -79843,10 +72398,10 @@ var init_pdf = __esm({
       render() {
         unreachable("Abstract method `AnnotationElement.render` called");
       }
-      _getElementsByName(name2, skipId = null) {
+      _getElementsByName(name, skipId = null) {
         const fields = [];
         if (this._fieldObjects) {
-          const fieldObj = this._fieldObjects[name2];
+          const fieldObj = this._fieldObjects[name];
           if (fieldObj) {
             for (const {
               page,
@@ -79874,7 +72429,7 @@ var init_pdf = __esm({
           }
           return fields;
         }
-        for (const domElement of document.getElementsByName(name2)) {
+        for (const domElement of document.getElementsByName(name)) {
           const {
             exportValue
           } = domElement;
@@ -80036,8 +72591,8 @@ var init_pdf = __esm({
       _bindJSAction(link, data) {
         link.href = this.linkService.getAnchorUrl("");
         const map2 = /* @__PURE__ */ new Map([["Action", "onclick"], ["Mouse Up", "onmouseup"], ["Mouse Down", "onmousedown"]]);
-        for (const name2 of Object.keys(data.actions)) {
-          const jsName = map2.get(name2);
+        for (const name of Object.keys(data.actions)) {
+          const jsName = map2.get(name);
           if (!jsName) {
             continue;
           }
@@ -80046,7 +72601,7 @@ var init_pdf = __esm({
               source: this,
               detail: {
                 id: data.id,
-                name: name2
+                name
               }
             });
             return false;
@@ -80645,10 +73200,10 @@ var init_pdf = __esm({
         element.tabIndex = DEFAULT_TAB_INDEX;
         element.addEventListener("change", (event) => {
           const {
-            name: name2,
+            name,
             checked
           } = event.target;
-          for (const checkbox of this._getElementsByName(name2, id2)) {
+          for (const checkbox of this._getElementsByName(name, id2)) {
             const curChecked = checked && checkbox.exportValue === data.exportValue;
             if (checkbox.domElement) {
               checkbox.domElement.checked = curChecked;
@@ -80725,10 +73280,10 @@ var init_pdf = __esm({
         element.tabIndex = DEFAULT_TAB_INDEX;
         element.addEventListener("change", (event) => {
           const {
-            name: name2,
+            name,
             checked
           } = event.target;
-          for (const radio of this._getElementsByName(name2, id2)) {
+          for (const radio of this._getElementsByName(name, id2)) {
             storage.setValue(radio.id, {
               value: false
             });
@@ -80845,15 +73400,15 @@ var init_pdf = __esm({
           selectElement.addEventListener("input", removeEmptyEntry);
         }
         const getValue = (isExport) => {
-          const name2 = isExport ? "value" : "textContent";
+          const name = isExport ? "value" : "textContent";
           const {
             options,
             multiple
           } = selectElement;
           if (!multiple) {
-            return options.selectedIndex === -1 ? null : options[options.selectedIndex][name2];
+            return options.selectedIndex === -1 ? null : options[options.selectedIndex][name];
           }
-          return Array.prototype.filter.call(options, (option) => option.selected).map((option) => option[name2]);
+          return Array.prototype.filter.call(options, (option) => option.selected).map((option) => option[name]);
         };
         let selectedValues = getValue(false);
         const getItems = (event) => {
@@ -81167,10 +73722,10 @@ var init_pdf = __esm({
       get #fontColor() {
         return this.#html?.attributes?.style?.color || null;
       }
-      #makePopupContent(text2) {
+      #makePopupContent(text) {
         const popupLines = [];
         const popupContent = {
-          str: text2,
+          str: text,
           html: {
             name: "div",
             attributes: {
@@ -81188,7 +73743,7 @@ var init_pdf = __esm({
             fontSize: this.#fontSize ? `calc(${this.#fontSize}px * var(--scale-factor))` : ""
           }
         };
-        for (const line of text2.split("\n")) {
+        for (const line of text.split("\n")) {
           popupLines.push({
             name: "span",
             value: line,
@@ -82172,9 +74727,9 @@ var init_pdf = __esm({
         if (savedText === newText) {
           return;
         }
-        const setText = (text2) => {
-          this.#content = text2;
-          if (!text2) {
+        const setText = (text) => {
+          this.#content = text;
+          if (!text) {
             this.remove();
             return;
           }
@@ -83178,13 +75733,13 @@ var init_pdf = __esm({
         div.setAttribute("aria-multiselectable", false);
         div.setAttribute("aria-orientation", "vertical");
         div.setAttribute("data-l10n-id", "pdfjs-editor-colorpicker-dropdown");
-        for (const [name2, color] of this.#uiManager.highlightColors) {
+        for (const [name, color] of this.#uiManager.highlightColors) {
           const button = document.createElement("button");
           button.tabIndex = "0";
           button.role = "option";
           button.setAttribute("data-color", color);
-          button.title = name2;
-          button.setAttribute("data-l10n-id", `pdfjs-editor-colorpicker-${name2}`);
+          button.title = name;
+          button.setAttribute("data-l10n-id", `pdfjs-editor-colorpicker-${name}`);
           const swatch = document.createElement("span");
           button.append(swatch);
           swatch.className = "swatch";
@@ -86035,9 +78590,9 @@ function computeCompleteness(s) {
   );
   return { score, sections };
 }
-function parseResumeText(text2) {
+function parseResumeText(text) {
   const suggestions = [];
-  const lines = text2.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+  const lines = text.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
   const expPatterns = [
     /^(.+?),\s*([A-Z][A-Za-z0-9 &\.\-]+(?:Co|Inc|LLC|Corp|Ltd|GmbH|SAS)?\.?),?\s*(\d{4})\s*[-–to]+\s*(Present|now|20\d\d|19\d\d)/i,
     /^(.+?)\s*[-—–]\s*([A-Z][A-Za-z0-9 &\.\-]+(?:Co|Inc|LLC|Corp|Ltd|GmbH|SAS)?\.?)\s*\((\d{4})\s*[-–to]+\s*(Present|now|20\d\d|19\d\d)\)/i,
@@ -86093,18 +78648,18 @@ function parseResumeText(text2) {
       }
     }
   }
-  const lower = text2.toLowerCase();
+  const lower = text.toLowerCase();
   return suggestions;
 }
-async function resolveSuggestedSkills(text2) {
-  const existing = await parseResumeText(text2);
-  const lower = text2.toLowerCase();
+async function resolveSuggestedSkills(text) {
+  const existing = await parseResumeText(text);
+  const lower = text.toLowerCase();
   const skillOut = [];
   const allSkills = await searchSkills("");
   const dbi = await getDb();
   if (!dbi) return existing;
-  const [skills2] = await dbi.execute(`SELECT id, name, slug FROM skills`);
-  const rows = skills2;
+  const [skills] = await dbi.execute(`SELECT id, name, slug FROM skills`);
+  const rows = skills;
   const seen = /* @__PURE__ */ new Set();
   for (const skill of rows) {
     const tokens = skill.name.toLowerCase().split(/[\s\/\.\-]+/);
@@ -86122,7 +78677,6 @@ var init_candidates = __esm({
     init_dist();
     init_zod();
     init_db();
-    init_db();
     init_storage();
     init_trpc();
     candidateRouter = router({
@@ -86131,12 +78685,12 @@ var init_candidates = __esm({
         const userId = ctx.user.id;
         const profile = await getCandidateProfileByUserId(userId);
         const profileId = profile?.id ?? 0;
-        const [skills2, workHistory, education2] = profileId ? await Promise.all([
+        const [skills, workHistory, education] = profileId ? await Promise.all([
           listCandidateSkills(profileId),
           listWorkExperiences(profileId),
           listEducation(profileId)
         ]) : [[], [], []];
-        return { profile, skills: skills2, workHistory, education: education2, completeness: computeCompleteness({ profile, skills: skills2, workHistory, education: education2 }) };
+        return { profile, skills, workHistory, education, completeness: computeCompleteness({ profile, skills, workHistory, education }) };
       }),
       // ---- Draft persistence: each step is saved server-side immediately ----
       getDraft: protectedProcedure.query(({ ctx }) => getProfileDraft(ctx.user.id)),
@@ -86188,31 +78742,32 @@ var init_candidates = __esm({
       })).mutation(async ({ ctx, input }) => {
         const profile = await getCandidateProfileByUserId(ctx.user.id);
         if (!profile) throw new TRPCError({ code: "NOT_FOUND", message: "Create your profile first (save basics)." });
-        const dbi = await getDb();
-        if (!dbi) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
-        const { and: and2, eq: eq2 } = await Promise.resolve().then(() => (init_drizzle_orm(), drizzle_orm_exports));
-        const { candidateSkills: candidateSkills2 } = await Promise.resolve().then(() => (init_schema2(), schema_exports));
-        const existing = await dbi.select().from(candidateSkills2).where(and2(eq2(candidateSkills2.profileId, profile.id), eq2(candidateSkills2.skillId, input.skillId))).limit(1);
-        if (existing.length > 0) {
-          await dbi.update(candidateSkills2).set({ proficiency: input.proficiency, years: input.years }).where(eq2(candidateSkills2.id, existing[0].id));
+        const { prisma: prisma2 } = await Promise.resolve().then(() => (init_prisma(), prisma_exports));
+        const existing = await prisma2.candidateSkill.findFirst({
+          where: { profileId: profile.id, skillId: input.skillId }
+        });
+        if (existing) {
+          await prisma2.candidateSkill.update({
+            where: { id: existing.id },
+            data: { proficiency: input.proficiency, years: input.years }
+          });
         } else {
-          await dbi.insert(candidateSkills2).values([{
-            profileId: profile.id,
-            skillId: input.skillId,
-            proficiency: input.proficiency,
-            years: input.years
-          }]);
+          await prisma2.candidateSkill.create({
+            data: { profileId: profile.id, skillId: input.skillId, proficiency: input.proficiency, years: input.years }
+          });
         }
         return { ok: true };
       }),
       removeSkill: protectedProcedure.input(external_exports.object({ skillId: external_exports.number().int() })).mutation(async ({ ctx, input }) => {
         const profile = await getCandidateProfileByUserId(ctx.user.id);
         if (!profile) throw new TRPCError({ code: "NOT_FOUND", message: "No profile" });
-        const dbi = await getDb();
-        if (!dbi) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
-        const { and: and2, eq: eq2 } = await Promise.resolve().then(() => (init_drizzle_orm(), drizzle_orm_exports));
-        const { candidateSkills: candidateSkills2 } = await Promise.resolve().then(() => (init_schema2(), schema_exports));
-        await dbi.delete(candidateSkills2).where(and2(eq2(candidateSkills2.profileId, profile.id), eq2(candidateSkills2.skillId, input.skillId)));
+        const { prisma: prisma2 } = await Promise.resolve().then(() => (init_prisma(), prisma_exports));
+        await prisma2.candidateSkill.deleteMany({
+          where: {
+            profileId: profile.id,
+            skillId: input.skillId
+          }
+        });
         return { ok: true };
       }),
       listSkills: protectedProcedure.query(async ({ ctx }) => {
@@ -86231,28 +78786,30 @@ var init_candidates = __esm({
       })).mutation(async ({ ctx, input }) => {
         const profile = await getCandidateProfileByUserId(ctx.user.id);
         if (!profile) throw new TRPCError({ code: "NOT_FOUND", message: "Create your profile first." });
-        const dbi = await getDb();
-        if (!dbi) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
-        const { workExperiences: workExperiences2 } = await Promise.resolve().then(() => (init_schema2(), schema_exports));
-        await dbi.insert(workExperiences2).values([{
-          profileId: profile.id,
-          title: input.title,
-          company: input.company,
-          startDate: input.startDate ? /* @__PURE__ */ new Date(input.startDate + "T00:00:00Z") : null,
-          endDate: input.endDate ? /* @__PURE__ */ new Date(input.endDate + "T00:00:00Z") : null,
-          current: input.current,
-          description: input.description ?? null
-        }]);
+        const { prisma: prisma2 } = await Promise.resolve().then(() => (init_prisma(), prisma_exports));
+        await prisma2.workExperience.create({
+          data: {
+            profileId: profile.id,
+            title: input.title,
+            company: input.company,
+            startDate: input.startDate ? /* @__PURE__ */ new Date(input.startDate + "T00:00:00Z") : null,
+            endDate: input.endDate ? /* @__PURE__ */ new Date(input.endDate + "T00:00:00Z") : null,
+            current: input.current,
+            description: input.description ?? null
+          }
+        });
         return { ok: true };
       }),
       removeWorkExperience: protectedProcedure.input(external_exports.object({ id: external_exports.number().int() })).mutation(async ({ ctx, input }) => {
         const profile = await getCandidateProfileByUserId(ctx.user.id);
         if (!profile) throw new TRPCError({ code: "NOT_FOUND", message: "No profile" });
-        const dbi = await getDb();
-        if (!dbi) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
-        const { and: and2, eq: eq2 } = await Promise.resolve().then(() => (init_drizzle_orm(), drizzle_orm_exports));
-        const { workExperiences: workExperiences2 } = await Promise.resolve().then(() => (init_schema2(), schema_exports));
-        await dbi.delete(workExperiences2).where(and2(eq2(workExperiences2.profileId, profile.id), eq2(workExperiences2.id, input.id)));
+        const { prisma: prisma2 } = await Promise.resolve().then(() => (init_prisma(), prisma_exports));
+        await prisma2.workExperience.deleteMany({
+          where: {
+            profileId: profile.id,
+            id: input.id
+          }
+        });
         return { ok: true };
       }),
       listWorkHistory: protectedProcedure.query(async ({ ctx }) => {
@@ -86270,27 +78827,29 @@ var init_candidates = __esm({
       })).mutation(async ({ ctx, input }) => {
         const profile = await getCandidateProfileByUserId(ctx.user.id);
         if (!profile) throw new TRPCError({ code: "NOT_FOUND", message: "Create your profile first." });
-        const dbi = await getDb();
-        if (!dbi) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
-        const { education: education2 } = await Promise.resolve().then(() => (init_schema2(), schema_exports));
-        await dbi.insert(education2).values([{
-          profileId: profile.id,
-          institution: input.institution,
-          degree: input.degree,
-          fieldOfStudy: input.fieldOfStudy ?? null,
-          startYear: input.startYear ?? null,
-          endYear: input.endYear ?? null
-        }]);
+        const { prisma: prisma2 } = await Promise.resolve().then(() => (init_prisma(), prisma_exports));
+        await prisma2.education.create({
+          data: {
+            profileId: profile.id,
+            institution: input.institution,
+            degree: input.degree,
+            fieldOfStudy: input.fieldOfStudy ?? null,
+            startYear: input.startYear ?? null,
+            endYear: input.endYear ?? null
+          }
+        });
         return { ok: true };
       }),
       removeEducation: protectedProcedure.input(external_exports.object({ id: external_exports.number().int() })).mutation(async ({ ctx, input }) => {
         const profile = await getCandidateProfileByUserId(ctx.user.id);
         if (!profile) throw new TRPCError({ code: "NOT_FOUND", message: "No profile" });
-        const dbi = await getDb();
-        if (!dbi) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
-        const { and: and2, eq: eq2 } = await Promise.resolve().then(() => (init_drizzle_orm(), drizzle_orm_exports));
-        const { education: education2 } = await Promise.resolve().then(() => (init_schema2(), schema_exports));
-        await dbi.delete(education2).where(and2(eq2(education2.profileId, profile.id), eq2(education2.id, input.id)));
+        const { prisma: prisma2 } = await Promise.resolve().then(() => (init_prisma(), prisma_exports));
+        await prisma2.education.deleteMany({
+          where: {
+            profileId: profile.id,
+            id: input.id
+          }
+        });
         return { ok: true };
       }),
       listEducation: protectedProcedure.query(async ({ ctx }) => {
@@ -86312,7 +78871,7 @@ var init_candidates = __esm({
         }
         const relKey = `resumes/${profileId}/${Date.now()}-${input.fileName.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
         const { url: url3 } = await storagePut(relKey, bytes, "application/pdf");
-        let text2 = "";
+        let text = "";
         try {
           const pdfjsLib = await Promise.resolve().then(() => (init_pdf(), pdf_exports));
           pdfjsLib.GlobalWorkerOptions.workerSrc = "";
@@ -86323,20 +78882,20 @@ var init_candidates = __esm({
             const content = await page.getTextContent();
             parts.push(content.items.map((it2) => it2.str ?? "").join(" "));
           }
-          text2 = parts.join("\n").replace(/\s{2,}/g, " ");
+          text = parts.join("\n").replace(/\s{2,}/g, " ");
         } catch (err) {
           throw new TRPCError({
             code: "BAD_REQUEST",
             message: "Could not extract text from this PDF. It may be scanned/image-based. Please fill in your profile manually."
           });
         }
-        if (text2.trim().length < 50) {
+        if (text.trim().length < 50) {
           throw new TRPCError({
             code: "BAD_REQUEST",
             message: "Very little text was found in this PDF (it may be an image scan). Please fill in your profile manually."
           });
         }
-        const suggestions = await resolveSuggestedSkills(text2);
+        const suggestions = await resolveSuggestedSkills(text);
         if (suggestions.length > 0) {
           await createResumeSuggestions(
             profileId,
@@ -86346,7 +78905,7 @@ var init_candidates = __esm({
         return {
           resumeUrl: url3,
           resumeFileName: input.fileName,
-          extractedTextLength: text2.length,
+          extractedTextLength: text.length,
           suggestionCount: suggestions.length
         };
       }),
@@ -86381,16 +78940,17 @@ var init_candidates = __esm({
       discardSuggestions: protectedProcedure.mutation(async ({ ctx }) => {
         const profile = await getCandidateProfileByUserId(ctx.user.id);
         if (!profile) return { discarded: 0 };
-        const dbi = await getDb();
-        if (!dbi) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
-        const { resumeSuggestions: resumeSuggestions2, eq: eq2 } = { ...await Promise.resolve().then(() => (init_schema2(), schema_exports)), eq: (await Promise.resolve().then(() => (init_drizzle_orm(), drizzle_orm_exports))).eq };
-        const pending = await dbi.select().from(resumeSuggestions2).where(eq2(resumeSuggestions2.profileId, profile.id));
-        for (const s of pending) {
-          if (s.status === "pending") {
-            await dbi.update(resumeSuggestions2).set({ status: "rejected" }).where(eq2(resumeSuggestions2.id, s.id));
+        const { prisma: prisma2 } = await Promise.resolve().then(() => (init_prisma(), prisma_exports));
+        const result = await prisma2.resumeSuggestion.updateMany({
+          where: {
+            profileId: profile.id,
+            status: "pending"
+          },
+          data: {
+            status: "rejected"
           }
-        }
-        return { discarded: pending.length };
+        });
+        return { discarded: result.count };
       })
     });
   }
@@ -86439,9 +78999,9 @@ var init_employers = __esm({
         return getCompanyPublishedJobs(input.companyId);
       }),
       myCompany: protectedProcedure.query(async ({ ctx }) => {
-        const companies2 = await getUserCompanies(ctx.user.id);
+        const companies = await getUserCompanies(ctx.user.id);
         const membership = await getMyCompanyMembership(ctx.user.id);
-        return { companies: companies2, membership };
+        return { companies, membership };
       }),
       createCompany: protectedProcedure.input(external_exports.object({
         name: external_exports.string().min(2).max(160),
@@ -86466,10 +79026,8 @@ var init_employers = __esm({
         if (membership.companyId !== input.companyId) {
           throw new TRPCError({ code: "FORBIDDEN", message: "Not authorized for this company." });
         }
-        const dbi = await (await Promise.resolve().then(() => (init_db(), db_exports))).getDb();
-        if (!dbi) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
-        const { companies: companies2, eq: eq2 } = { ...await Promise.resolve().then(() => (init_schema2(), schema_exports)), eq: (await Promise.resolve().then(() => (init_drizzle_orm(), drizzle_orm_exports))).eq };
-        await dbi.update(companies2).set(input).where(eq2(companies2.id, input.companyId));
+        const { prisma: prisma2 } = await Promise.resolve().then(() => (init_prisma(), prisma_exports));
+        await prisma2.company.update({ where: { id: input.companyId }, data: input });
         return { ok: true };
       }),
       // ---- Jobs ----
@@ -86648,12 +79206,12 @@ var init_jobs = __esm({
       hasApplied: protectedProcedure.input(external_exports.object({ jobId: external_exports.number().int() })).query(async ({ ctx, input }) => {
         const profile = await getCandidateProfileByUserId(ctx.user.id);
         if (!profile) return { applied: false };
-        const dbi = await getDb();
-        if (!dbi) return { applied: false };
-        const { eq: eq2, and: and2 } = await Promise.resolve().then(() => (init_drizzle_orm(), drizzle_orm_exports));
-        const { applications: applications2 } = await Promise.resolve().then(() => (init_schema2(), schema_exports));
-        const rows = await dbi.select().from(applications2).where(and2(eq2(applications2.jobId, input.jobId), eq2(applications2.profileId, profile.id))).limit(1);
-        return { applied: rows.length > 0, status: rows[0]?.status ?? null };
+        const { prisma: prisma2 } = await Promise.resolve().then(() => (init_prisma(), prisma_exports));
+        const row = await prisma2.application.findFirst({
+          where: { jobId: input.jobId, profileId: profile.id },
+          select: { status: true }
+        });
+        return { applied: Boolean(row), status: row?.status ?? null };
       })
     });
     candidateSearchRouter = router({
@@ -86925,35 +79483,32 @@ var init_skills = __esm({
     "use strict";
     init_zod();
     init_db();
-    init_db();
+    init_prisma();
     init_trpc();
     skillsRouter = router({
       stats: publicProcedure.query(async () => {
-        const dbi = await getDb();
-        if (!dbi) return { candidates: 5100, jobs: 2100, applications: 22e3, skills: 439 };
-        const count2 = async (t2) => {
-          const [rows] = await dbi.execute(`SELECT COUNT(*) AS n FROM ${t2}`);
-          return rows[0]?.n ?? 0;
-        };
-        const [candidates, jobs2, applications2, skills2] = await Promise.all([
-          count2("candidateProfiles"),
-          count2("jobs"),
-          count2("applications"),
-          count2("skills")
-        ]);
-        return { candidates, jobs: jobs2, applications: applications2, skills: skills2 };
+        try {
+          const [candidates, jobs, applications, skills] = await Promise.all([
+            prisma_default.candidateProfile.count(),
+            prisma_default.job.count(),
+            prisma_default.application.count(),
+            prisma_default.skill.count()
+          ]);
+          return { candidates, jobs, applications, skills };
+        } catch {
+          return { candidates: 5100, jobs: 2100, applications: 22e3, skills: 439 };
+        }
       }),
       search: publicProcedure.input(external_exports.object({ term: external_exports.string().max(100) })).query(({ input }) => searchSkills(input.term)),
       resolve: publicProcedure.input(external_exports.object({ term: external_exports.string().max(100) })).query(({ input }) => resolveSkillByTerm(input.term)),
       categories: publicProcedure.query(() => listSkillCategories()),
       byCategory: publicProcedure.input(external_exports.object({ category: external_exports.string(), limit: external_exports.number().min(1).max(200).default(50) })).query(({ input }) => listSkillsByCategory(input.category, input.limit)),
-      // Resolved canonical names for search terms (alias breadcrumbs)
       namesByIds: publicProcedure.input(external_exports.object({ ids: external_exports.array(external_exports.number().int()).max(50) })).query(async ({ input }) => {
         if (input.ids.length === 0) return [];
-        const dbi = await getDb();
-        if (!dbi) return [];
-        const [rows] = await dbi.execute(`SELECT id, name, slug FROM skills WHERE id IN (${input.ids.join(",")})`);
-        return rows;
+        return prisma_default.skill.findMany({
+          where: { id: { in: input.ids } },
+          select: { id: true, name: true, slug: true }
+        });
       })
     });
   }
@@ -87022,8 +79577,8 @@ var init_digests = __esm({
 async function dispatchOne(row) {
   const payload = typeof row.payload === "string" ? JSON.parse(row.payload) : row.payload;
   let recipientEmail = null;
-  const users2 = await getUsersByIds([row.recipientUserId]);
-  recipientEmail = users2[0]?.email ?? null;
+  const users = await getUsersByIds([row.recipientUserId]);
+  recipientEmail = users[0]?.email ?? null;
   let outcome = "logged_only";
   let providerResponse = null;
   try {
@@ -87153,19 +79708,19 @@ var init_routers = __esm({
         ).mutation(async ({ input, ctx }) => {
           try {
             const email3 = input?.email?.trim() || "ayush.patel@gmail.com";
-            const name2 = input?.name?.trim() || "Ayush Patel";
+            const name = input?.name?.trim() || "Ayush Patel";
             const userType = input?.userType || "candidate";
             const openId = `google_${Buffer.from(email3).toString("hex").slice(0, 16)}`;
             await upsertUser({
               openId,
-              name: name2,
+              name,
               email: email3,
               loginMethod: "google",
               userType,
               lastSignedIn: /* @__PURE__ */ new Date()
             });
             const sessionToken = await sdk.createSessionToken(openId, {
-              name: name2,
+              name,
               expiresInMs: ONE_YEAR_MS
             });
             const cookieOptions = getSessionCookieOptions(ctx.req);
@@ -87262,10 +79817,12 @@ async function init() {
     const ctx = await Promise.resolve().then(() => (init_context(), context_exports));
     createContext2 = ctx.createContext;
     db = await Promise.resolve().then(() => (init_db(), db_exports));
+    console.log("[INIT SUCCESS] All modules loaded");
     return true;
   } catch (e) {
     initError = e?.message ?? String(e);
     console.error("[INIT ERROR]", initError);
+    console.error("[INIT ERROR STACK]", e?.stack);
     return false;
   }
 }
@@ -87286,8 +79843,8 @@ app.get("/api/health", async (_req, res) => {
     return res.status(500).json({ status: "init_error", error: initError, timestamp: (/* @__PURE__ */ new Date()).toISOString() });
   }
   try {
-    const count2 = await db.prisma.$queryRaw`SELECT COUNT(*)::int AS n FROM "jobs"`;
-    res.json({ status: "ok", jobCount: count2[0]?.n, timestamp: (/* @__PURE__ */ new Date()).toISOString() });
+    const count = await db.prisma.$queryRaw`SELECT COUNT(*)::int AS n FROM "jobs"`;
+    res.json({ status: "ok", jobCount: count[0]?.n, timestamp: (/* @__PURE__ */ new Date()).toISOString() });
   } catch (err) {
     res.status(500).json({ status: "db_error", error: String(err?.message ?? err) });
   }
@@ -87295,6 +79852,8 @@ app.get("/api/health", async (_req, res) => {
 app.use(async (req, res, next) => {
   const ok = await init();
   if (!ok) {
+    console.error("[MIDDLEWARE] Init failed, returning 500 JSON response");
+    res.setHeader("Content-Type", "application/json");
     return res.status(500).json({ error: "Server initialization failed", detail: initError });
   }
   if (req.path.startsWith("/api/trpc")) {
@@ -87303,6 +79862,7 @@ app.use(async (req, res, next) => {
       createContext: createContext2,
       onError({ path, error: error46 }) {
         console.error(`[tRPC] /${path}:`, error46.message);
+        console.error(`[tRPC] Stack:`, error46.stack);
       }
     })(req, res, next);
   }

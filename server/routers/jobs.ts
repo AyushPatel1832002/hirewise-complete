@@ -97,16 +97,12 @@ export const applicationsRouter = router({
     .query(async ({ ctx, input }) => {
       const profile = await db.getCandidateProfileByUserId(ctx.user.id);
       if (!profile) return { applied: false };
-      const dbi = await db.getDb();
-      if (!dbi) return { applied: false };
-      const { eq, and } = await import("drizzle-orm");
-      const { applications } = await import("../../drizzle/schema");
-      const rows = await dbi
-        .select()
-        .from(applications)
-        .where(and(eq(applications.jobId, input.jobId), eq(applications.profileId, profile.id)))
-        .limit(1);
-      return { applied: rows.length > 0, status: rows[0]?.status ?? null };
+      const { prisma } = await import("../lib/prisma");
+      const row = await prisma.application.findFirst({
+        where: { jobId: input.jobId, profileId: profile.id },
+        select: { status: true },
+      });
+      return { applied: Boolean(row), status: row?.status ?? null };
     }),
 });
 

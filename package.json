@@ -6,8 +6,9 @@
   "scripts": {
     "postinstall": "prisma generate",
     "dev": "cross-env NODE_ENV=development tsx watch server/_core/index.ts",
-    "build": "prisma generate && vite build && esbuild server/_core/vercel-handler.ts --platform=node --bundle --format=esm --outfile=api/index.mjs --external:canvas --external:@prisma/engines",
-    "vercel-build": "prisma generate && prisma migrate deploy && vite build && esbuild server/_core/vercel-handler.ts --platform=node --bundle --format=esm --outfile=api/index.mjs --external:canvas --external:@prisma/engines",
+
+    "build": "prisma generate && vite build && esbuild server/_core/vercel-handler.ts --platform=node --bundle --format=esm --outfile=api/index.mjs --external:canvas --external:@prisma/engines --external:drizzle-orm --external:drizzle-orm/mysql-core",
+    "vercel-build": "prisma generate && prisma migrate deploy && vite build && esbuild server/_core/vercel-handler.ts --platform=node --bundle --format=esm --outfile=api/index.mjs --external:canvas --external:@prisma/engines --external:drizzle-orm --external:drizzle-orm/mysql-core",
     "start": "cross-env NODE_ENV=production node dist/index.js",
     "check": "tsc --noEmit",
     "format": "prettier --write .",

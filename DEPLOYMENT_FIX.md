@@ -2,10 +2,10 @@
 
 ## Root Cause
 
-Your Vercel deployment is failing with `FUNCTION_INVOCATION_FAILED` and returning "A server error has occurred" instead of proper JSON responses. This is caused by:
+Your Vercel deployment was failing with `FUNCTION_INVOCATION_FAILED` due to:
 
-1. **Prisma client not being generated**: The `ignoredBuiltDependencies` in package.json was preventing Prisma from building correctly
-2. **Poor error messages**: The server was failing to initialize but not providing clear error information
+1. **Prisma client not being generated**: The `ignoredBuiltDependencies` in package.json was preventing Prisma from building
+2. **Old Drizzle imports still in code**: After migrating from Drizzle/MySQL to Prisma/PostgreSQL, several files still had import statements trying to load the old Drizzle schema files, causing initialization failures
 
 ## Fixes Applied
 
@@ -18,13 +18,22 @@ Removed the `ignoredBuiltDependencies` that was blocking Prisma:
 - ]
 ```
 
-### 2. Enhanced Error Logging (✓ Applied)
-Updated `server/_core/vercel-handler.ts` to:
-- Log full error stack traces
-- Ensure JSON responses even during init failures
-- Add success logging for debugging
+### 2. Removed Drizzle Imports (✓ Applied)
+Replaced all remaining Drizzle imports with Prisma:
+- `server/_core/sdk.ts`: Changed `User` type from `drizzle/schema` to `@prisma/client`
+- `server/_core/context.ts`: Changed `User` type from `drizzle/schema` to `@prisma/client`
+- `server/routers/candidates.ts`: Converted all Drizzle ORM operations to Prisma:
+  - `removeSkill`: Now uses `prisma.candidateSkill.deleteMany()`
+  - `addWorkExperience`: Now uses `prisma.workExperience.create()`
+  - `removeWorkExperience`: Now uses `prisma.workExperience.deleteMany()`
+  - `addEducation`: Now uses `prisma.education.create()`
+  - `removeEducation`: Now uses `prisma.education.deleteMany()`
+  - `discardSuggestions`: Now uses `prisma.resumeSuggestion.updateMany()`
 
-## Steps to Fix
+### 3. Enhanced Error Logging (✓ Applied)
+Updated `server/_core/vercel-handler.ts` to provide better diagnostics
+
+## Steps to Deploy
 
 ### 1. Verify Environment Variables in Vercel
 

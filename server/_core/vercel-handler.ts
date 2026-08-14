@@ -25,10 +25,12 @@ async function init() {
     const ctx = await import("./context");
     createContext = ctx.createContext;
     db = await import("../db");
+    console.log("[INIT SUCCESS] All modules loaded");
     return true;
   } catch (e: any) {
     initError = e?.message ?? String(e);
     console.error("[INIT ERROR]", initError);
+    console.error("[INIT ERROR STACK]", e?.stack);
     return false;
   }
 }
@@ -64,6 +66,8 @@ app.get("/api/health", async (_req, res) => {
 app.use(async (req: Request, res: Response, next: any) => {
   const ok = await init();
   if (!ok) {
+    console.error("[MIDDLEWARE] Init failed, returning 500 JSON response");
+    res.setHeader("Content-Type", "application/json");
     return res.status(500).json({ error: "Server initialization failed", detail: initError });
   }
 
@@ -71,7 +75,10 @@ app.use(async (req: Request, res: Response, next: any) => {
     return createExpressMiddleware({
       router: appRouter,
       createContext,
-      onError({ path, error }: any) { console.error(`[tRPC] /${path}:`, error.message); },
+      onError({ path, error }: any) { 
+        console.error(`[tRPC] /${path}:`, error.message);
+        console.error(`[tRPC] Stack:`, error.stack);
+      },
     })(req, res, next);
   }
 

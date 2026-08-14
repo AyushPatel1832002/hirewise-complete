@@ -25,8 +25,8 @@ export const DB_UNAVAILABLE =
   process.env.DATABASE_URL.trim() === "";
 
 export const DB_HINT =
-  "No DATABASE_URL configured. Create a .env file with DATABASE_URL=mysql://<user>:<password>@<host>:<port>/<db> " +
-  "(see the Database panel in the Manus Management UI, Settings, bottom-left connection info — enable SSL).";
+  "No DATABASE_URL configured. Create a .env file with DATABASE_URL=postgresql://<user>:<password>@<host>:5432/<db>?sslmode=require " +
+  "(see your PostgreSQL/Neon database connection string).";
 
 /**
  * Call inside a describe() block to skip every test in that block when the DB
